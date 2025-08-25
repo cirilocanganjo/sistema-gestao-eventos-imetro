@@ -27,6 +27,7 @@
   <!-- Main CSS File -->
   <link href="{{ asset('home/assets/css/main.css') }}" rel="stylesheet" />
   @livewireStyles()
+  {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 </head>
 
 <body class="index-page">
