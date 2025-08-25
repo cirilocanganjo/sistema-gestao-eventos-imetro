@@ -5,7 +5,7 @@
 			<div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
     <div class="md:flex hidden items-center gap-5">
         <a href="">
-            <img src="./assets/images/logos/logo-wrappixel.svg" width="147" alt="logo-wrappixel" />
+            <img src="{{ asset('dashboard/assets/dist/assets/images/logos/logo-wrappixel.svg') }}" width="147" alt="logo-wrappixel" />
         </a>
     </div>
     <div class="flex flex-col md:flex-row items-center gap-4 justify-center">
@@ -24,7 +24,7 @@
   
   <a href="../" class="text-nowrap">
     <img
-      src="./assets/images/logos/logo-light.svg"
+      src="{{ asset('dashboard/assets/dist/assets/images/logos/logo-light.svg') }}"
       alt="Logo-Dark"
     />
   </a>
@@ -1192,7 +1192,7 @@
           
             <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
     <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-        <img class="object-cover w-9 h-9 rounded-full" src="./assets/images/profile/user-1.jpg" alt=""
+        <img class="object-cover w-9 h-9 rounded-full" src="{{ asset('dashboard/assets/dist/assets/images/profile/user-1.jpg') }}" alt=""
             aria-hidden="true">
     </a>
     <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
@@ -1427,7 +1427,7 @@
 												<tr>
 													<td class="p-4 text-sm">
                                                        <div class="flex gap-6 items-center">
-														<div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-1.jpg" alt="" class="rounded-full w-100"></div>
+														<div class="h-12 w-12 inline-block"><img src="{{ asset('dashboard/assets/dist/assets/images/profile/user-1.jpg') }}" alt="" class="rounded-full w-100"></div>
 														<div class="flex flex-col gap-1 text-gray-500">
 														  <h3 class=" font-bold">Mark J. Freeman</h3>
 														  <span class="font-normal">Prof. English</span>
@@ -1447,7 +1447,7 @@
 												<tr>
 													<td class="p-4 text-sm">
                                                        <div class="flex gap-6 items-center">
-														<div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-2.jpg" alt="" class="rounded-full w-100"></div>
+														<div class="h-12 w-12 inline-block"><img src="{{ asset('dashboard/assets/dist/assets/images/profile/user-2.jpg') }}" alt="" class="rounded-full w-100"></div>
 														<div class="flex flex-col gap-1 text-gray-500">
 														  <h3 class=" font-bold">Nina R. Oldman</h3>
 														  <span class="font-normal">Prof. History</span>
@@ -1467,7 +1467,7 @@
 												<tr>
 													<td class="p-4 text-sm">
                                                        <div class="flex gap-6 items-center">
-														<div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-3.jpg" alt="" class="rounded-full w-100"></div>
+														<div class="h-12 w-12 inline-block"><img src="{{ asset('dashboard/assets/dist/assets/images/profile/user-3.jpg') }}" alt="" class="rounded-full w-100"></div>
 														<div class="flex flex-col gap-1 text-gray-500">
 														  <h3 class=" font-bold">Arya H. Shah</h3>
 														  <span class="font-normal">Prof. Maths</span>
@@ -1487,7 +1487,7 @@
 												<tr>
 													<td class="p-4 text-sm">
                                                        <div class="flex gap-6 items-center">
-														<div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-4.jpg" alt="" class="rounded-full w-100"></div>
+														<div class="h-12 w-12 inline-block"><img src="{{ asset('dashboard/assets/dist/assets/images/profile/user-4.jpg') }}" alt="" class="rounded-full w-100"></div>
 														<div class="flex flex-col gap-1 text-gray-500">
 														  <h3 class=" font-bold">June R. Smith</h3>
 														  <span class="font-normal">Prof. Arts</span>
@@ -1517,7 +1517,7 @@
                           <div class="card overflow-hidden">
 							<div class="relative">
 								<a href="javascript:void(0)">
-									<img src="./assets/images/products/product-1.jpg" alt="product_img" class="w-full">
+									<img src="{{ asset('dashboard/assets/dist/assets/images/products/product-1.jpg') }}" alt="product_img" class="w-full">
 								</a>
 								<a href="javascript:void(0)" class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
 									<i class="ti ti-basket text-base"></i>
@@ -1565,7 +1565,7 @@
                           <div class="card overflow-hidden">
 							<div class="relative">
 								<a href="javascript:void(0)">
-									<img src="./assets/images/products/product-2.jpg" alt="product_img" class="w-full">
+									<img src="{{ asset('dashboard/assets/dist/assets/images/products/product-2.jpg') }}" alt="product_img" class="w-full">
 								</a>
 								<a href="javascript:void(0)" class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
 									<i class="ti ti-basket text-base"></i>
@@ -1613,7 +1613,7 @@
                           <div class="card overflow-hidden">
 							<div class="relative">
 								<a href="javascript:void(0)">
-									<img src="./assets/images/products/product-3.jpg" alt="product_img" class="w-full">
+									<img src="{{ asset('dashboard/assets/dist/assets/images/products/product-3.jpg') }}" alt="product_img" class="w-full">
 								</a>
 								<a href="javascript:void(0)" class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
 									<i class="ti ti-basket text-base"></i>
@@ -1661,7 +1661,7 @@
                           <div class="card overflow-hidden">
 							<div class="relative">
 								<a href="javascript:void(0)">
-									<img src="./assets/images/products/product-4.jpg" alt="product_img" class="w-full">
+									<img src="{{ asset('dashboard/assets/dist/assets/images/products/product-4.jpg') }}" alt="product_img" class="w-full">
 								</a>
 								<a href="javascript:void(0)" class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
 									<i class="ti ti-basket text-base"></i>
