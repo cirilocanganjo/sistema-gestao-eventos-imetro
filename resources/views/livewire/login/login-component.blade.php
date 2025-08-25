@@ -5,8 +5,8 @@
                   
                     <div class="justify-center items-center w-full card lg:flex max-w-md ">
                         <div class=" w-full card-body">
-                                <a href="../" class="py-4 block"><img src="../assets/images/logos/logo-light.svg" alt="" class="mx-auto"/></a>
-                                <p class="mb-4 text-gray-400 text-sm text-center">Your Social Campaigns</p>
+                                <a href="../" class="py-4 block"><img src="{{ asset('dashboard/assets/dist/assets/images/logos/logo-light.svg') }}" alt="" class="mx-auto"/></a>
+                                <p class="mb-4 text-gray-400 text-sm text-center">Login</p>
                             <!-- form -->
                             <form>
                                 <!-- username -->
