@@ -1,7 +1,4 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
+require __DIR__."/home/routes.php";
+require __DIR__."/users/routes.php";
+require __DIR__."/dashboard/routes.php";
