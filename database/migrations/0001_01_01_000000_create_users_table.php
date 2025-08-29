@@ -3,7 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use \App\Models\UserType;
+use \App\Models\Visitor;
+use \App\Models\Teacher;
 return new class extends Migration
 {
     /**
@@ -13,11 +15,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('user_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('status',['active', 'inactive'])->default('active');
+            $table->foreignIdFor(UserType::class,'user_type_uuid')->onDelete('cascade')->nullable();
+            $table->foreignIdFor(Visitor::class,'visitor_uuid')->constraint()->onDelete('cascade')->nullable();
+            $table->foreignIdFor(Teacher::class,'teacher_uuid')->constraint()->onDelete('cascade')->nullable();
             $table->rememberToken();
+            $table->integer('password_verified_code')->nullable();            
             $table->timestamps();
         });
 
