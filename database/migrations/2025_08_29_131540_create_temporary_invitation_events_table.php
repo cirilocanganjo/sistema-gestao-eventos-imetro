@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('temporary_invitation_events', function (Blueprint $table) {
             $table->uuid()->primary();
+            $table->datetime('expiration_event_date');
             $table->foreignIdFor(Event::class,'event_uuid')->constraint()->onDelete('cascade')->nullable();
             $table->timestamps();
         });
