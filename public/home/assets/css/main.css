@@ -4164,13 +4164,13 @@ section,
 }
 
 .buy-tickets .ticket-form .form-group input[type=text]:focus,
-.buy-tickets .ticket-form .form-group input[type=email]:focus,
+.buy-tickets .ticket-form .form-group input[type=email]:focus,input[type=password]:focus,
 .buy-tickets .ticket-form .form-group input[type=tel]:focus,
 .buy-tickets .ticket-form .form-group select:focus,
 .buy-tickets .ticket-form .form-group textarea:focus {
-  border-color: var(--accent-color);
-  outline: none;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 90%);
+  border-color: var(--accent-color) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 90%) !important;
 }
 
 .buy-tickets .ticket-form .form-group input[type=text]::placeholder,

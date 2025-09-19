@@ -6,6 +6,6 @@ use \App\Livewire\Home\HomeComponent;
 
 
 Route::get('/', HomeComponent::class)->name('home');
-Route::prefix('sgei')->group(function () {
+Route::prefix('sistena.gestao.eventos.imetro')->group(function () {
 
 });
