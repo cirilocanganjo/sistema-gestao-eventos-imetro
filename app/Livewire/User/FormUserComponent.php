@@ -12,15 +12,20 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class FormUserComponent extends Component
 {
-    public $aleready_stored_email, $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$photo,$confirm_password,$gender;
+    use WithFileUploads;
+    public $photo,$visitor_user_type_uuid,$fileName,$aleready_stored_email, $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$confirm_password,$gender;
+
+    public function mount () {
+    $this->visitor_user_type_uuid = UserType::query()->whereIn('type', ['visitante','Visitante'])->value('uuid');
+    }
 
     public function boot () {
              
     }
-
 
     #[Layout('layouts.user.app')]
     public function render () {
@@ -54,27 +59,34 @@ class FormUserComponent extends Component
     public function storeNewAccount (User $user) {            
          
         try {
-           $this->aleready_stored_email = $user::query()->where('email',$this->email)->value('email');
+           $this->aleready_stored_email = $user->query()->where('email',$this->email)->value('email');
            $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);                
-           
-            /*
-            $email = User::query()->where('email', $this->email)->get();
-            $user_type = UserType::where()->value('type', 'visitante');
-            if ($email) {
-            LivewireAlert::title('Atenção')
-               ->text('O email já foi registado no sistema')
-               ->warning()
-               ->withConfirmButton()
-               ->confirmButtonText('Fechar')
-               ->show();
+                                
+            if (
+                blank($this->aleready_stored_email) 
+                and blank($this->fullname)
+                and blank($this->phone)
+                and blank($this->identity_card_number)
+                and blank($this->email)
+                and blank($this->password)
+                and blank($this->visitor_type)
+                and blank($this->photo)
+                and blank($this->confirm_password)
+                and blank($this->gender)
+            ) {          
 
             }else {
+
+            if ($this->photo and $this->photo->isValid()) {
+             $this->fileName = md5($this->photo->getClientOriginalName() .now()). '.' .$this->photo->getClientOriginalExtension();
+             $this->photo->storeAs("imgs", $this->fileName, 'public');
+            }
             DB::beginTransaction();
             $personal_data = PersonalData::create([
-                'fullname' =>$this->fullname,
-                'gender' =>$this->gender,
-                'phone' =>$this->phone,
-                'identity_card' =>$this->identity_card_number
+                'fullname' =>$this->pull('fullname'),
+                'gender' =>$this->pull('gender'),
+                'phone' =>$this->pull('phone'),
+                'identity_card' =>$this->pull('identity_card_number')
             ]);
 
             $visitor = Visitor::create([
@@ -83,15 +95,21 @@ class FormUserComponent extends Component
 
             $user = User::create([
               'username' =>$personal_data->full_name,
-              'email' =>$this->email,
-              'password' =>$this->password,
+              'email' =>$this->pull('email'),
+              'password' =>$this->pull('password'),
               'visitor_id' =>$visitor->uuid,
-              'user_type_id' =>$user_type->uuid
+              'user_type_id' =>$this->visitor_user_type_uuid ?? '',
+              'photo' =>$this->pull('fileName') ?? null
             ]);
             DB::commit();
-            }
 
-            */
+          LivewireAlert::title('SUCESSO')
+             ->text('Dados salvos com sucesso!')
+             ->success()
+              ->withConfirmButton()
+              ->confirmButtonText('Fechar')
+              ->show();
+            }            
            
         } catch (Exception $e) {
             DB::rollback();
