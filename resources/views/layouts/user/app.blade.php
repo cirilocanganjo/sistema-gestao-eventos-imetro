@@ -20,7 +20,7 @@
  {{ $slot }}
 <script src="{{ asset('dashboard/assets/dist/assets/libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/jquery-mask.js') }}"></script>
-
+<script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
 @livewireScripts()
 @stack('scripts')
 </body>

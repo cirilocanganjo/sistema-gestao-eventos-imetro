@@ -56,8 +56,8 @@ class FormUserComponent extends Component
         ];
     }
 
-    public function storeNewAccount (User $user) {            
-         
+    public function storeNewAccount (User $user) {           
+   
         try {
            $this->aleready_stored_email = $user->query()->where('email',$this->email)->value('email');
            $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);                
@@ -103,22 +103,32 @@ class FormUserComponent extends Component
             ]);
             DB::commit();
 
-          LivewireAlert::title('SUCESSO')
-             ->text('Dados salvos com sucesso!')
-             ->success()
+            LivewireAlert::title('SUCESSO')
+              ->html("
+                    <div>
+                        A sua conta foi criada com sucesso, 
+                        <a style='text-decoration:underline; color:blue;' href='" .route('user.login'). "'>clique aqui</a> para efectuar o login.
+                    </div>
+              ")
+              ->success()
               ->withConfirmButton()
               ->confirmButtonText('Fechar')
-              ->show();
+              ->withOptions([
+                'allowOutsideClick' => false,
+                'timer' => 0,
+                'showCloseButton' => true, 
+              ])->show();  
+
             }            
            
         } catch (Exception $e) {
             DB::rollback();
-               LivewireAlert::title('Erro')
-                  ->text('erro: ' .$e->getmessage())
-                  ->error()
-                  ->withConfirmButton()
-                  ->confirmButtonText('Fechar')
-                  ->show();
+            LivewireAlert::title('Erro')
+             ->text('erro: ' .$e->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->confirmButtonText('Fechar')
+             ->show();
         }
     }
 
