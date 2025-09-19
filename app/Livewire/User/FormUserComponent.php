@@ -15,7 +15,7 @@ use Livewire\Component;
 
 class FormUserComponent extends Component
 {
-    public $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$photo,$confirm_password,$gender;
+    public $aleready_stored_email, $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$photo,$confirm_password,$gender;
 
     public function boot () {
              
@@ -51,10 +51,11 @@ class FormUserComponent extends Component
         ];
     }
 
-    public function storeNewAccount () {            
-           $this->dispatch('validate-inputs');                
-           //$this->validate();  
+    public function storeNewAccount (User $user) {            
+         
         try {
+           $this->aleready_stored_email = $user::query()->where('email',$this->email)->value('email');
+           $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);                
            
             /*
             $email = User::query()->where('email', $this->email)->get();

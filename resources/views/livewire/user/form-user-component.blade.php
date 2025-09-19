@@ -167,7 +167,7 @@
                 });
 
               document.addEventListener('livewire:initialized', () => {
-                Livewire.on('validate-inputs', () => {
+                Livewire.on('validate-inputs', ({aleready_stored_email}) => {                    
                     let fullname = document.getElementById('fullname').value;
                     let fullname_span = document.getElementById('fullname_error');
 
@@ -208,12 +208,18 @@
                       phone_span.textContent = 'Campo obrigatório *';
                     }   
                   
-                    if (email) {
-                     email_span.classList.add('d-none');
-                    }else {
+                 
+                     if (aleready_stored_email) {
                         email_span.classList.remove('d-none');
-                        email_span.textContent = 'Campo obrigatório *';
-                    }  
+                        email_span.textContent = 'O email já foi cadastrado e não pode ser duplicado, tente novamente';                        
+                    } else {
+                        if (email) {
+                            email_span.classList.add('d-none');
+                        } else {
+                            email_span.classList.remove('d-none');
+                            email_span.textContent = 'Campo obrigatório *';
+                        }
+                    }
 
                     if (visitor_type) {
                       visitor_type_span.classList.add('d-none');
