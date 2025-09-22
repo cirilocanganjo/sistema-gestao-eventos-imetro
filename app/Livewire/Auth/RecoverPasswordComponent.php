@@ -75,8 +75,21 @@ class RecoverPasswordComponent extends Component
                 ->error()
                 ->withConfirmButton()
                 ->confirmButtonText('Fechar')
-                ->show();  
+                ->show(); 
+        }
+    }
 
+    public function updateCredentials() {
+        try {
+            
+        } catch (Exception $e) {
+            LivewireAlert::title('Erro')
+                ->text('erro: '.$e->getmessage())
+                ->timer(0)
+                ->error()
+                ->withConfirmButton()
+                ->confirmButtonText('Fechar')
+                ->show(); 
         }
     }
 

@@ -2,7 +2,7 @@
 
 <nav id="navmenu" class="navmenu">
         <ul class='text-uppercase'>
-          <li><a id='nav-item-home' href="{{route('home') }}" class="{{ request()->route()->getname() == 'home' ? 'active' : '' }}">Home</a></li>
+          <li><a id='nav-item-home' href="{{route('evently.app.home') }}" class="{{ request()->route()->getname() == 'evently.app.home' ? 'active' : '' }}">Home</a></li>
           <li><a href="about.html">Sobre</a></li>
           <li><a href="/#footer">Contactos</a></li>
           <li>

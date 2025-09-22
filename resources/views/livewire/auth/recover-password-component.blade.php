@@ -9,9 +9,7 @@
                                 <a href="{{ route('user.login') }}" class="py-4 block"><img src="{{ asset('dashboard/assets/dist/assets/images/logos/logo-light.svg') }}" alt="" class="mx-auto"/></a>
                             <!-- form -->
                             <form  wire:submit='recoverPassword'>
-                               
-
-
+                         
                                 <div class="{{ !$isVerified ? 'hidden' : '' }} mb-4">
                                     <label for="verificationCode"
                                     class="block text-sm mb-2 text-gray-400">Codigo de recuperação:</label>
@@ -24,7 +22,7 @@
                                 <div class="{{ !$isVerified ? 'hidden' : '' }} mb-2" style="position:relative">
                                     <label for="newPassword"
                                     class="block text-sm  mb-2 text-gray-400">Nova Senha:</label>
-                                     <input type="password"  id="newPassword" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text">
+                                     <input wire:model='newPassword' type="password"  id="newPassword" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text">
                                    <i class="bi bi-eye  toggle-password" onclick="togglePasswordVisibility()"  style="position:absolute; top: 70%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
                                 </div>   
                                 @error('newPassword') <span style='font-size:14px; color:red;'>{{ $message }}</span>@enderror 
@@ -33,7 +31,7 @@
                                 <div class="{{ !$isVerified ? 'hidden' : '' }} mb-2" style="position:relative">
                                     <label for="confirmNewPassword"
                                     class="block text-sm  mb-2 text-gray-400">Confirmar senha:</label>
-                                     <input type="password"  id="confirmNewPassword" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text">
+                                     <input wire:model='confirmNewPassword' type="password"  id="confirmNewPassword" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text">
                                      <i class="bi bi-eye  toggle-confirm-password" onclick="toggleConfirmPasswordVisibility()"  style="position:absolute; top: 70%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
                                 </div>   
                                 @error('confirmNewPassword') <span style='font-size:14px; color:red;'>{{ $message }}</span>@enderror 
@@ -57,7 +55,7 @@
                                 </div>
 
                                  <div class="{{ !$isVerified ? 'hidden' : '' }} grid my-6">
-                                    <button class="btn py-[10px] text-base text-white font-medium bg-teal-500  rounded-sm">
+                                    <button wire:click='updateCredentials()' class="btn py-[10px] text-base text-white font-medium bg-teal-500  rounded-sm">
                                         Atualizar
                                     </button>
                                 </div>                                

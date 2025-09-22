@@ -15,7 +15,7 @@
                                     class="block text-sm mb-2 text-gray-400">Email:</label>
                                 <input type="text" id="forUsername"
                                     wire:model='email'
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text">
+                                    class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text" />
                                      @error('email') <span  style='font-size:14px; color:red;'>{{ $message }}</span>@enderror 
 
                                 </div>
@@ -23,7 +23,7 @@
                                 <div class="mb-2" style="position:relative">
                                     <label for="password"
                                     class="block text-sm  mb-2 text-gray-400">Senha:</label>
-                                     <input type="password"  id="password" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text">
+                                     <input type="password" wire:model='password'  id="password" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text" />
                                    <i class="bi bi-eye  toggle-password" onclick="togglePasswordVisibility()"  style="position:absolute; top: 70%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
                                 </div>   
                                 @error('password') <span style='font-size:14px; color:red;'>{{ $message }}</span>@enderror       

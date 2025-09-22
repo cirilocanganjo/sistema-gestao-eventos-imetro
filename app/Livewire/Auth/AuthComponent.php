@@ -3,11 +3,12 @@
 namespace App\Livewire\Auth;
 use Exception;
 use Livewire\Attributes\Layout;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Component;
 
 class AuthComponent extends Component
 {
- public $credentials = [],$email,$password;
+ public $email,$password;
  protected $rules = ['email' => 'required','password'=> 'required']; 
  protected $messages = ['email.required' => 'Campo obrigatório*','password.required' => 'Campo obrigatório*'];
 
@@ -20,9 +21,32 @@ class AuthComponent extends Component
     function login () {
         $this->validate();
         try {
-            
+            while (auth()->attempt(["email" =>$this->email ,"password" =>$this->password])) {
+                if (auth()->user()->user_type->type === 'admin') {
+                    return redirect()->route('dashboard.home');
+                }else if (auth()->user()->user_type->type === 'visitante' and  auth()->user()->visitor->visitor_type->type === 'visitante e publicador de eventos') {
+                    return redirect()->route('dashboard.home');
+                }else if (auth()->user()->user_type->type === 'visitante') {
+                    return redirect()->route('evently.app.home');
+                }
+             }
+
+             if (!auth()->attempt(["email" =>$this->email ,"password" =>$this->password])) {
+                 LivewireAlert::title('Atenção')
+                 ->text('Credenciais incorretas, tente novamente.')
+                 ->warning()
+                  ->withConfirmButton()
+                 ->confirmButtonText('Fechar')
+                 ->show();
+             }
         } catch (Exception $e) {
-            
+            LivewireAlert::title('Erro')
+             ->text('erro: ' .$e->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
         }
     }
 }
