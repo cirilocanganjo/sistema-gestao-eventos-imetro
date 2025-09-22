@@ -55,8 +55,8 @@
                     <label>Gênero:</label>
                     <select id='gender' wire:model='gender' required class='py-3 px-4 block form-select'>
                         <option value=''>Selecionar</option>
-                        <option value='masculino'>Masculino</option>
-                        <option value='feminino'>Feminino</option>
+                        <option value='male'>Masculino</option>
+                        <option value='female'>Feminino</option>
                     </select>
                     <span id='gender_span' class='text-danger'></span>                     
                 </div>
@@ -64,7 +64,7 @@
                  <div class='form-group mb-3 position-relative' wire:ignore>
                     <label>Senha:</label>
                     <input id="password" wire:model='password' type="password" class='px-3 py-3 form-control' placeholder="Digite a senha" required />
-                    <i class="bi bi-eye position-absolute toggle-password" onclick="togglePasswordVisibility()"  style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
+                    <i class="bi bi-eye position-absolute toggle-password" onclick="togglePasswordVisibility()"  style="top: 60%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
                     <span id='password_span' class='text-danger'></span>                    
                 </div>
                       
@@ -72,7 +72,7 @@
                 <div class='form-group mb-3 position-relative' wire:ignore>
                     <label>Confirmar senha:</label>
                     <input id="confirm_password" wire:model='confirm_password' type="password" class='px-3 py-3 form-control' placeholder="Digite novamente a senha para confirmar" required />
-                    <i class="bi bi-eye position-absolute toggle-confirm-password" onclick="toggleConfirmPasswordVisibility()"  style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
+                    <i class="bi bi-eye position-absolute toggle-confirm-password" onclick="toggleConfirmPasswordVisibility()"  style="top: 60%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
                     <span id='confirm_password_span' class='text-danger'></span> 
                 </div>
                
@@ -99,9 +99,7 @@
 @push('scripts')
 
     <script defer>           
-            let nav_item_home = document.getElementById('nav-item-home');
-            nav_item_home.classList.add('active');
-
+        const nav_item_home = document.getElementById('nav-item-home').classList.add('active'); 
             function togglePasswordVisibility() {
                 const input = document.getElementById("password");
                 const icon = document.querySelector(".toggle-password");
@@ -150,11 +148,26 @@
                 placeholder: "Digite o número de telefone"                
             };   
 
-             $('#fullname').on('input', function() {  //Validation for names              
-              var input_value = $(this).val();
-              var updated_value = input_value.replace(/[^a-zA-Z\s\-\á\Á\à\À\ñ\Ñ\.\ã\ç\ó\Ó\é\É\\]/g, '');
-              $(this).val(updated_value);
-            }); 
+            let isComposing = false;
+            $('#fullname')
+              .on('compositionstart', function() {
+                isComposing = true;
+              })
+              .on('compositionend', function(e) {
+                isComposing = false;
+                sanitize(this);
+              })
+              .on('input', function() {
+                if (!isComposing) {
+                  sanitize(this);
+                }
+              });
+
+            function sanitize(el) {
+              let input_value = $(el).val();              
+              let updated_value = input_value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, ''); // permite apenas letras (com acentos) e espaços
+              $(el).val(updated_value);
+            }
 
             $('#phone').mask('+244000000000', placeholder_for_phone_number); //Validation for phone numbers   
             $('#identity_card_number').mask('000000000AA000',placeholder_for_identity_card); // Validation for identity cards
@@ -167,31 +180,23 @@
                 });
 
               document.addEventListener('livewire:initialized', () => {
-                Livewire.on('validate-inputs', ({aleready_stored_email}) => {                    
+                Livewire.on('validate-inputs', ({aleready_stored_email}) => {
                     let fullname = document.getElementById('fullname').value;
                     let fullname_span = document.getElementById('fullname_error');
-
                     let phone = document.getElementById('phone').value;
                     let phone_span = document.getElementById('phone_error');
-
                     let email = document.getElementById('email').value;
                     let email_span = document.getElementById('email_error');  
-
-                     let visitor_type = document.getElementById('visitor_type').value;
+                    let visitor_type = document.getElementById('visitor_type').value;
                     let visitor_type_span = document.getElementById('visitor_type_span'); 
-
                     let identity_card_number = document.getElementById('identity_card_number').value;
                     let identity_card_number_span = document.getElementById('identity_card_number_span');
-
                     let gender = document.getElementById('gender').value;
                     let gender_span = document.getElementById('gender_span'); 
-
                     let password = document.getElementById('password').value;
                     let password_span = document.getElementById('password_span'); 
-
                     let confirm_password = document.getElementById('confirm_password').value;
                     let confirm_password_span = document.getElementById('confirm_password_span'); 
-
 
                     if (fullname) {
                       fullname_span.classList.add('d-none');
@@ -263,6 +268,12 @@
                     }  
                   
             });
+            });
+
+               document.addEventListener('livewire:initialized', () => { //method that will clean inputs when exception errors happens
+                Livewire.on('reset-photo-input-value', () => {  
+                document.getElementById('photo').value = null;                 
+                });
             });
                
 

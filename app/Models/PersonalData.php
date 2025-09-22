@@ -16,6 +16,7 @@ class PersonalData extends Model
         'phone',
         'identity_card',
         'gender',
+        'photo',
         'teacher_uuid',
         'visitor_uuid',
     ];
