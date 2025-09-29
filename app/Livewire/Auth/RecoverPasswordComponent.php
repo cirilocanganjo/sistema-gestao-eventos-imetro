@@ -13,8 +13,6 @@ use Livewire\Component;
 class RecoverPasswordComponent extends Component
 {
     public $isVerified,$isVerifiedEmail,$email, $verificationCode, $newPassword,$confirmNewPassword;
-    protected $rules = ['email' => "required"];
-    protected $messages = ["email.required" => "Campo obrigatório"];
 
     #[Layout('layouts.dashboard.app')]
     public function render()
@@ -23,7 +21,12 @@ class RecoverPasswordComponent extends Component
     }
 
        public function recoverPassword(User $user) {
-        $this->validate();
+        $this->validate([
+            'email' => "required"
+        ],[
+            "email.required" => "Campo obrigatório"
+        ]);
+
         try {
             $user = User::where("email", $this->email)->first();
             if(!$user) {
@@ -40,8 +43,8 @@ class RecoverPasswordComponent extends Component
                $this->isVerifiedEmail = $this->email;
                $recoverCode = rand(1,1000);
                DB::beginTransaction();
-                $user->where("email", $this->email)->update([
-                    "reset_password_code" => $recoverCode
+                $user::query()->where("email", $this->email)->update([
+                    "password_verified_code" => $recoverCode
                 ]);
                 DB::commit();
 
@@ -69,7 +72,8 @@ class RecoverPasswordComponent extends Component
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-             LivewireAlert::title('Erro')
+            $this->isVerified = false;
+            LivewireAlert::title('Erro')
                 ->text('erro: '.$th->getMessage())
                 ->timer(0)
                 ->error()
@@ -80,8 +84,51 @@ class RecoverPasswordComponent extends Component
     }
 
     public function updateCredentials() {
+
+        $this->validate([
+                'verificationCode' =>'required',
+                'newPassword' =>'required',
+                'confirmNewPassword' =>'required',
+            ],[
+                'verificationCode.required' =>'Campo obrigatório',
+                'newPassword.required' =>'Campo obrigatório',
+                'confirmNewPassword.required' =>'Campo obrigatório',
+            ]);
+
         try {
-            
+
+            $user = User::query()->where('email', $this->isVerifiedEmail)
+            ->where("password_verified_code", $this->verificationCode)
+            ->first();
+
+            if(!$user) {
+               LivewireAlert::title('Atenção')
+                ->text('Código  de verificação incorreto!')
+                ->timer(0)
+                ->warning()
+                ->withConfirmButton()
+                ->confirmButtonText('Fechar')
+                ->show();
+            }else{
+                DB::beginTransaction();
+                User::find($user->id)->update([
+                    "password" => $this->newPassword,
+                    'email_verified_at' => \Carbon\Carbon::now()
+                ]);
+                DB::commit();               
+                
+                LivewireAlert::title('Sucesso')
+                ->text("A sua senha foi restaurada com successo!")             
+                ->success()
+                ->withConfirmButton()
+                ->confirmButtonText('Fechar')
+                ->timer(300000)
+                ->show();  
+                
+                $this->isVerified = false;
+                $this->reset(["email"]);
+            }
+
         } catch (Exception $e) {
             LivewireAlert::title('Erro')
                 ->text('erro: '.$e->getmessage())

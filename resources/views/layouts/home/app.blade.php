@@ -23,9 +23,8 @@
   <!-- Main CSS File -->
   <link href="{{ asset('home/assets/css/main.css') }}" rel="stylesheet" />
   <link href="{{ asset('home/assets/css/bootstrap-icons.css') }}" rel="stylesheet" />
-
+  @vite(['resources/css/app.css', 'resources/js/app.js'])   
   @livewireStyles()
-   {{-- @vite(['resources/css/app.css', 'resources/js/app.js'])  --}}
 </head>
 
 <body class="index-page">
@@ -41,5 +40,4 @@
 
 
 </body>
-
 </html>

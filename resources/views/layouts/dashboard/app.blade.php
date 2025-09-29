@@ -13,14 +13,13 @@
 <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2-bootstrap-4.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.css') }}" />
 <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.min.css') }}" />
-
+@vite(['resources/css/app.css', 'resources/js/app.js'])  
 <title>@yield('title')</title>
- {{-- @vite(['resources/css/app.css', 'resources/js/app.js'])  --}}
 @livewireStyles()
-
 </head>
 
 <body>
+
  {{ $slot }}
 
 <script src="{{ asset('dashboard/assets/dist/assets/libs/jquery/dist/jquery.min.js') }}"></script>
@@ -42,4 +41,8 @@
 @livewireScripts()
 @stack('auth')
 @stack('scripts')
+
+
+
 </body>
+</html>

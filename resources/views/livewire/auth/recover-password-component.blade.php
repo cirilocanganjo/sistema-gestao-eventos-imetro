@@ -1,4 +1,4 @@
-@section('title', 'SGEI | Recuperar senha')
+@section('title', 'Sistema de Gestão de Eventos Imetro | Recuperar senha')
 <div>
 
    <main>               
@@ -7,8 +7,8 @@
                     <div class="justify-center items-center w-full card lg:flex max-w-md ">
                         <div class=" w-full card-body">
                                 <a href="{{ route('user.login') }}" class="py-4 block"><img src="{{ asset('dashboard/assets/dist/assets/images/logos/logo-light.svg') }}" alt="" class="mx-auto"/></a>
-                            <!-- form -->
-                            <form  wire:submit='recoverPassword'>
+                            
+                            <main>
                          
                                 <div class="{{ !$isVerified ? 'hidden' : '' }} mb-4">
                                     <label for="verificationCode"
@@ -49,13 +49,13 @@
                                
 
                                 <div class="{{ $isVerified ? 'hidden' : '' }} grid my-6">
-                                     <button class="btn py-[10px] text-base text-white font-medium bg-gray-500  rounded-sm" >
+                                     <button wire:click='recoverPassword' class="btn py-[10px] text-base text-white font-medium bg-gray-500  rounded-sm" >
                                         Recuperar
                                      </button>
                                 </div>
 
                                  <div class="{{ !$isVerified ? 'hidden' : '' }} grid my-6">
-                                    <button wire:click='updateCredentials()' class="btn py-[10px] text-base text-white font-medium bg-teal-500  rounded-sm">
+                                    <button wire:click='updateCredentials' class="btn py-[10px] text-base text-white font-medium bg-teal-500  rounded-sm">
                                         Atualizar
                                     </button>
                                 </div>                                
@@ -73,7 +73,7 @@
                                 @endguest        
                                    
                                 </div>
-                            </form>
+                            </main>
                         </div>
                     </div>
                 

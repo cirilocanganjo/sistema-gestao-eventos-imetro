@@ -10,7 +10,7 @@
  <link href="{{ asset('home/assets/css/styles.css') }}" rel="stylesheet" />
 <link href="{{ asset('home/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" /> 
 <link href="{{asset('home/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet" />
-
+@vite(['resources/css/app.css', 'resources/js/app.js'])  
 <title>@yield('title')</title>
 @livewireStyles()
 </head>
@@ -23,4 +23,7 @@
 <script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
 @livewireScripts()
 @stack('scripts')
+
+
 </body>
+</html>
