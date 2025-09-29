@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 <html   lang="en" >
 
@@ -13,7 +13,10 @@
 <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2-bootstrap-4.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.css') }}" />
 <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.min.css') }}" />
-@vite(['resources/css/app.css', 'resources/js/app.js'])  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="{{ asset('dashboard/assets/css/styles.css') }}" />
+
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 <title>@yield('title')</title>
 @livewireStyles()
 </head>
@@ -41,7 +44,7 @@
 @livewireScripts()
 @stack('auth')
 @stack('scripts')
-
+@stack('side-bar-scripts')
 
 
 </body>

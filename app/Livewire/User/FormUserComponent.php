@@ -21,11 +21,18 @@ class FormUserComponent extends Component
     public $photo,$user_type_uuid,$fileName,$aleready_stored_email, $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$confirm_password,$gender;
 
     public function mount () {
-    $this->user_type_uuid = UserType::query()->where(fn ($q) => $q->where('type', 'visitante'))->orWhere('type', 'Visitante')->first()->uuid;
-    }
+        try {
+            $this->user_type_uuid = UserType::query()->where(fn ($q) => $q->where('type', 'visitante'))->orWhere('type', 'Visitante')->first()->uuid ?? '';
 
-    public function boot () {
-             
+        }catch( Exception $e) {
+            LivewireAlert::title('ERRO')
+             ->text('erro: ' .$e->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
+        }
     }
 
     #[Layout('layouts.user.app')]
@@ -57,12 +64,12 @@ class FormUserComponent extends Component
         ];
     }
 
-    public function storeNewAccount (User $user) {           
-   
+    public function storeNewAccount (User $user) {
+
         try {
            $this->aleready_stored_email = $user->query()->where('email',$this->email)->value('email') ?? null;
-           $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);                
-                                
+           $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);
+
             while (!$this->aleready_stored_email and $this->fullname and $this->phone
                 and $this->identity_card_number
                 and $this->email
@@ -71,7 +78,7 @@ class FormUserComponent extends Component
                 and $this->photo
                 and $this->confirm_password
                 and $this->gender
-            ) {          
+            ) {
 
             DB::beginTransaction();
             if ($this->photo and $this->photo->isValid()) {
@@ -90,7 +97,7 @@ class FormUserComponent extends Component
                 'photo' =>$this->pull('fileName') ?? null,
                 'visitor_uuid'=>$visitor->uuid,
                 'identity_card' =>$this->pull('identity_card_number')
-            ]);            
+            ]);
 
             $user = User::create([
               'user_name' =>$personal_data->full_name,
@@ -104,7 +111,7 @@ class FormUserComponent extends Component
             LivewireAlert::title('SUCESSO')
               ->html("
                     <div>
-                        A sua conta foi criada com sucesso, 
+                        A sua conta foi criada com sucesso,
                         <a style='text-decoration:underline; color:blue;' href='" .route('user.login'). "'>clique aqui</a> para efectuar o login.
                     </div>
               ")
@@ -114,12 +121,12 @@ class FormUserComponent extends Component
               ->withOptions([
                 'allowOutsideClick' => false,
                 'timer' => 0,
-                'showCloseButton' => true, 
-              ])->show();  
+                'showCloseButton' => true,
+              ])->show();
               $this->reset(['fullname','phone','identity_card_number','email','password','visitor_type','photo','confirm_password','gender']);
               $this->dispatch('reset-photo-input-value');
-            }            
-           
+            }
+
         } catch (Exception $e) {
             DB::rollback();
             $this->reset(['fullname','phone','identity_card_number','email','password','visitor_type','photo','confirm_password','gender']);
@@ -139,7 +146,7 @@ class FormUserComponent extends Component
     public function updated () {
         if ($this->phone === '+244') {
             $this->phone = null;
-        }  
+        }
     }
 
     public function getVisitorTypes () {
@@ -154,5 +161,5 @@ class FormUserComponent extends Component
                   ->show();
         }
     }
-   
+
 }

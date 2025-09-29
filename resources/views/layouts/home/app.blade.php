@@ -19,11 +19,11 @@
   <link href="{{asset('home/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet" />
   <link href="{{asset('home/assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet" />
   <link href="{{asset('home/assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet" />
-  
+
   <!-- Main CSS File -->
   <link href="{{ asset('home/assets/css/main.css') }}" rel="stylesheet" />
   <link href="{{ asset('home/assets/css/bootstrap-icons.css') }}" rel="stylesheet" />
-  @vite(['resources/css/app.css', 'resources/js/app.js'])   
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
   @livewireStyles()
 </head>
 
@@ -37,6 +37,41 @@
 <script src="{{ asset('home/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('home/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
 <script src="{{ asset('home/assets/js/main.js') }}"></script>
+
+    <!-- Script que reativa os efeitos -->
+    <script>
+        function reativarScripts() {
+            if (typeof GLightbox !== 'undefined') {
+                GLightbox({ selector: '.glightbox' });
+            }
+
+            if (typeof PureCounter !== 'undefined') {
+                new PureCounter();
+            }
+
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.swiper-container', {
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            reativarScripts();
+        });
+
+        document.addEventListener('livewire:navigated', () => {
+            reativarScripts();
+        });
+    </script>
+
 
 
 </body>

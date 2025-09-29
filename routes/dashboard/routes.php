@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix("sgei")->group(function () {
-    Route::get('/dashboard', DashboardComponent::class)->name('dashboard.home');
+Route::prefix("/dashboard")->group(function () {
+    Route::get('/inicio', DashboardComponent::class)->name('dashboard.home');
 });
