@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 use Livewire\Attributes\Layout;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Exception;
 use Livewire\Component;
 
