@@ -31,6 +31,7 @@
 {{ $slot }}
 @livewireScripts()
 
+<script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
 <script src="{{ asset('home/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('home/assets/vendor/php-email-form/validate.js') }}"></script>
 <script src="{{ asset('home/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>

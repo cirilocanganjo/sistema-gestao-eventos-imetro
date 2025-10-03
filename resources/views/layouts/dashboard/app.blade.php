@@ -33,11 +33,10 @@
 @livewireStyles()
 </head>
 
-<body>
+<body style='background-color: white;'>
 
  {{ $slot }}
 
-  <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
     	<p class="text-base text-gray-400 font-normal p-3 text-center">
@@ -73,11 +72,7 @@
 @stack('side-bar-scripts')
 
 <script>
-	  document.addEventListener("livewire:navigated", () => {
-        if (typeof initChart === "function") {
-            initChart();
-        }
-    });
+	  
 </script>
 
 </body>

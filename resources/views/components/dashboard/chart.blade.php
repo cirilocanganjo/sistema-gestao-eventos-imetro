@@ -64,7 +64,12 @@
         chart.render();
     }
 
-    // Se a página for carregada direto (sem navegação Livewire), já renderiza
-    document.addEventListener("DOMContentLoaded", initChart);
+    
+    document.addEventListener("DOMContentLoaded", initChart); // Se a página for carregada direto (sem navegação Livewire), já renderiza
+    document.addEventListener("livewire:navigated", () => {
+        if (typeof initChart === "function") {
+            initChart();
+        }
+    });
 </script>
 @endpush

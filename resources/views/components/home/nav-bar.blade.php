@@ -9,10 +9,14 @@
            @if (auth()->guest()) 
             <a  class="{{ request()->route()->getname() == 'user.login' ? 'active' : '' }}" href="{{ route('user.login') }}">Login</a>
            @else 
-           <a>{{ auth()->user()->user_name }}</a>
+           <a style='cursor: pointer;' wire:ignore.self>
+            <span  wire:click.prevent='logout'>{{ auth()->user()->user_name ?? '' }}</span>
+           </a>
            @endif
           </li>          
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+
+
 

@@ -12,7 +12,7 @@ class AuthComponent extends Component
  protected $rules = ['email' => 'required','password'=> 'required']; 
  protected $messages = ['email.required' => 'Campo obrigatório*','password.required' => 'Campo obrigatório*'];
 
-   #[Layout('layouts.dashboard.app')]
+   #[Layout('layouts.auth.app')]
     public function render()
     {
         return view('livewire.auth.auth-component');

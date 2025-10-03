@@ -35,7 +35,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function user_type () {
+    public function userType () {
         return $this->belongsTo(UserType::class);
     }
 
@@ -45,6 +45,10 @@ class User extends Authenticatable
 
     public function teacher () {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function userPersonalData () {
+        return $this->belongsTo(PersonalData::class, 'visitor_uuid', 'visitor_uuid');
     }
 
 }

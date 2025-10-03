@@ -10,13 +10,13 @@ use Livewire\Component;
 class LogoutComponent extends Component
 {
     protected $listeners = ['confirmLogout' => 'confirm'];
-
+    
     public function render()
     {
         return view('livewire.dashboard.logout-component');
     }
 
-     public function logout () {
+     public function logout () {        
         try{  
             LivewireAlert::title('Atenção')
             ->text('Deseja realmente, terminar sessão?')

@@ -1,29 +1,47 @@
-  <div class="flex items-center gap-4">          
-                <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
-                        <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                            <img class="object-cover w-9 h-9 rounded-full" src="{{ asset('dashboard/assets/dist/assets/images/profile/user-1.jpg') }}" alt=""
-                                aria-hidden="true">
-                        </a>
-                        <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
-                            aria-labelledby="hs-dropdown-custom-icon-trigger">
-                            <div class="card-body p-0 py-2">
-                                <a href="javscript:void(0)" class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                                    <i class="ti ti-user  text-xl "></i>
-                                    <p class="text-sm ">My Profile</p>
-                                </a>
-                                <a href="javscript:void(0)" class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                                    <i class="ti ti-mail  text-xl"></i>
-                                    <p class="text-sm ">My Account</p>
-                                </a>
-                                <a href="javscript:void(0)" class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                                    <i class="ti ti-list-check  text-xl "></i>
-                                    <p class="text-sm ">My Task</p>
-                                </a>
-                                <div class="px-4 mt-[7px] grid">
-                                    <a wire:click='logout()' class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">Logout</a>
-                                </div>
+ <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">            
+        @auth
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            @if (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'male' and !auth()->user()->userPersonalData->photo)
+            <img style="width: 45px;" class='img-fluid rounded-circle' src='{{ asset('storage/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.jpg') }}' />
+            @elseif (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'female' and !auth()->user()->userPersonalData->photo)
+            <img  class='img-fluid rounded' src='{{ asset('storage/img/592727514f8b799775df3834b591ee22.jpg') }}' />
+            @else
+            <img  class='img-fluid rounded-circle' src='{{ asset('storage/img/' .auth()->user()->userPersonalData->photo) }}' />
+            @endif
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->user_name ?? '' }}</span>
+          </a><!-- End Profile Iamge Icon -->
 
-                            </div>
-                        </div>
-                </div>
-            </div>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ auth()->user()->user_name ?? '' }}</h6>
+              {{-- <span>Web Designer</span> --}}
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a wire:navigate class="dropdown-item d-flex align-items-center" href="{{ route('dashboard.profile') }}">
+                <i class="bi bi-person"></i>
+                <span>Meu Perfil</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>     
+
+            <li>
+              <a wire:click='logout' class="dropdown-item d-flex align-items-center">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Terminar sessão</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li>
+        @endauth
+      </ul>
+    </nav>
+

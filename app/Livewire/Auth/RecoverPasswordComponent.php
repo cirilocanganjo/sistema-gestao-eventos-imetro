@@ -14,7 +14,7 @@ class RecoverPasswordComponent extends Component
 {
     public $isVerified,$isVerifiedEmail,$email, $verificationCode, $newPassword,$confirmNewPassword;
 
-    #[Layout('layouts.dashboard.app')]
+    #[Layout('layouts.auth.app')]
     public function render()
     {
         return view('livewire.auth.recover-password-component');
