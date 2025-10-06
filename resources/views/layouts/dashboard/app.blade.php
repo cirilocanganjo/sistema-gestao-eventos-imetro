@@ -43,8 +43,7 @@
 			copyright &copy; {{ now()->year ?? ''}} - Evently. Todos os direitos reservados.
 		</p>
     </div>
-
-  </footer><!-- End Footer -->
+  </footer>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -64,7 +63,27 @@
 <script src="{{ asset('dashboard/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
 <script src="{{ asset('dashboard/assets/vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/main.js') }}"></script>
+@livewireScripts()
+@stack('auth')
+@stack('scripts')
+@stack('user-component-scripts')
+@stack('access-level-script')
+@stack('side-bar-scripts')
 
+<script src="{{ asset('dashboard/assets/js/jquery-3.7.1.min.js') }}"></script>
+<script src="{{ asset('dashboard/assets/js/jquery-mask.js') }}"></script>
+<script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
+<script src="{{ asset('dashboard/assets/select2/js/select2.js') }}"></script>
+<script src="{{ asset('dashboard/assets/select2/js/select2-portuguese.js') }}"></script>
+
+<script src="{{ asset('dashboard/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('dashboard/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('dashboard/assets/vendor/chart.js/chart.umd.js') }}"></script>
+<script src="{{ asset('dashboard/assets/vendor/echarts/echarts.min.js') }}"></script>
+<script src="{{ asset('dashboard/assets/vendor/quill/quill.js') }}"></script>
+<script src="{{ asset('dashboard/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+<script src="{{ asset('dashboard/assets/vendor/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('dashboard/assets/js/main.js') }}"></script>
 
 @livewireScripts()
 @stack('auth')
@@ -73,9 +92,8 @@
 @stack('access-level-script')
 @stack('side-bar-scripts')
 
-<script>
 
-</script>
+
 
 </body>
 </html>

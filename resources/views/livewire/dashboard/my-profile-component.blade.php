@@ -14,18 +14,32 @@
                       </div>
 
                       <div class='card-body'>
-                        <div  class="d-flex flex-wrap align-items-center col-md-12  my-3 mb-3 gap-1">
+                        <div  class="d-flex  align-items-center col-md-12  my-3 mb-3 gap-1">
                             <div class="col-md-6">
-                                <input wire:model='username' placeholder="Digite o seu nome" type="text" class='form-control px-2 py-2'>
+                                 <div class="form-group mb-2">
+                                     <input wire:model='username' placeholder="Digite o seu nome" type="text" class='form-control px-3 py-3'>
+                                 </div>
+
+                                 <div class="form-group mb-2">
+                                     <input wire:model='username' placeholder="Digite o seu nome" type="text" class='form-control px-3 py-3'>
+                                 </div>
+
                             </div>
 
-                            <div class="col-md-5">
-                                  <input wire:model='email' placeholder="Digite o seu email" type="text" class='form-control px-2 py-2'>
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <input wire:model='email' placeholder="Digite o seu email" type="text" class='form-control px-3 py-3'>
+                                </div>
+
+                                <div class="form-group mb-2">
+                                    <input wire:model='email' placeholder="Digite o seu email" type="text" class='form-control px-3 py-3'>
+                                </div>
+
                             </div>
                         </div>
 
                         <div>
-                            <button class="btn btn-success">Atualizar</button>
+                            <button class="btn btn-dark">Atualizar</button>
                         </div>
                       </div>
 

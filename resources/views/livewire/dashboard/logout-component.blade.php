@@ -1,8 +1,8 @@
  <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
         @auth
-        <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+        <li  wire:click='logout' style='cursor:pointer;' class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0">
             @if (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'male' and !auth()->user()->userPersonalData->photo)
             <img style="width: 45px;" class='img-fluid rounded-circle' src='{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}' />
             @elseif (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'female' and !auth()->user()->userPersonalData->photo)
