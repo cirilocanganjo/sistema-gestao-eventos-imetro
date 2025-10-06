@@ -14,7 +14,7 @@
                         <input id='access-level' wire:model='access_level' type='text' class='form-control rounded' />
                         @error("access_level") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
-            </div>
+             </div>
 
         </div>
         <div class="modal-footer border-0">
