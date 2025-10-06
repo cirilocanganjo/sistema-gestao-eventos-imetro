@@ -43,7 +43,7 @@
 			copyright &copy; {{ now()->year ?? ''}} - Evently. Todos os direitos reservados.
 		</p>
     </div>
-    
+
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -70,11 +70,11 @@
 @stack('auth')
 @stack('scripts')
 @stack('user-component-scripts')
-@stack('access-level-user-scripts')
+@stack('access-level-script')
 @stack('side-bar-scripts')
 
 <script>
-	  
+
 </script>
 
 </body>

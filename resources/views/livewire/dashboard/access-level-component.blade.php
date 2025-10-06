@@ -4,13 +4,13 @@
  <x-dashboard.top-bar />
   <x-dashboard.side-bar />
 
-         <main id="main" class="main">   
-                <x-dashboard.modal-access-level />
+         <main id="main" class="main">
+                <x-dashboard.modal-access-level :status='$status' />
 
                   <div class='card'>
                       <div class='card-header'>
-                        <h5>Utilizadores</h5>                        
-                      </div> 
+                        <h5>Utilizadores</h5>
+                      </div>
 
                       <div class='card-body'>
                       <div class='d-flex align-items-center gap-1 mt-3 mb-3'>
@@ -19,28 +19,28 @@
                             <span>Adicionar</span>
                           </button>
                           <input wire:model.live='searcher' type='text' placeholder="Pesquisar utilizador" class='form-control px-2 py-2' />
-               
+
                       </div>
 
                         <div class='table-responsive'>
                           <table class='table table-hover'>
                             <thead>
                               <tr>
-                               
+
                                   <th>Data de cadastro</th>
-                                  <th>Nível de acesso</th>     
+                                  <th>Nível de acesso</th>
                                   <th>Opções</th>
                               </tr>
-                            </thead>       
+                            </thead>
                             <tbody>
                               @if (isset($data) and $data->isNotEmpty())
-                                @foreach ($data as $key => $user)
-                                  <tr>                                      
-                                      <td>{{ $user->created_at ?? '' }}</td>
-                                      <td>{{ $user->type ?? '' }}</td>  
-                                      <td>                                                                
+                                @foreach ($data as $key => $access_level)
+                                  <tr>
+                                      <td>{{ $access_level->created_at ?? '' }}</td>
+                                      <td>{{ $access_level->type ?? '' }}</td>
+                                      <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button wire:click='edit({{ $user->id }})' wire:key='{{ $key }}' data-bs-target='#access-level-user' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
+                                            <button wire:click="edit('{{ $access_level->uuid }}')" wire:key='{{ $key }}' data-bs-target='#access-level-user' data-bs-toggle='modal'   class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>
@@ -61,35 +61,16 @@
                                 </td>
                                 </tr>
                               @endif
-                            </tbody>                     
-                          </table>                          
+                            </tbody>
+                          </table>
                         </div>
-                      </div>               
-                    
-                  </div>                                        
+                      </div>
+
+                  </div>
 
          </main>
 
 </div>
 
 
-@push('access-level-user-scripts')
-<script>
-document.addEventListener('livewire:initialized', () => {    
-    const accessLevel = document.getElementById('access-level'); // supondo que exista este campo
-    const buttonAdd = document.getElementById('button-add');
-    
-    if (buttonAdd) {
-        buttonAdd.addEventListener('click', () => {  //Clean inputs when button add is clicked
-            fullName.value = '';
-            email.value = '';
-        });
-    }
-   
-    Livewire.on('edit-user', ({ user }) => {  //Receive Livewire data and fill the form 
-        fullName ? fullName.value = user.user_name : '';
-        email ? email.value = user.email : '';
-    });
-});
-</script>
-@endpush
+
