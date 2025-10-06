@@ -16,12 +16,13 @@
                       <div class='card-body'>
                         <div  class="d-flex  align-items-start col-md-12  my-3 mb-1 gap-1">
                             <div class="col-md-6">
-                                 <div class="form-group mb-2">
-                                     <input wire:model='password' placeholder="Digite a sua senha atual" type="password" class='form-control px-3 py-3'>
+                                <div class="form-group mb-2">
+                                     <input wire:model='username' placeholder="Digite o seu nome" type="text" class='form-control px-3 py-3'>
                                  </div>
 
+
                                  <div class="form-group mb-2">
-                                     <input wire:model='username' placeholder="Digite o seu nome" type="text" class='form-control px-3 py-3'>
+                                     <input wire:model='password' placeholder="Digite a sua senha atual" type="password" class='form-control px-3 py-3'>
                                  </div>
 
                                  <div class='form-group mb-2' wire:ignore>

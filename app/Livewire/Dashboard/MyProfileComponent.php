@@ -8,7 +8,17 @@ use Livewire\Component;
 
 class MyProfileComponent extends Component
 {
-    #[Layout('layouts.dashboard.app')]	
+    public $username,$password,$email;
+
+    
+    public function mount () {
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+    #[Layout('layouts.dashboard.app')]
 	public function render ()  {
 		return view('livewire.dashboard.my-profile-component');
 	}
