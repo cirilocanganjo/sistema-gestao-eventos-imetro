@@ -25,6 +25,36 @@
 
            <li class="nav-item">
               <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+                    <i class="ri ri-calendar-line"></i>
+                    <span>Eventos</span>
+              </a>
+          </li>
+
+
+           <li class="nav-item">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+                    <i class="ri ri-add-line"></i>
+                    <span>Convites</span>
+              </a>
+           </li>
+
+           <li class="nav-item">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+                    <i class="ri ri-user-6-line"></i>
+                    <span>Docentes</span>
+              </a>
+           </li>
+
+           <li class="nav-item">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+                    <i class="ri ri-eye-line"></i>
+                    <span>Visitantes</span>
+              </a>
+           </li>
+
+
+           <li class="nav-item">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
                     <i class="ri ri-lock-line"></i>
                     <span>Meu perfil</span>
               </a>
