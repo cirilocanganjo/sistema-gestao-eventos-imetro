@@ -4,13 +4,13 @@
  <x-dashboard.top-bar />
   <x-dashboard.side-bar />
 
-         <main id="main" class="main">   
-         <x-dashboard.modal-user :visitor_types='$visitor_types' :access_levels='$access_levels' />  
+         <main id="main" class="main">
+         <x-dashboard.modal-user :visitor_types='$visitor_types' :access_levels='$access_levels' />
 
                   <div class='card'>
                       <div class='card-header'>
-                        <h5>Utilizadores</h5>                        
-                      </div> 
+                        <h5>Utilizadores</h5>
+                      </div>
 
                       <div class='card-body'>
                       <div class='d-flex align-items-center gap-1 mt-3 mb-3'>
@@ -36,17 +36,18 @@
                                   <th>Status</th>
                                   <th>Opções</th>
                               </tr>
-                            </thead>       
+                            </thead>
                             <tbody>
                               @if (isset($data) and $data->isNotEmpty())
                                 @foreach ($data as $key => $user)
                                   <tr>
                                       <td>
                                         @if (isset($user->userPersonalData->visitor_uuid) and $user->userPersonalData->gender == 'male' and !$user->userPersonalData->photo)
-                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('storage/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.jpg') }}' />
+                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}' />
                                         @elseif (isset($user->userPersonalData->visitor_uuid) and $user->userPersonalData->gender == 'female' and !$user->userPersonalData->photo)
-                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('storage/img/592727514f8b799775df3834b591ee22.jpg') }}' />
+                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}' />
                                         @else
+                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('storage/img/' .$user->userPersonalData->photo) }}' />
                                         @endif
                                       </td>
                                       <td>{{ $user->created_at ?? '' }}</td>
@@ -78,12 +79,12 @@
                                 </td>
                                 </tr>
                               @endif
-                            </tbody>                     
-                          </table>                          
+                            </tbody>
+                          </table>
                         </div>
-                      </div>               
-                    
-                  </div>                                        
+                      </div>
+
+                  </div>
 
          </main>
 
@@ -92,19 +93,19 @@
 
 @push('user-component-scripts')
 <script>
-document.addEventListener('livewire:initialized', () => {    
+document.addEventListener('livewire:initialized', () => {
     const fullName = document.getElementById('name');
     const email = document.getElementById('email'); // supondo que exista este campo
     const buttonAdd = document.getElementById('button-add');
-    
+
     if (buttonAdd) {
         buttonAdd.addEventListener('click', () => {  //Clean inputs when button add is clicked
             fullName.value = '';
             email.value = '';
         });
     }
-   
-    Livewire.on('edit-user', ({ user }) => {  //Receive Livewire data and fill the form 
+
+    Livewire.on('edit-user', ({ user }) => {  //Receive Livewire data and fill the form
         fullName ? fullName.value = user.user_name : '';
         email ? email.value = user.email : '';
     });

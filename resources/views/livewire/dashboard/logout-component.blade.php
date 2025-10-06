@@ -1,12 +1,12 @@
  <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">            
+      <ul class="d-flex align-items-center">
         @auth
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             @if (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'male' and !auth()->user()->userPersonalData->photo)
-            <img style="width: 45px;" class='img-fluid rounded-circle' src='{{ asset('storage/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.jpg') }}' />
+            <img style="width: 45px;" class='img-fluid rounded-circle' src='{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}' />
             @elseif (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'female' and !auth()->user()->userPersonalData->photo)
-            <img  class='img-fluid rounded' src='{{ asset('storage/img/592727514f8b799775df3834b591ee22.jpg') }}' />
+            <img  class='img-fluid rounded' src='{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}' />
             @else
             <img  class='img-fluid rounded-circle' src='{{ asset('storage/img/' .auth()->user()->userPersonalData->photo) }}' />
             @endif
@@ -30,7 +30,7 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>     
+            </li>
 
             <li>
               <a wire:click='logout' class="dropdown-item d-flex align-items-center">
