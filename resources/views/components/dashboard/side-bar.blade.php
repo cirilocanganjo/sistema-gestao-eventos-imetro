@@ -16,10 +16,17 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.access.levels' ? 'bg-dark rounded text-light ' : '' }} " href="{{ route('dashboard.access.levels') }}">
+                  <i class="ri-lock-unlock-line"></i>
+                  <span>Níveis de acesso</span>
+            </a>
+          </li>
+
            <li class="nav-item">
-              <a wire:navigate class="nav-link " href="{{ route('dashboard.profile') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
                     <i class="ri ri-lock-line"></i>
-                    <span>Minha conta</span>
+                    <span>Meu perfil</span>
               </a>
           </li>
 

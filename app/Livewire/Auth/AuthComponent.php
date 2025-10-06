@@ -18,15 +18,15 @@ class AuthComponent extends Component
         return view('livewire.auth.auth-component');
     }
 
-    function login () {
+    public function login () {
         $this->validate();
         try {
-            while (auth()->attempt(["email" =>$this->email ,"password" =>$this->password])) {
-                if (auth()->user()->user_type->type === 'admin') {
-                    return redirect()->route('dashboard.home');
-                }else if (auth()->user()->user_type->type === 'visitante' and  auth()->user()->visitor->visitor_type->type === 'visitante e publicador de eventos') {
-                    return redirect()->route('dashboard.home');
-                }else if (auth()->user()->user_type->type === 'visitante') {
+            if (auth()->attempt(["email" =>$this->email ,"password" =>$this->password])) {
+                if (auth()->user()->userType->type === 'admin') {
+                    $this->redirect(route('dashboard.home'), navigate: false);
+                }else if (auth()->user()->userType->type === 'visitante' and  auth()->user()->visitor->visitorType->type === 'visitante e publicador de eventos') {
+                    $this->redirect(route('dashboard.home') , navigate: false);
+                }else if (auth()->user()->userType->type === 'visitante') {
                     return redirect()->route('evently.app.home');
                 }
              }

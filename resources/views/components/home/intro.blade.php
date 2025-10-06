@@ -1,4 +1,3 @@
-    <!-- Intro Section -->
     <section id="intro" class="intro section">
 
       <div class="container">
@@ -84,4 +83,4 @@
 
       </div>
 
-    </section><!-- /Intro Section -->
+    </section>

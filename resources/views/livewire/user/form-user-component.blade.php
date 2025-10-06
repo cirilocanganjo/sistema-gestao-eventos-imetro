@@ -25,7 +25,7 @@
                 </div>
 
                   <div class='form-group mb-3' wire:ignore>
-                    <label>Perfil de acesso:</label>
+                    <label>Tipo de utilizador:</label>
                     <select id='visitor_type' wire:model='visitor_type' class="py-3 px-4 block form-select" >
                         <option value="">Selecionar</option>
                          @if (isset($visitor_types) and $visitor_types->isNotEmpty()) 
@@ -35,7 +35,7 @@
                          @endif                                                
                     </select>
                     <span id='visitor_type_span' class='text-danger'></span>                
-                </div>
+                  </div>
 
                  <div class='form-group mb-3' wire:ignore>
                     <label>Foto:</label>

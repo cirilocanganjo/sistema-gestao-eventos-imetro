@@ -4,7 +4,6 @@
       <a href="{{route('evently.app.home') }}" class="logo d-flex align-items-center">  
         <h1 class="sitename">Evently</h1>
       </a>
-
       <x-home.nav-bar />
     </div>
   </header>

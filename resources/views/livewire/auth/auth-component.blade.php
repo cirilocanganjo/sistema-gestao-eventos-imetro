@@ -1,4 +1,4 @@
-@section('title', 'Sistema de Gestão de Eventos Imetro | Login')
+@section('title', 'Login')
 <div>
 
    <main>               

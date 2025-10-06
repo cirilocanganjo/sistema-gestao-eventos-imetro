@@ -69,6 +69,8 @@
 @livewireScripts()
 @stack('auth')
 @stack('scripts')
+@stack('user-component-scripts')
+@stack('access-level-user-scripts')
 @stack('side-bar-scripts')
 
 <script>

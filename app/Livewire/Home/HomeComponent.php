@@ -1,34 +1,24 @@
 <?php
 
 namespace App\Livewire\Home;
-
-use App\Models\PersonalData;
-use App\Models\User;
-use App\Models\UserType;
-use App\Models\Visitor;
-use App\Models\VisitorType;
-use Illuminate\Support\Facades\DB;
-use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use \Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Attributes\Layout;
-use \Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+
 
 class HomeComponent extends Component
 {
     protected $listeners = ['confirmLogout' => 'confirm'];
-    public $visitor,$user_type, $visitor_type;
-    public function mount()
-    {
-       
-    }
 
-    #[Layout('layouts.home.app')]
-    public function render()
-    {
-        return view('livewire.home.home-component');
-    }
+    #[Layout('layouts.home.app')]	
+	public function render ()  {
+		return view('livewire.home.home-component');
+	}
 
-public function logout () {        
+
+	    public function logout () {        
         try{  
             LivewireAlert::title('Atenção')
             ->text('Deseja realmente, terminar sessão?')
@@ -65,5 +55,4 @@ public function logout () {
           ->show();
         }
     }
-
 }
