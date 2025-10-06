@@ -45,7 +45,7 @@
                                             <span>Editar</span>
                                             </button>
 
-                                            <button wire:key='{{ $key }}' class='d-flex gap-1 btn btn-sm btn-danger'>
+                                            <button wire:click="delete('{{  $access_level->uuid }}')" wire:key='{{ $key }}' class='d-flex gap-1 btn btn-sm btn-danger'>
                                               <i class='ri-delete-bin-4-line'></i>
                                               <span>Eliminar</span>
                                             </button>

@@ -14,8 +14,8 @@ use Livewire\Component;
 class AccessLevelComponent extends Component
 {
 
-    public $uuid,$status,$access_level,$acess_levels,$searcher;
-
+    public $data_to_delete,$uuid,$status,$access_level,$acess_levels,$searcher;
+    protected $listeners = ['delete' =>'confirmAccessLevelDeletion'];
     public function mount()
     {
         $this->status = false;
@@ -79,6 +79,55 @@ class AccessLevelComponent extends Component
             ->show();
         } catch (\Throwable $th) {
          LivewireAlert::title('Erro')
+          ->text('erro: ' .$th->getMessage())
+          ->error()
+          ->withConfirmButton()
+          ->confirmButtonText('Fechar')
+          ->show();
+        }
+    }
+
+    public function delete ($uuid) {
+        try {
+            $this->uuid = $uuid;
+            LivewireAlert::title('Atenção')
+            ->text('Deseja realmente, terminar sessão?')
+            ->warning()
+            ->withDenyButton()
+            ->withConfirmButton()
+            ->confirmButtonText('Sim, confirmar')
+            ->denyButtonText('Não, cancelar')
+            ->withOptions(['allowOutsideClick' => false])
+            ->timer(0)
+            ->onConfirm('confirmAccessLevelDeletion')
+            ->show();
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            LivewireAlert::title('Erro')
+          ->text('erro: ' .$th->getMessage())
+          ->error()
+          ->withConfirmButton()
+          ->confirmButtonText('Fechar')
+          ->show();
+        }
+    }
+
+    public function confirmAccessLevelDeletion () {
+        try {
+            DB::beginTransaction();
+            $this->data_to_delete = UserType::query()->where('uuid', $this->uuid)->delete();
+            if ($this->data_to_delete >= 1) {
+            LivewireAlert::title('Sucesso')
+            ->text("Nivel de acesso eliminado com sucesso")
+            ->success()
+            ->withConfirmButton()
+            ->confirmButtonText('Fechar')
+            ->show();
+            }
+            DB::commit();
+        } catch (\Throwable $th) {
+        LivewireAlert::title('Erro')
           ->text('erro: ' .$th->getMessage())
           ->error()
           ->withConfirmButton()
