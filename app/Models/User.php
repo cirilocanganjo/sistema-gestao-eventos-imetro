@@ -40,11 +40,11 @@ class User extends Authenticatable
         return $this->belongsTo(UserType::class, 'user_type_uuid', 'uuid');
     }
 
-    public function visitor () {
-        return $this->belongsTo(Visitor::class);
+    public function visitorForVisitorType () {
+        return $this->belongsTo(Visitor::class, 'visitor_uuid', 'uuid');
     }
 
-    public function teacher () {
+    public function teacherData () {
         return $this->belongsTo(Teacher::class);
     }
 

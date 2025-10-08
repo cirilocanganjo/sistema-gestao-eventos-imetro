@@ -3,9 +3,9 @@
         @auth
         <li  wire:click='logout' style='cursor:pointer;' class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0">
-            @if (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'male' and !auth()->user()->userPersonalData->photo)
+            @if (auth()->user()->userPersonalData->gender == 'male' and !auth()->user()->userPersonalData->photo)
             <img style="width: 45px;" class='img-fluid rounded-circle' src='{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}' />
-            @elseif (auth()->user()->userPersonalData->visitor_uuid and auth()->user()->userPersonalData->gender == 'female' and !auth()->user()->userPersonalData->photo)
+            @elseif (auth()->user()->userPersonalData->gender == 'female' and !auth()->user()->userPersonalData->photo)
             <img  class='img-fluid rounded' src='{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}' />
             @else
             <img style='height:60px; width:60px;' class='img-fluid rounded' src='{{ asset('storage/imgs/'. auth()->user()->userPersonalData->photo) }}' />

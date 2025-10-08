@@ -27,20 +27,21 @@ class UserComponent extends Component
         try {
             if ($this->searcher) {
                 return User::query()->where('user_name', 'like', '%' .$this->searcher. '%')
-                ->with(['userType', 'userPersonalData', 'visitor'])
+                ->with(['userType', 'userPersonalData', 'visitorForVisitorType'])
                 ->get(); 
             }else if ($this->startdate and $this->enddate) {
                 return User::query()->whereBetween('created_at' ,[$this->startdate,$this->enddate])
-                ->with(['userType', 'userPersonalData', 'visitor'])
+                ->with(['userType', 'userPersonalData', 'visitorForVisitorType'])
                 ->get(); 
             }else {
-                return User::query()->with(['userType', 'userPersonalData', 'visitor'])->get(); 
+                return User::query()->with(['userType', 'userPersonalData', 'visitorForVisitorType'])->get(); 
             }
 
         } catch (Exception $e) {
             LivewireAlert::title('Erro')
           ->text('erro: ' .$e->getMessage())
           ->error()
+          ->timer(0)
           ->withConfirmButton()
           ->confirmButtonText('Fechar')
           ->show();

@@ -27,6 +27,8 @@ class MyProfileComponent extends Component
         try {
              $this->username = auth()->user()->user_name;
              $this->email = auth()->user()->email;   
+             $this->access_level = auth()->user()->user_type_uuid;
+             $this->profile_type = auth()->user()->visitor_uuid;
         } catch (\Throwable $e) {
            LivewireAlert::title('Erro')
           ->text('erro: ' .$e->getMessage())

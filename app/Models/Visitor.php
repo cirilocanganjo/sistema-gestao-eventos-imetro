@@ -13,7 +13,7 @@ class Visitor extends Model
     protected $keyType = 'string';  
     protected $fillable = ['visitor_type_uuid'];   
 
-    public function visitor_type () {
+    public function visitorType () {
         return $this->belongsTo(VisitorType::class);
     }
 }

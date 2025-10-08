@@ -25,36 +25,42 @@
 
                         <div class='table-responsive'>
                           <table class='table table-hover'>
-                            <thead>
+                            <thead class='text-center'>
                               <tr>
                                   <th>Foto</th>
-                                  <th>Data de cadastro</th>
-                                  <th>Nome de utilizador</th>
+                                  <th>Data</th>
+                                  <th>Nome</th>
                                   <th>Email</th>
-                                  <th>Tipo de utilizador</th>
-                                  <th>Tipo de visitante</th>
+                                  <th>Acesso</th>
+                                  <th>Tipo visitante</th>
                                   <th>Status</th>
                                   <th>Opções</th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-center">
                               @if (isset($data) and $data->isNotEmpty())
                                 @foreach ($data as $key => $user)
                                   <tr>
                                       <td>
-                                        @if (isset($user->userPersonalData->visitor_uuid) and $user->userPersonalData->gender == 'male' and !$user->userPersonalData->photo)
-                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}' />
-                                        @elseif (isset($user->userPersonalData->visitor_uuid) and $user->userPersonalData->gender == 'female' and !$user->userPersonalData->photo)
-                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}' />
+                                    
+                                       @if (!isset($user->userPersonalData->photo))
+                                             @if($user->userPersonalData->gender === 'male')
+                                              <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}" />
+                                              @elseif ($user->userPersonalData->gender === 'female')
+                                              <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}" />
+                                              @endif
+
                                         @else
-                                        <img style="width: 45px;" class='img-fluid rounded' src='{{ asset('storage/img/' .$user->userPersonalData->photo) }}' />
-                                        @endif
+                                        <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('storage/imgs/' . $user->userPersonalData->photo) }}" />
+                                        @endif 
+
+                                       
                                       </td>
                                       <td>{{ $user->created_at ?? '' }}</td>
                                       <td>{{ $user->user_name ?? '' }}</td>
                                       <td>{{ $user->email ?? '' }}</td>
                                       <td class='text-center'>{{ $user->userType->type ?? '' }}</td>
-                                      <td class='text-center'>{{ $user->visitor->type ?? '' }}</td>
+                                      <td  style="text-align: justify; width: 350px;word-break: break-word; overflow-wrap: break-word; white-space: normal;" class='text-center'>{{ $user->visitorForVisitorType->visitorType->type ?? '' }}</td>
                                       <td>{{ $user->status === 'active' ? 'ativo' : 'inativo' }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
