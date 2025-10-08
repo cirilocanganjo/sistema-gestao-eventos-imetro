@@ -24,7 +24,7 @@
           </li>
 
            <li class="nav-item">
-              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.home' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.events' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.events') }}">
                     <i class="ri ri-calendar-line"></i>
                     <span>Eventos</span>
               </a>
@@ -32,21 +32,21 @@
 
 
            <li class="nav-item">
-              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.home' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.invitations' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.invitations') }}">
                     <i class="ri ri-add-line"></i>
                     <span>Convites</span>
               </a>
            </li>
 
            <li class="nav-item">
-              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.home' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.teachers' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.teachers') }}">
                     <i class="ri ri-user-6-line"></i>
                     <span>Docentes</span>
               </a>
            </li>
 
            <li class="nav-item">
-              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.home' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.visitors' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.visitors') }}">
                     <i class="ri ri-eye-line"></i>
                     <span>Visitantes</span>
               </a>
