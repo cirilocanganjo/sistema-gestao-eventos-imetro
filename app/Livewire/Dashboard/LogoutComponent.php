@@ -6,13 +6,19 @@ use Exception;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use \Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class LogoutComponent extends Component
 {
-    protected $listeners = ['confirmLogout' => 'confirm'];
-
     #[Layout('layouts.dashboard.app')]
+    protected $listeners = ['confirmLogout' => 'confirm'];
+    
+    public function mount()
+    {
+        
+    }
+
     public function render(){
         return view('livewire.dashboard.logout-component');
     }

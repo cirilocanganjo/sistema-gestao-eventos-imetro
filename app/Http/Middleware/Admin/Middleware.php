@@ -2,19 +2,28 @@
 
 namespace App\Http\Middleware\Admin;
 
+use \App\Models\User;
+use App\Models\UserType;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Middleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    protected $is_admin;
+
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (auth()->check()) {
+        $this->is_admin = UserType::query()->where('uuid', auth()->user()->user_type_uuid)->whereIn('type', ['admin', 'Admin'])->value('type');
+        if (auth()->user()->UserType->type === $this->is_admin ) {
+            return $next($request);        
+        }
+
+    }else {
+        return redirect()->route('user.login');
     }
+}
+
+
 }

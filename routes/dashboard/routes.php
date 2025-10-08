@@ -8,11 +8,12 @@ use App\Livewire\Dashboard\UserComponent;
 use App\Livewire\Dashboard\MyProfileComponent;
 use App\Livewire\Dashboard\TeacherComponent;
 use App\Livewire\Dashboard\VisitorComponent;
+use \App\Http\Middleware\Admin\Middleware as admin;
 use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix("/dashboard")->group(function () {
+Route::prefix("/dashboard")->middleware([admin::class])->group(function () {
 Route::get('/home', DashboardComponent::class)->name('dashboard.home');
 Route::get('/utilizadores', UserComponent::class)->name('dashboard.users');
 Route::get('/perfil', MyProfileComponent::class)->name('dashboard.profile');

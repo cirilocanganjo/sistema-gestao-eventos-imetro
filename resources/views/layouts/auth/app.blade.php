@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="{{ asset('dashboard/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
 <link href="{{ asset('auth/assets/css/theme.css') }}" rel="stylesheet" />
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 <title>@yield('title')</title>
 @livewireStyles()
 </head>
@@ -14,5 +15,7 @@
 <script src="{{ asset('dashboard/assets/js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
 @livewireScripts()
+@stack('auth')
+@stack('recover-password')
 </body>
 </html>

@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
    
     use HasFactory, Notifiable;    
+
     protected $fillable = [
         'user_name',
         'email',
@@ -36,7 +37,7 @@ class User extends Authenticatable
     }
 
     public function userType () {
-        return $this->belongsTo(UserType::class);
+        return $this->belongsTo(UserType::class, 'user_type_uuid', 'uuid');
     }
 
     public function visitor () {

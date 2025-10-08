@@ -130,7 +130,7 @@ class FormUserComponent extends Component
         } catch (Exception $e) {
             DB::rollback();
             $this->reset(['fullname','phone','identity_card_number','email','password','visitor_type','photo','confirm_password','gender']);
-            if (Storage::disk('public')->exists('imgs/' . $this->fileName)) { //Remove video from storage if it exists there
+            if (Storage::disk('public')->exists('imgs/' . $this->fileName)) { //Remove photo from storage if it exists there
               Storage::disk('public')->delete('imgs/' . $this->fileName);
             }
             LivewireAlert::title('Erro')

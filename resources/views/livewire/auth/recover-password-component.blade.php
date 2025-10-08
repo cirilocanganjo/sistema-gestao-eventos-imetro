@@ -83,7 +83,7 @@
 </div>
 
 
-@push("auth")
+@push("recover-password")
     <script>
         function togglePasswordVisibility() {
             const input = document.getElementById("newPassword");
@@ -115,5 +115,13 @@
                     icon.classList.add("bi-eye");
                 }
             }
+
+          document.addEventListener("DOMContentLoaded", togglePasswordVisibility, toggleConfirmPasswordVisibility); 
+          document.addEventListener("livewire:navigated", () => {
+          if (typeof togglePasswordVisibility === "function" && toggleConfirmPasswordVisibility === "function") {
+                    togglePasswordVisibility();
+                    toggleConfirmPasswordVisibility();
+                }
+            });
     </script>    
 @endpush

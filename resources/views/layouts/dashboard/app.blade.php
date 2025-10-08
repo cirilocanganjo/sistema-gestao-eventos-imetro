@@ -86,12 +86,12 @@
 <script src="{{ asset('dashboard/assets/js/main.js') }}"></script>
 
 @livewireScripts()
-@stack('auth')
+
 @stack('scripts')
 @stack('user-component-scripts')
 @stack('access-level-script')
 @stack('side-bar-scripts')
-
+@stack('user-prifile-scripts')
 
 
 
