@@ -66,7 +66,7 @@
         const icon = document.querySelector(".toggle-password");
        
         function togglePasswordVisibility() {
-            
+
          if (input.type === "password") {
             input.type = "text";
             icon.classList.remove("bi-eye");
@@ -78,7 +78,7 @@
            }
          }            
 
-          document.addEventListener("DOMContentLoaded", togglePasswordVisibility); 
+          //document.addEventListener("DOMContentLoaded", togglePasswordVisibility); 
           document.addEventListener("livewire:navigated", () => {
                 if (typeof togglePasswordVisibility === "function") {
                     togglePasswordVisibility();

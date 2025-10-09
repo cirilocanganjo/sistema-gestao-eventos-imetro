@@ -55,7 +55,7 @@ class MyProfileComponent extends Component
          $this->validate([
            'username' =>'required',
            'password' =>'required',
-           'email' =>'required|unique:users',
+           'email' =>'required',
            'access_level' => 'required',
            'profile_type' => 'required'
          ],
@@ -64,7 +64,6 @@ class MyProfileComponent extends Component
            'username.required' =>'Campo obrigatório *',
            'password.required' =>'Campo obrigatório *',
            'email.required' =>'Campo obrigatório *',
-           'email.unique' =>'O email já foi cadastrado',
            'access_level.required' =>'Campo obrigatório *',
            'profile_type.required' =>'Campo obrigatório *',
          ]);
@@ -95,15 +94,32 @@ class MyProfileComponent extends Component
     public function  confirmUpdateAuthenticatedProfileUserData () {
         
         try {            
-            DB::beginTransaction();
+           
             if ($this->password and $this->new_password and $this->confirm_new_password) {
 
             }
 
+            if (!Hash::check($this->password, auth()->user()->password)) {
+             LivewireAlert::title('Atenção')
+              ->text("Não podemos proceder a alteração dos dados, credenciais incorretas!")
+              ->warning()
+              ->withConfirmButton()
+              ->timer(0)
+              ->confirmButtonText('Fechar')
+              ->show();
+
+            }else{
+            DB::beginTransaction();
             $user = User::query()->where('id',auth()->user()->id)->update([
-                'user_name' =>$this->username,
-                'email' =>$this->email
+                'user_name' =>$this->username,               
             ]);
+
+            $exists_emails = User::where('email', $this->email)->get();
+            while (!$exists_emails) {
+                User::query()->where('id',auth()->user()->id)->update([
+                    'email' =>$this->email
+                ]);
+            }
 
             if ($this->photo and $this->photo->isValid()) {
              $this->fileName = md5($this->photo->getClientOriginalName() .now()). '.' .$this->photo->getClientOriginalExtension();
@@ -130,6 +146,8 @@ class MyProfileComponent extends Component
 
               $this->dispatch('user-profile-data-updated');
               $this->dispatch('clean-photo-input');
+
+            }
 
             }
         } catch (Exception $e) {

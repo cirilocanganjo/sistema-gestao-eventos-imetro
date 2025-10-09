@@ -22,14 +22,16 @@
                                 <div  class="d-flex  align-items-start col-md-12  my-3 mb-1 gap-1">
                                     <div class="col-md-6">
                                         <div class="form-group mb-2">
+                                             <label>Nome:</label>
                                              <input wire:model='username' placeholder="Digite o seu nome" type="text" class='form-control px-2 py-2'>
                                              @error ('username') <span class='text-danger'>{{ $message }}</span> @enderror
                                          </div>                                           
 
 
                                          <div class="form-group mb-2 position-relative">
+                                             <label>Senha:</label>
                                              <input id='password' wire:model='password' placeholder="Digite a sua senha atual" type="password" class='form-control px-2 py-2'>
-                                            <i onclick='togglePasswordVisibility()' style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;" class="ri ri-eye-line position-absolute toggle-password"></i>
+                                            <i onclick='togglePasswordVisibility()' style="top: 60%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;" class="ri ri-eye-line position-absolute toggle-password"></i>
                                          </div>
                                           @error ('password') <span class='text-danger'>{{ $message }}</span> @enderror
 
@@ -59,30 +61,35 @@
                                                     </select>
                                                     @error('profile_type')<span class='text-danger'>{{ $message }}</span>@enderror
                                                 </div>
-
                                         @endif
+                                        
+
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group mb-2">
+                                           <label>Email:</label>
                                             <input wire:model='email' placeholder="Digite o seu email" type="email" class='form-control px-2 py-2' />
                                           @error ('email') <span class='text-danger'>{{ $message }}</span> @enderror
                                         </div>
 
                                         <div class="form-group mb-2 position-relative">
+                                                <label>Nova senha:</label>
                                             <input id='new_password' wire:model='new_password' placeholder="Digite a sua nova senha" type="password" class='form-control px-2 py-2' />
-                                           <i  onClick='toggleNewPasswordVisibility()' style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;" class="ri ri-eye-line position-absolute toggle-new-password"></i>
+                                           <i  onClick='toggleNewPasswordVisibility()' style="top: 60%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;" class="ri ri-eye-line position-absolute toggle-new-password"></i>
                                         </div>
 
                                          <div class="form-group mb-2 position-relative">
+                                                <label>Confirmar nova senha:</label>                                            
                                             <input id='confirm_new_password' wire:model='confirm_new_password' placeholder="Confirmar a sua nova senha" type="password" class='form-control px-2 py-2' />
-                                           <i onClick='toggleConfirmNewPasswordVisibility()' style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;" class="ri ri-eye-line position-absolute toggle-confirm-new-password"></i>
+                                           <i onClick='toggleConfirmNewPasswordVisibility()' style="top: 60%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;" class="ri ri-eye-line position-absolute toggle-confirm-new-password"></i>
                                         </div>
-
 
                                         <div class="form-group ">
-                                            <input :key='uniqid()' id='photo' wire:model='photo'  type="file" class='form-control px-2 py-2'>
+                                         <label>Foto:</label>                                            
+                                         <input :key='uniqid()' id='photo' wire:model='photo'  type="file" class='form-control px-2 py-2'>
                                         </div>
+
 
                                     </div>
                                 </div>
@@ -166,7 +173,7 @@
            }
          }     
 
-            document.addEventListener("DOMContentLoaded", togglePasswordVisibility, toggleNewPasswordVisibility , toggleConfirmNewPasswordVisibility); 
+           // document.addEventListener("DOMContentLoaded", togglePasswordVisibility, toggleNewPasswordVisibility , toggleConfirmNewPasswordVisibility); 
             document.addEventListener("livewire:navigated", () => {
                 if (typeof togglePasswordVisibility === "function" && typeof toggleNewPasswordVisibility === "function" && typeof toggleConfirmNewPasswordVisibility === "function") {
                     togglePasswordVisibility();
