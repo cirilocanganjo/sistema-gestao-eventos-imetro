@@ -5,7 +5,7 @@
   <x-dashboard.side-bar />
 
          <main id="main" class="main">
-         <x-dashboard.modal-user :visitor_types='$visitor_types' :access_levels='$access_levels' />
+         <x-dashboard.modal-user :visitor_types="$visitor_types ?? []" :access_levels="$access_levels ?? []" />
 
                   <div class='card'>
                       <div class='card-header'>
@@ -38,7 +38,7 @@
                               </tr>
                             </thead>
                             <tbody class="text-center">
-                              @if (isset($data) and $data->isNotEmpty())
+                              @if (isset($data))
                                 @foreach ($data as $key => $user)
                                   <tr>
                                       <td>

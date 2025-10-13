@@ -24,7 +24,7 @@
                                     <label for="password"
                                     class="block text-sm  mb-2 text-gray-400">Senha:</label>
                                      <input type="password" wire:model='password'  id="password" class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 " aria-describedby="hs-input-helper-text" />
-                                   <i class="bi bi-eye  toggle-password" onclick="togglePasswordVisibility()"  style="position:absolute; top: 70%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
+                                   <i class="bi bi-eye  toggle-password" id="togglePasswordVisibilityIcon"  style="position:absolute; top: 70%; right: 15px; transform: translateY(-50%); cursor: pointer; font-size: 20px;"></i>
                                 </div>   
                                 @error('password') <span style='font-size:14px; color:red;'>{{ $message }}</span>@enderror       
 
@@ -62,27 +62,27 @@
 
 @push("auth")
     <script>
-        const input = document.getElementById("password");
-        const icon = document.querySelector(".toggle-password");
        
-        function togglePasswordVisibility() {
+        let input = document.getElementById("password");
+        let icon = document.querySelector(".toggle-password");
+        let togglePasswordVisibilityIcon = document.getElementById("togglePasswordVisibilityIcon");
 
-         if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("bi-eye");
-            icon.classList.add("bi-eye-slash");
-         } else {
-            input.type = "password";
-            icon.classList.remove("bi-eye-slash");
-            icon.classList.add("bi-eye");
-           }
-         }            
+        function changeAccessibilityIcon () {
+         togglePasswordVisibilityIcon.addEventListener('click', () => {         
+             if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+             } else {
+                input.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+               }
+         });            
+        }         
 
-          //document.addEventListener("DOMContentLoaded", togglePasswordVisibility); 
-          document.addEventListener("livewire:navigated", () => {
-                if (typeof togglePasswordVisibility === "function") {
-                    togglePasswordVisibility();
-                }
+          document.addEventListener("livewire:navigated", () => {  
+                changeAccessibilityIcon();         
             });
 
     </script>    

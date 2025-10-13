@@ -16,6 +16,8 @@
 
 <body class=" bg-surface">
  {{ $slot }}
+<script src="{{ asset('home/assets/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('home/assets/js/jquery-mask.js') }}"></script>
 <script src="{{ asset('dashboard/assets/dist/assets/libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/jquery-mask.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>

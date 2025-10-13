@@ -32,7 +32,7 @@
                        <label>Tipo de utilizador:</label>
                         <select id='visitor_type' wire:model='visitor_type' class="form-select" >
                             <option value="">Selecionar</option>
-                             @if (isset($visitor_types) and $visitor_types->isNotEmpty()) 
+                             @if (isset($visitor_types) ) 
                              @foreach ($visitor_types as $key => $type)
                              <option wire:key='{{ $key }}' value='{{ $type->uuid }}'>{{ $type->type }}</option>
                              @endforeach
@@ -45,7 +45,7 @@
                        <label>Nível de acesso:</label>
                         <select id='access_level' wire:model='access_level' class="form-select" >
                             <option value="">Selecionar</option>
-                             @if (isset($access_levels) and $access_levels->isNotEmpty()) 
+                             @if (isset($access_levels)) 
                              @foreach ($access_levels as $key => $level)
                              <option wire:key='{{ $key }}' value='{{ $level->uuid }}'>{{ $level->type }}</option>
                              @endforeach

@@ -9,7 +9,7 @@
 
                   <div class='card'>
                       <div class='card-header'>
-                        <h5>Utilizadores</h5>
+                        <h5>Níveis de acesso</h5>
                       </div>
 
                       <div class='card-body'>

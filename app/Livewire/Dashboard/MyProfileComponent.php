@@ -21,14 +21,14 @@ class MyProfileComponent extends Component
     use WithFileUploads;
     public $username,$password,$access_level,$profile_type,$new_password,$confirm_new_password,$email,$photo,$fileName;
     protected $listeners = ['confirm' =>'confirmUpdateAuthenticatedProfileUserData'];
-
+    private $credentials;
     #[On('user-profile-data-updated')]
     public function mount () {
         try {
              $this->username = auth()->user()->user_name;
              $this->email = auth()->user()->email;   
              $this->access_level = auth()->user()->user_type_uuid;
-             $this->profile_type = auth()->user()->visitor_uuid;
+             $this->profile_type = auth()->user()->visitorForVisitorType->visitor_type_uuid;
         } catch (\Throwable $e) {
            LivewireAlert::title('Erro')
           ->text('erro: ' .$e->getMessage())
@@ -37,7 +37,6 @@ class MyProfileComponent extends Component
           ->confirmButtonText('Fechar')
           ->show();
         }
-
         }
 
     
@@ -57,15 +56,17 @@ class MyProfileComponent extends Component
            'password' =>'required',
            'email' =>'required',
            'access_level' => 'required',
-           'profile_type' => 'required'
+           'profile_type' => 'required',
+           'confirm_new_password' => 'same:new_password'
          ],
 
          [
            'username.required' =>'Campo obrigatório *',
            'password.required' =>'Campo obrigatório *',
-           'email.required' =>'Campo obrigatório *',
-           'access_level.required' =>'Campo obrigatório *',
-           'profile_type.required' =>'Campo obrigatório *',
+           'email.required' =>'Campo obrigatório *',       
+           'access_level.required' =>'Campo obrigatório *',       
+           'profile_type.required' =>'Campo obrigatório *',       
+           'confirm_new_password.same' =>'O campo nova senha e confirmar, devem coincidir',       
          ]);
 
         try {
@@ -91,12 +92,13 @@ class MyProfileComponent extends Component
         }
     }
     
-    public function  confirmUpdateAuthenticatedProfileUserData () {
-        
-        try {            
-           
-            if ($this->password and $this->new_password and $this->confirm_new_password) {
-
+    public function  confirmUpdateAuthenticatedProfileUserData () {       
+        try {                       
+             DB::beginTransaction();
+            if ($this->new_password and $this->confirm_new_password and $this->new_password === $this->confirm_new_password) {
+                 $this->credentials = User::query()->where('id',auth()->user()->id)->update([
+                'password' =>Hash::make($this->confirm_new_password),               
+            ]);                       
             }
 
             if (!Hash::check($this->password, auth()->user()->password)) {
@@ -107,17 +109,15 @@ class MyProfileComponent extends Component
               ->timer(0)
               ->confirmButtonText('Fechar')
               ->show();
-
             }else{
-            DB::beginTransaction();
             $user = User::query()->where('id',auth()->user()->id)->update([
                 'user_name' =>$this->username,               
             ]);
 
-            $exists_emails = User::where('email', $this->email)->get();
-            while (!$exists_emails) {
-                User::query()->where('id',auth()->user()->id)->update([
-                    'email' =>$this->email
+            $exists_emails = User::query()->where('email', $this->email)->first();
+            if (!$exists_emails) {
+               $email = User::query()->where('id',auth()->user()->id)->update([
+                 'email' =>$this->email
                 ]);
             }
 
@@ -132,24 +132,22 @@ class MyProfileComponent extends Component
 
             $personal_data = PersonalData::query()->where('visitor_uuid', auth()->user()->visitor_uuid)->update([
                 'full_name' =>$this->username,
-                'photo' =>$this->fileName ?? null
+                'photo' =>$this->fileName ?? ''
             ]);
+            DB::commit();         
 
-            DB::commit();           
-            if ($user || $personal_data >= 1) {            
+            if ($this->credentials || $user || $personal_data || $email >= 1) {            
              LivewireAlert::title('Sucesso')
               ->text("Dados atualizados com sucesso!")
               ->success()
               ->withConfirmButton()
               ->confirmButtonText('Fechar')
-              ->show();
-
-              $this->dispatch('user-profile-data-updated');
+              ->show();             
               $this->dispatch('clean-photo-input');
-
             }
-
+             $this->dispatch('user-profile-data-updated');
             }
+            $this->dispatch('clean-credentials-input');     
         } catch (Exception $e) {
             DB::rollback();
             if (Storage::disk('public')->exists('imgs/' . $this->fileName)) { //Remove photo from storage if it exists there

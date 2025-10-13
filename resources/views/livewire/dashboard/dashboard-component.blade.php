@@ -12,8 +12,16 @@
            </div>
 
            <section class="section dashboard">
-             <div class="row">              
-               <x-dashboard.stats />
+             <div class="row">      
+
+               <x-dashboard.stats 
+                :eventCounter="$eventCounter ?? []" 
+                :eventMonths="$eventMonths ?? []"  
+                :dataStatForUserCounter="$dataStatForUserCounter ?? 0"
+                :dataStatForEventCounter="$dataStatForEventCounter ?? 0"
+                :dataStatForTemporaryInvitationCounter="$dataStatForTemporaryInvitationCounter ?? 0"
+              />
+
              </div>
            </section>
 

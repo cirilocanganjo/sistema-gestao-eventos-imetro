@@ -21,16 +21,12 @@
   <link href="{{ asset('dashboard/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('dashboard/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('dashboard/assets/css/style.css') }}" rel="stylesheet">
-</head>
-
-<body>
-<link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2-bootstrap-4.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.css') }}" />
-<link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.min.css') }}" />
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-
-<title>@yield('title')</title>
-@livewireStyles()
+  
+  <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2-bootstrap-4.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.css') }}" />
+  <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.min.css') }}" />
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @livewireStyles()
 </head>
 
 <body style='background-color: white;'>
@@ -64,36 +60,12 @@
 <script src="{{ asset('dashboard/assets/vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/main.js') }}"></script>
 @livewireScripts()
-@stack('auth')
-@stack('scripts')
-@stack('user-component-scripts')
-@stack('access-level-script')
-@stack('side-bar-scripts')
-
-<script src="{{ asset('dashboard/assets/js/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ asset('dashboard/assets/js/jquery-mask.js') }}"></script>
-<script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
-<script src="{{ asset('dashboard/assets/select2/js/select2.js') }}"></script>
-<script src="{{ asset('dashboard/assets/select2/js/select2-portuguese.js') }}"></script>
-
-<script src="{{ asset('dashboard/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ asset('dashboard/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('dashboard/assets/vendor/chart.js/chart.umd.js') }}"></script>
-<script src="{{ asset('dashboard/assets/vendor/echarts/echarts.min.js') }}"></script>
-<script src="{{ asset('dashboard/assets/vendor/quill/quill.js') }}"></script>
-<script src="{{ asset('dashboard/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-<script src="{{ asset('dashboard/assets/vendor/tinymce/tinymce.min.js') }}"></script>
-<script src="{{ asset('dashboard/assets/js/main.js') }}"></script>
-
-@livewireScripts()
 
 @stack('scripts')
 @stack('user-component-scripts')
 @stack('access-level-script')
 @stack('side-bar-scripts')
 @stack('user-prifile-scripts')
-
-
 
 </body>
 </html>

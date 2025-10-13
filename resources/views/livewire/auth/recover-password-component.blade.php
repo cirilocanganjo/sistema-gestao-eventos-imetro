@@ -119,8 +119,10 @@
         //  document.addEventListener("DOMContentLoaded", togglePasswordVisibility, toggleConfirmPasswordVisibility); 
           document.addEventListener("livewire:navigated", () => {
           if (typeof togglePasswordVisibility === "function" && toggleConfirmPasswordVisibility === "function") {
-                    togglePasswordVisibility();
-                    toggleConfirmPasswordVisibility();
+                   setTimeout(() => {
+                        togglePasswordVisibility();
+                        toggleConfirmPasswordVisibility();                    
+                }, 100);
                 }
             });
     </script>    
