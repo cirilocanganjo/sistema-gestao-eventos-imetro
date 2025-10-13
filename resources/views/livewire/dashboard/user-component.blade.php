@@ -60,7 +60,7 @@
                                       <td>{{ $user->user_name ?? '' }}</td>
                                       <td>{{ $user->email ?? '' }}</td>
                                       <td class='text-center'>{{ $user->userType->type ?? '' }}</td>
-                                      <td  style="text-align: justify; width: 350px;word-break: break-word; overflow-wrap: break-word; white-space: normal;" class='text-center'>{{ $user->visitorForVisitorType->visitorType->type ?? '' }}</td>
+                                      <td  style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;" class='text-center'>{{ $user->visitorForVisitorType->visitorType->type ?? '' }}</td>
                                       <td>{{ $user->status === 'active' ? 'ativo' : 'inativo' }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>

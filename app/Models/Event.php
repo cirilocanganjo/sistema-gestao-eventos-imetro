@@ -20,7 +20,7 @@ class Event extends Model
         'user_id'
     ];
 
-    public function event_category () {
+    public function eventCategory () {
         return $this->belongsTo(EventCategory::class);
     }
 
