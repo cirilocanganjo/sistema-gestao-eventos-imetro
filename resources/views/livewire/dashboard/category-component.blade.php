@@ -41,12 +41,12 @@
                                        <td>{{ $category->user->user_name }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button wire:click="edit('{{ $category->uuid }}')" wire:key='{{ $key }}' data-bs-target='#form-event-category' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
+                                            <button wire:key='{{ $key }}'  wire:click="edit('{{ $category->uuid }}')" data-bs-target='#form-event-category' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>
 
-                                            <button wire:key='{{ $key }}' class='d-flex gap-1 btn btn-sm btn-danger'>
+                                            <button wire:key='{{ $key }}'  wire:click="delete('{{ $category->uuid }}')" class='d-flex gap-1 btn btn-sm btn-danger'>
                                               <i class='ri-delete-bin-4-line'></i>
                                               <span>Eliminar</span>
                                             </button>
