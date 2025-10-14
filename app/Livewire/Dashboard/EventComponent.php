@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 
-use \App\Models\{Event};
+use \App\Models\{Event, EventCategory};
 use Carbon\Carbon;
 use Exception;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
@@ -22,6 +22,7 @@ class EventComponent extends Component
     {
         return view('livewire.dashboard.event-component',[
             'data' =>$this->getEvents(),
+            'categories' =>$this->getEventCategories()
         ]);
     }
 
@@ -46,6 +47,21 @@ class EventComponent extends Component
             //code...
         } catch (\Throwable $th) {
             //throw $th;
+        }
+    }
+
+    public function getEventCategories () {
+        try {
+            return EventCategory::select('uuid', 'category')->get();
+        } catch (\Throwable $th) {
+             LivewireAlert::title('Erro')
+             ->text('erro: ' .$th->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
+             return collect([]);
         }
     }
 

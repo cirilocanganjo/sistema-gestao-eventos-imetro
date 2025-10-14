@@ -10,9 +10,11 @@ class Event extends Model
     use HasUuids;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $keyType = 'string';  
+    protected $keyType = 'string';
     protected $fillable = [
         'event_name',
+        'event_date',
+        'event_time',
         'event_description',
         'event_highlighted',
         'event_category_uuid',

@@ -74,24 +74,3 @@
 </div>
 
 
-@push('user-component-scripts')
-<script>
-document.addcategoryListener('livewire:initialized', () => {
-    const fullName = document.getElementById('name');
-    const email = document.getElementById('email'); // supondo que exista este campo
-    const buttonAdd = document.getElementById('button-add');
-
-    if (buttonAdd) {
-        buttonAdd.addcategoryListener('click', () => {  //Clean inputs when button add is clicked
-            fullName.value = '';
-            email.value = '';
-        });
-    }
-
-    Livewire.on('edit-user', ({ user }) => {  //Receive Livewire data and fill the form
-        fullName ? fullName.value = user.user_name : '';
-        email ? email.value = user.email : '';
-    });
-});
-</script>
-@endpush

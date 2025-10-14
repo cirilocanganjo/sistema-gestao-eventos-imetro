@@ -5,7 +5,7 @@
   <x-dashboard.side-bar />
 
          <main id="main" class="main">
-            <x-dashboard.modal-event />
+            <x-dashboard.modal-event :categories="$categories ?? [] " />
                   <div class='card'>
                       <div class='card-header'>
                         <h5>Eventos</h5>
@@ -84,24 +84,4 @@
 </div>
 
 
-@push('user-component-scripts')
-<script>
-document.addEventListener('livewire:initialized', () => {
-    const fullName = document.getElementById('name');
-    const email = document.getElementById('email'); // supondo que exista este campo
-    const buttonAdd = document.getElementById('button-add');
 
-    if (buttonAdd) {
-        buttonAdd.addEventListener('click', () => {  //Clean inputs when button add is clicked
-            fullName.value = '';
-            email.value = '';
-        });
-    }
-
-    Livewire.on('edit-user', ({ user }) => {  //Receive Livewire data and fill the form
-        fullName ? fullName.value = user.user_name : '';
-        email ? email.value = user.email : '';
-    });
-});
-</script>
-@endpush
