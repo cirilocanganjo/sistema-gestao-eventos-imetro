@@ -21,7 +21,7 @@
   <link href="{{ asset('dashboard/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('dashboard/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('dashboard/assets/css/style.css') }}" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2-bootstrap-4.min.css') }}" />
   <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.css') }}" />
   <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2.min.css') }}" />
@@ -66,6 +66,6 @@
 @stack('access-level-script')
 @stack('side-bar-scripts')
 @stack('user-prifile-scripts')
-
+@stack('events')
 </body>
 </html>
