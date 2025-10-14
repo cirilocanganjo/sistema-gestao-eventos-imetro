@@ -1,4 +1,4 @@
-@section('title', 'Eventos')
+@section('title', 'Categorias')
 <div>
 
  <x-dashboard.top-bar />
