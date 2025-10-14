@@ -5,7 +5,7 @@
   <x-dashboard.side-bar />
 
          <main id="main" class="main">
-            <x-dashboard.modal-event-category />
+            <x-dashboard.modal-event-category :status="$status ?? false " />
                   <div class='card'>
                       <div class='card-header'>
                         <h5>categoryos</h5>
@@ -24,7 +24,7 @@
 
                         <div class='table-responsive'>
                           <table class='table table-hover'>
-                            <thead class='text-center'>
+                            <thead class=''>
                               <tr>
                                   <th>Data</th>
                                   <th>Categoria</th>
@@ -32,7 +32,7 @@
                                   <th>Opções</th>
                               </tr>
                             </thead>
-                            <tbody class="text-center">
+                            <tbody class="">
                               @if (isset($data) and $data->count() > 0)
                                 @foreach ($data as $key => $category)
                                   <tr>
@@ -41,7 +41,7 @@
                                        <td>{{ $category->user->user_name }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button wire:click='edit({{ $category->uuid }})' wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
+                                            <button wire:click="edit('{{ $category->uuid }}')" wire:key='{{ $key }}' data-bs-target='#form-event-category' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>

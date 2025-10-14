@@ -7,10 +7,11 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use \App\Models\{EventCategory};
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CategoryComponent extends Component
 {
-    public $category,$status,$searcher, $startdate,$enddate;
+    public $uuid,$category,$category_event,$status,$searcher, $startdate,$enddate;
 
     public function mount() {
         $this->status = false;
@@ -33,8 +34,24 @@ class CategoryComponent extends Component
     ]);
 
     try {
+      DB::beginTransaction();
+       $createdCategory = EventCategory::create([
+            'category' =>$this->pull('category'),
+            'user_id' =>auth()->user()->id
+        ]);
+        DB::commit();
+
+        if ($createdCategory) {
+            LivewireAlert::title('Sucesso')
+              ->text("Categoria cadastrada com sucesso!")
+              ->success()
+              ->withConfirmButton()
+              ->confirmButtonText('Fechar')
+              ->show();
+        }
 
     } catch (\Throwable $th) {
+        DB::rollback();
          LivewireAlert::title('Erro')
              ->text('erro: ' .$th->getmessage())
              ->error()
@@ -47,8 +64,22 @@ class CategoryComponent extends Component
 
   }
 
-    public function edit () {
-
+    public function edit (string $uuid) {
+        try {
+           $this->uuid = $uuid;
+           $this->status = true;
+           $this->category_event = EventCategory::find($uuid);
+           $this->category = $this->category_event->category;
+        } catch (\Throwable $th) {
+          LivewireAlert::title('Erro')
+             ->text('erro: ' .$th->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
+             return collect([]);
+        }
     }
 
     public function update () {
@@ -80,18 +111,9 @@ class CategoryComponent extends Component
         }
     }
 
-    publIC function close () {
-        try {
-            //code...
-        } catch (\Throwable $th) {
-            LivewireAlert::title('Erro')
-             ->text('erro: ' .$th->getmessage())
-             ->error()
-             ->withConfirmButton()
-             ->timer(0)
-             ->confirmButtonText('Fechar')
-             ->show();
-             return collect([]);
-        }
+    public function close() {
+        $this->status = false;
+        $this->reset(['category']);
     }
+
 }
