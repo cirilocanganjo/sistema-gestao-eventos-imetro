@@ -10,6 +10,10 @@ class EventCategory extends Model
     use HasUuids;
     protected $primaryKey = 'uuid';
     public $incrementing = false;
-    protected $keyType = 'string';    
-    protected $fillable = ['category'];
+    protected $keyType = 'string';
+    protected $fillable = ['category', 'user_id'];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

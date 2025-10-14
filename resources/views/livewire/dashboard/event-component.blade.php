@@ -17,7 +17,7 @@
                             <i class='ri-add-line'></i>
                             <span>Adicionar</span>
                           </button>
-                          <input wire:model.live='searcher' type='text' placeholder="Pesquisar utilizador" class='form-control px-2 py-2' />
+                          <input wire:model.live='searcher' type='text' placeholder="Pesquisar evento" class='form-control px-2 py-2' />
                           <input wire:model.live='startdate' type='date'  class='form-control px-2 py-2' />
                           <input wire:model.live='enddate' type='date' class='form-control px-2 py-2' />
                       </div>
