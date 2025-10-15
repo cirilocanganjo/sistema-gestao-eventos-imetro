@@ -83,32 +83,16 @@
 
 </div>
 
-@push("events")
+@push('events')
 <script>
-//document.addEventListener("livewire:initialized", () => {
-    $('#close-modal').on('click', function () {
-    const modal = $('#form-event'); // o ID da tua modal
-
-    // Fecha a modal se ainda estiver aberta
-    const bsModal = bootstrap.Modal.getInstance(modal[0]);
-    if (bsModal) {
-        bsModal.hide();
-    }
-
-    // Aguarda a animação de fade-out (150ms) e depois remove do DOM
-    setTimeout(() => {
-        modal.remove(); // 🔥 remove completamente o elemento do DOM
-        $('.modal-backdrop').remove(); // remove qualquer fundo transparente restante
-        $('body').removeClass('modal-open').css({ overflow: '', paddingRight: '' });
-    }, 200); // espera um pouco para garantir que a animação terminou
+    document.addEventListener('livewire:initialized', () => {
+    Livewire.on('event-created', () => {
+      const eventPhoto = document.getElementById('event_photo');
+      if (eventPhoto) eventPhoto.value = '';
+    });
 });
-
-//});
-
 </script>
-
 @endpush
-
 
 
 

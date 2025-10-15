@@ -1,5 +1,5 @@
 @props(['categories' => [], 'status' => false])
-<div wire:ignore.self class="modal fade" id="form-event"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="form-event" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content bg-white">
         <div class="modal-header">
@@ -11,13 +11,13 @@
             <div class="gap-1">
                       <div  class='form-group'>
                         <label class='form-label'>Nome do evento:</label>
-                        <input wire:model='event_name' type='text' class='form-control rounded' />
+                        <input wire:model='event_name' placeholder="Digite o nome do evento" type='text' class='form-control rounded' />
                         @error("event_name") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
 
                       <div  class='form-group'>
                         <label class='form-label'>Categoria:</label>
-                        <select class='form-select'>
+                        <select wire:model='event_category' class='form-select'>
                             <option value="">Selecionar</option>
                             @if (isset($categories))
                             @foreach ($categories as $key => $category )
@@ -25,7 +25,7 @@
                             @endforeach
                             @endif
                         </select>
-                        @error("category") <span class='text-danger'>{{ $message }}</span> @enderror
+                        @error("event_category") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
 
                        <div  class='form-group'>
@@ -48,8 +48,8 @@
 
                         <div  class='form-group'>
                         <label class='form-label'>Foto:</label>
-                        <input wire:model='photo' type='file' class='form-control rounded' />
-                        @error("photo") <span class='text-danger'>{{ $message }}</span> @enderror
+                        <input id='event_photo' wire:model='event_photo' type='file' class='form-control rounded' />
+                        @error("event_photo") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
              </div>
 
