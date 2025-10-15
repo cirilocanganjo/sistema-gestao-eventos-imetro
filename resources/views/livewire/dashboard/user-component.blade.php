@@ -43,9 +43,9 @@
                                   <tr>
                                       <td>
                                     
-                                       @if (!isset($user->userPersonalData->photo))
+                                       @if (!$user->userPersonalData->photo)
                                              @if($user->userPersonalData->gender === 'male')
-                                              <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}" />
+                                              <img style="height:45px; width: 50px;" class='rounded' src="{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}" />
                                               @elseif ($user->userPersonalData->gender === 'female')
                                               <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}" />
                                               @endif
