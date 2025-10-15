@@ -5,7 +5,7 @@
   <x-dashboard.side-bar />
 
          <main id="main" class="main">
-            <x-dashboard.modal-event :categories="$categories ?? [] " />
+            <x-dashboard.modal-event :status="$status ?? false" :categories="$categories ?? [] " />
             <x-dashboard.modal-event-photo :eventName="$eventName" :eventCoverPhoto="$eventCoverPhoto" />
 
                   <div class='card'>
@@ -53,17 +53,17 @@
                                        <td>{{ $event->user->user_name }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button wire:click="highlightEvent('{{ $event->uuid }}')" wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn {{ $event->event_highlighted ? ' btn-warning' : ' btn-secondary'}} btn-sm'>
+                                            <button wire:click="highlightEvent('{{ $event->uuid }}')" wire:key='{{ $key }}' class='d-flex gap-1 btn {{ $event->event_highlighted ? ' btn-warning' : ' btn-secondary'}} btn-sm'>
                                             <i class='ri-pushpin-line'></i>
                                             <span>{{ $event->event_highlighted ? 'Destacado' : 'Destacar'}}</span>
                                             </button>
 
-                                            <button wire:click='edit({{ $event->uuid }})' wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
+                                            <button wire:click="edit('{{ $event->uuid }}')"  wire:key='event-{{$key}}' data-bs-target='#form-event' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>
 
-                                            <button wire:key='{{ $key }}' class='d-flex gap-1 btn btn-sm btn-danger'>
+                                            <button wire:click="delete('{{ $event->uuid }}')"  wire:key='event-{{$key}}'  class='d-flex gap-1 btn btn-sm btn-danger'>
                                               <i class='ri-delete-bin-4-line'></i>
                                               <span>Eliminar</span>
                                             </button>
