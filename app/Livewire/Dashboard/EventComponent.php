@@ -15,7 +15,8 @@ use Livewire\WithFileUploads;
 class EventComponent extends Component
 {
     use WithFileUploads;
-    public $event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
+    public $uuid,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
+    protected $listeners = ['confirmHighlightEvent'];
 
     public function mount () {
         $this->status = false;
@@ -57,6 +58,12 @@ class EventComponent extends Component
              $this->event_photo->storeAs("imgs", $this->fileName, 'public');
             }
 
+            $alreadyStoredEventWithTimeAndDateToday = Event::query()->where('event_date', $this->event_date)
+            ->where('event_time', $this->event_time)
+            ->whereDate('event_date', Carbon::now()->toDateString())
+            ->whereYear('created_at', Carbon::now()->year) 
+            ->first();
+
             if (Carbon::parse($this->event_date)->year < Carbon::now()->year) {
                 LivewireAlert::title('Atenção!')
                  ->html("<div>O <strong>ano</strong> do evento não pode ser inferior ao ano atual.</div>")
@@ -67,6 +74,18 @@ class EventComponent extends Component
                  ->confirmButtonText('Fechar')
                  ->show();
                  return;
+
+            }else if ($alreadyStoredEventWithTimeAndDateToday) {
+
+                LivewireAlert::title('Atenção!')
+                 ->html("<div>Já existe um evento cadastrado com a <strong>data</strong> e <strong>hora</strong> informadas para o dia de hoje,tente novamente outra!</div>")
+                 ->warning()
+                 ->withConfirmButton()
+                 ->timer(0)
+                 ->withOptions(['allowOutsideClick' => false])
+                 ->confirmButtonText('Fechar')
+                 ->show();
+
             }else {
                 $event = Event::create([
                     'event_name' => $this->event_name,
@@ -150,7 +169,8 @@ class EventComponent extends Component
                  Carbon::parse($this->startdate)->startOfDay(),
                  Carbon::parse($this->enddate)->endOfDay()
                 ])
-            )->get();
+            )->orderBy('created_at', 'DESC')
+            ->get();
 
         } catch (Exception $e) {
          LivewireAlert::title('Erro')
@@ -166,7 +186,7 @@ class EventComponent extends Component
 
     public function close () {
         try {
-            //code...
+        $this->reset(['event_category','event_date','event_time','event_description','event_photo','fileName','event_name']);
         } catch (\Throwable $th) {
             LivewireAlert::title('Erro')
              ->text('erro: ' .$th->getmessage())
@@ -185,6 +205,69 @@ class EventComponent extends Component
             $this->eventCoverPhoto = $event->event_cover_photo;
         } catch (\Throwable $th) {
            LivewireAlert::title('Erro')
+             ->text('erro: ' .$th->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
+        }
+    }
+
+    public function highlightEvent ($uuid) {
+        try {
+            $this->uuid = $uuid;
+            LivewireAlert::title('Atenção')
+            ->text('Deseja destacar, este evento?')
+            ->warning()
+            ->withDenyButton()
+            ->withConfirmButton()
+            ->confirmButtonText('Sim, confirmar')
+            ->denyButtonText('Não, cancelar')
+            ->withOptions(['allowOutsideClick' => false])
+            ->timer(0)
+            ->onConfirm('confirmHighlightEvent')
+            ->show();
+
+        } catch (\Throwable $th) {
+          LivewireAlert::title('Erro')
+             ->text('erro: ' .$th->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
+        }
+    }
+
+    public function confirmHighlightEvent () {
+        try {
+           $alreadyExistsHighlightedEvent = Event::query()->where('uuid', $this->uuid)->where('event_highlighted',true)->first();
+
+           /*if ($alreadyExistsHighlightedEvent) {
+                LivewireAlert::title('Atenção')
+                 ->html('<div>
+                        Já nao pode destacar este evento, apenas 1 evento de cada vez é permitido!
+                        </div>
+                 '
+                 )
+                 ->warning()
+                 ->withConfirmButton()
+                 ->timer(0)
+                 ->confirmButtonText('Fechar')
+                 ->show();
+                }else {
+                }
+             */
+
+                $event = Event::query()->where('uuid', $this->uuid)->update([
+                    'event_highlighted' => DB::raw('NOT event_highlighted')  //Toggle boolean value if true set to false and vice versa
+                ]);
+
+
+
+        } catch (\Throwable $th) {
+          LivewireAlert::title('Erro')
              ->text('erro: ' .$th->getmessage())
              ->error()
              ->withConfirmButton()

@@ -29,8 +29,9 @@
                             <thead>
                               <tr>
                                   <th>Foto</th>
-                                  <th>Data</th>
                                   <th>Nome do evento</th>
+                                  <th  class='text-center'>Data</th>
+                                  <th  class='text-center'>Hora</th>
                                   <th>Descrição</th>
                                   <th class='text-center'>Categoria</th>
                                   <th>Utilizador</th>
@@ -44,14 +45,15 @@
                                       <td>
                                         <img wire:click="showEventCoverPhoto('{{ $event->uuid }}')"  data-bs-target='#event-photo-detail' data-bs-toggle='modal' style="height:50px; width: 60px;" class=' rounded' src="{{ asset('storage/imgs/' . $event->event_cover_photo) }}" />
                                       </td>
-                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->created_at }}</td>
-                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_name }}</td>
+                                     <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_name }}</td>
+                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_date }}</td>
+                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_time }}</td>
                                       <td style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
                                        <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->eventCategory->category }}</td>
                                        <td>{{ $event->user->user_name }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button wire:click='edit({{ $event->uuid }})' wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn {{ $event->event_highlighted ? ' btn-warning' : ' btn-secondary'}} btn-sm'>
+                                            <button wire:click="highlightEvent('{{ $event->uuid }}')" wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn {{ $event->event_highlighted ? ' btn-warning' : ' btn-secondary'}} btn-sm'>
                                             <i class='ri-pushpin-line'></i>
                                             <span>{{ $event->event_highlighted ? 'Destacado' : 'Destacar'}}</span>
                                             </button>
