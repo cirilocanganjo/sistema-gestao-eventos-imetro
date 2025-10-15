@@ -15,7 +15,7 @@ use Livewire\WithFileUploads;
 class EventComponent extends Component
 {
     use WithFileUploads;
-    public $event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate;
+    public $event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
 
     public function mount () {
         $this->status = false;
@@ -57,16 +57,28 @@ class EventComponent extends Component
              $this->event_photo->storeAs("imgs", $this->fileName, 'public');
             }
 
-            $event = Event::create([
-                'event_name' => $this->event_name,
-                'event_category_uuid' => $this->event_category,
-                'event_date' => $this->event_date,
-                'event_time' => $this->event_time,
-                'event_description' => $this->event_description,
-                'event_cover_photo' => $this->fileName ?? null,
-                'user_id' => auth()->user()->id,
-            ]);
-            DB::commit();
+            if (Carbon::parse($this->event_date)->year < Carbon::now()->year) {
+                LivewireAlert::title('Atenção!')
+                 ->html("<div>O <strong>ano</strong> do evento não pode ser inferior ao ano atual.</div>")
+                 ->warning()
+                 ->withConfirmButton()
+                 ->timer(0)
+                 ->withOptions(['allowOutsideClick' => false])
+                 ->confirmButtonText('Fechar')
+                 ->show();
+                 return;
+            }else {
+                $event = Event::create([
+                    'event_name' => $this->event_name,
+                    'event_category_uuid' => $this->event_category,
+                    'event_date' => $this->event_date,
+                    'event_time' => $this->event_time,
+                    'event_description' => $this->event_description,
+                    'event_cover_photo' => $this->fileName ?? null,
+                    'user_id' => auth()->user()->id,
+                ]);
+                DB::commit();
+            }
             if ($event) {
                 $this->reset(['event_category','event_date','event_time','event_description','event_photo','fileName','event_name']);
                 $this->status = false;
@@ -163,7 +175,22 @@ class EventComponent extends Component
              ->timer(0)
              ->confirmButtonText('Fechar')
              ->show();
-             return collect([]);
+        }
+    }
+
+    public function showEventCoverPhoto (string $eventUuid) {
+        try {
+            $event = Event::query()->where('uuid', $eventUuid)->first();
+            $this->eventName = $event->event_name;
+            $this->eventCoverPhoto = $event->event_cover_photo;
+        } catch (\Throwable $th) {
+           LivewireAlert::title('Erro')
+             ->text('erro: ' .$th->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+             ->show();
         }
     }
 }

@@ -6,6 +6,8 @@
 
          <main id="main" class="main">
             <x-dashboard.modal-event :categories="$categories ?? [] " />
+            <x-dashboard.modal-event-photo :eventName="$eventName" :eventCoverPhoto="$eventCoverPhoto" />
+
                   <div class='card'>
                       <div class='card-header'>
                         <h5>Eventos</h5>
@@ -24,14 +26,13 @@
 
                         <div class='table-responsive'>
                           <table class='table table-hover'>
-                            <thead class='text-center'>
+                            <thead>
                               <tr>
                                   <th>Foto</th>
                                   <th>Data</th>
                                   <th>Nome do evento</th>
                                   <th>Descrição</th>
-                                  <th>Em destaque</th>
-                                  <th>Categoria</th>
+                                  <th class='text-center'>Categoria</th>
                                   <th>Utilizador</th>
                                   <th>Opções</th>
                               </tr>
@@ -41,16 +42,20 @@
                                 @foreach ($data as $key => $event)
                                   <tr>
                                       <td>
-                                        <img style="width: 60px;" class='img-fluid rounded' src="{{ asset('storage/imgs/' . $event->event_cover_photo) }}" />
+                                        <img wire:click="showEventCoverPhoto('{{ $event->uuid }}')"  data-bs-target='#event-photo-detail' data-bs-toggle='modal' style="height:50px; width: 60px;" class=' rounded' src="{{ asset('storage/imgs/' . $event->event_cover_photo) }}" />
                                       </td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->created_at }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_name }}</td>
                                       <td style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
-                                       <td>{{ $event->event_highlighted }}</td>
-                                       <td>{{ $event->eventCategory->category }}</td>
+                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->eventCategory->category }}</td>
                                        <td>{{ $event->user->user_name }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
+                                            <button wire:click='edit({{ $event->uuid }})' wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn {{ $event->event_highlighted ? ' btn-warning' : ' btn-secondary'}} btn-sm'>
+                                            <i class='ri-pushpin-line'></i>
+                                            <span>{{ $event->event_highlighted ? 'Destacado' : 'Destacar'}}</span>
+                                            </button>
+
                                             <button wire:click='edit({{ $event->uuid }})' wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
