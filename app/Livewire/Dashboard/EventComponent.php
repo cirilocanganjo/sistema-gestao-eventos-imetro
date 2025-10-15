@@ -136,9 +136,52 @@ class EventComponent extends Component
 
     public function update () {
         try {
-            //code...
+            DB::beginTransaction();       
+            $old_event_cover_photo = Event::query()->where('uuid', $this->uuid)->value('event_cover_photo');
+
+            if ($this->event_photo and $this->event_photo->isValid()) {
+             $this->fileName = md5($this->event_photo->getClientOriginalName() .now()). '.' .$this->event_photo->getClientOriginalExtension();
+             $this->event_photo->storeAs("imgs", $this->fileName, 'public');
+            
+               if (Storage::disk('public')->exists('imgs/' . $old_event_cover_photo)) { //Remove photo from storage if it exists there
+                Storage::disk('public')->delete('imgs/' . $old_event_cover_photo);
+                }
+            }
+
+            $event = Event::query()->where('uuid', $this->uuid)->update([
+                'event_name' => $this->event_name,
+                'event_category_uuid' => $this->event_category,
+                'event_date' => $this->event_date,
+                'event_time' => $this->event_time,
+                'event_cover_photo' => $this->fileName ?? $old_event_cover_photo,
+                'event_description' => $this->event_description,
+                'user_id' => auth()->user()->id,
+            ]);
+            DB::commit();
+
+            if ($event >= 1) {
+                $this->status = false;
+                LivewireAlert::title('Sucesso')
+                ->text('Evento atualizado com sucesso!')
+                ->success()
+                ->withConfirmButton()
+                ->timer(0)
+                ->confirmButtonText('Fechar')
+                ->show();
+
+            }
         } catch (\Throwable $th) {
-            //throw $th;
+        if (Storage::disk('public')->exists('imgs/' . $this->fileName)) { //Remove photo from storage if it exists there
+            Storage::disk('public')->delete('imgs/' . $this->fileName);
+         }
+
+          LivewireAlert::title('Erro')
+         ->text('erro: ' .$th->getmessage())
+         ->error()
+         ->withConfirmButton()
+         ->timer(0)
+         ->confirmButtonText('Fechar')
+         ->show();
         }
     }
 
