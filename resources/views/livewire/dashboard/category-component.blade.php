@@ -13,7 +13,7 @@
 
                       <div class='card-body'>
                       <div class='d-flex align-items-center gap-1 mt-3 mb-3'>
-                          <button id='button-add' data-bs-target='#form-event-category' data-bs-toggle='modal' class='btn btn-dark d-flex px-2 py-2'>
+                          <button id='button-add'  class='btn btn-dark d-flex px-2 py-2'>
                             <i class='ri-add-line'></i>
                             <span>Adicionar</span>
                           </button>
@@ -41,7 +41,10 @@
                                        <td>{{ $category->user->user_name ?? '' }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button id='button-edit' wire:key='{{ $key }}'  wire:click="edit('{{ $category->uuid }}')" data-bs-target='#form-event-category' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
+                                            <button  wire:key='{{ $key }}'  
+                                            wire:click="edit('{{ $category->uuid }}')"   
+                                            data-uuid="{{ $category->uuid }}"                                          
+                                            class='button-edit d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>
@@ -74,37 +77,69 @@
 </div>
 
 @push('categories')
-     <script>       
-        let category = document.getElementById('modal');
-        buttonAdd = document.getElementById('button-add');
-        buttonEdit = document.getElementById('button-edit');
-
-        buttonAdd.addEventListener('click', () => {
-            openModal();
-        });
-
-        buttonEdit.addEventListener('click', () => {
-            openModal();
-        });
-
-        function openModal() {
-            const modal = document.getElementById('modal');
-            modal.style.display = 'flex';
-            modal.classList.add('fade-in');
-        }
+<script>
+    // Função para inicializar os event listeners
+    function initializeEventListeners() {
+        // Selecionar o botão de adicionar
+        const buttonAdd = document.getElementById('button-add');
         
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            category.value = '';
-            modal.style.display = 'none';
-            modal.classList.remove('fade-in');           
+        // Selecionar todos os botões de edição
+        const buttonsEdit = document.querySelectorAll('.button-edit');
+
+        // Remover event listeners antigos para evitar duplicatas
+        if (buttonAdd) {
+            const newButtonAdd = buttonAdd.cloneNode(true); // Clonar para remover listeners
+            buttonAdd.parentNode.replaceChild(newButtonAdd, buttonAdd);
+            
+            // Adicionar evento ao botão de adicionar
+            newButtonAdd.addEventListener('click', () => {
+                openModal();
+            });
         }
 
-        document.addEventListener('keydown', function(event) { // Avoid closing with the Esc key
+        // Adicionar evento a cada botão de edição
+        buttonsEdit.forEach(button => {
+            const newButton = button.cloneNode(true); // Clonar para remover listeners
+            button.parentNode.replaceChild(newButton, button);
+            newButton.addEventListener('click', () => {
+                const uuid = newButton.getAttribute('data-uuid'); // Obter o UUID do botão clicado
+                openModal(uuid); // Passar o UUID para a função openModal
+            });
+        });
+
+        // Evitar fechar com a tecla Esc
+        const handleEscape = function(event) {
             if (event.key === 'Escape') {
                 event.preventDefault();
             }
-        });
+        };
+        // Remover listener antigo do keydown
+        document.removeEventListener('keydown', handleEscape);
+        document.addEventListener('keydown', handleEscape);
+    }
 
-    </script>
+    // Função para abrir o modal
+    function openModal(uuid = null) {
+        const modal = document.getElementById('modal');
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('fade-in');            
+        }
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('fade-in');
+        }
+    }
+
+    // Inicializar os eventos no carregamento inicial
+    document.addEventListener('DOMContentLoaded', initializeEventListeners);
+
+    // Reinicializar os eventos após navegação com wire:navigate
+    document.addEventListener('livewire:navigated', initializeEventListeners);
+</script>
 @endpush

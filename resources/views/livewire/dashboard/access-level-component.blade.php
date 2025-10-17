@@ -76,43 +76,69 @@
 
 @push('access-levels')
 <script>
-    // Selecionar o botão de adicionar
-    const buttonAdd = document.getElementById('button-add');
+    // Função para inicializar os event listeners
+    function initializeEventListeners() {
+        // Selecionar o botão de adicionar
+        const buttonAdd = document.getElementById('button-add');
+        
+        // Selecionar todos os botões de edição
+        const buttonsEdit = document.querySelectorAll('.button-edit');
 
-    // Selecionar todos os botões de edição
-    const buttonsEdit = document.querySelectorAll('.button-edit');
+        // Remover event listeners antigos para evitar duplicatas
+        if (buttonAdd) {
+            const newButtonAdd = buttonAdd.cloneNode(true); // Clonar para remover listeners
+            buttonAdd.parentNode.replaceChild(newButtonAdd, buttonAdd);
+            
+            // Adicionar evento ao botão de adicionar
+            newButtonAdd.addEventListener('click', () => {
+                openModal();
+            });
+        }
 
-    // Adicionar evento ao botão de adicionar
-    buttonAdd.addEventListener('click', () => {
-        openModal();
-    });
-
-    // Adicionar evento a cada botão de edição
-    buttonsEdit.forEach(button => {
-        button.addEventListener('click', () => {
-            const uuid = button.getAttribute('data-uuid'); // Obter o UUID do botão clicado
-            openModal(uuid); // Passar o UUID para a função openModal
+        // Adicionar evento a cada botão de edição
+        buttonsEdit.forEach(button => {
+            const newButton = button.cloneNode(true); // Clonar para remover listeners
+            button.parentNode.replaceChild(newButton, button);
+            newButton.addEventListener('click', () => {
+                const uuid = newButton.getAttribute('data-uuid'); // Obter o UUID do botão clicado
+                openModal(uuid); // Passar o UUID para a função openModal
+            });
         });
-    });
 
+        // Evitar fechar com a tecla Esc
+        const handleEscape = function(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+            }
+        };
+        // Remover listener antigo do keydown
+        document.removeEventListener('keydown', handleEscape);
+        document.addEventListener('keydown', handleEscape);
+    }
+
+    // Função para abrir o modal
     function openModal(uuid = null) {
         const modal = document.getElementById('modal');
-        modal.style.display = 'flex';
-        modal.classList.add('fade-in');      
-       
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('fade-in');            
+        }
     }
 
+    // Função para fechar o modal
     function closeModal() {
         const modal = document.getElementById('modal');
-        modal.style.display = 'none';
-        modal.classList.remove('fade-in');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('fade-in');
+        }
     }
 
-    // Evitar fechar com a tecla Esc
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            event.preventDefault();
-        }
-    });
+    // Inicializar os eventos no carregamento inicial
+    document.addEventListener('DOMContentLoaded', initializeEventListeners);
+
+    // Reinicializar os eventos após navegação com wire:navigate
+    document.addEventListener('livewire:navigated', initializeEventListeners);
 </script>
+
 @endpush
