@@ -9,13 +9,13 @@
             <div class="gap-1">
                       <div  class='form-group'>
                         <label class='form-label'>Nome do evento:</label>
-                        <input wire:model='event_name' placeholder="Digite o nome do evento" type='text' class='form-control rounded' />
+                        <input wire:model='event_name' placeholder="Digite o nome do evento" type='text' class='px-2 py-2 form-control rounded' />
                         @error("event_name") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
 
                       <div  class='form-group'>
                         <label class='form-label'>Categoria:</label>
-                        <select wire:model='event_category' class='form-select'>
+                        <select wire:model='event_category' class='px-2 py-2 form-select'>
                             <option value="">Selecionar</option>
                             @if (isset($categories))
                             @foreach ($categories as $key => $category )
@@ -28,13 +28,13 @@
 
                        <div  class='form-group'>
                         <label class='form-label'>Data do evento:</label>
-                        <input wire:model='event_date' type='date' class='form-control rounded' />
+                        <input wire:model='event_date' type='date' class='px-2 py-2 form-control rounded' />
                         @error("event_date") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
 
                        <div  class='form-group'>
                         <label class='form-label'>Hora do evento:</label>
-                        <input wire:model="event_time" type="time" class="form-control rounded" step="60" placeholder="hh:mm" />
+                        <input wire:model="event_time" type="time" class="px-2 py-2 form-control rounded" step="60" placeholder="hh:mm" />
                         @error("event_time") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
 
@@ -46,7 +46,7 @@
 
                         <div  class='form-group'>
                         <label class='form-label'>Foto:</label>
-                        <input accept="image/*" id='event_photo' wire:model='event_photo' type='file' class='form-control rounded' />
+                        <input accept="image/*" id='event_photo' wire:model='event_photo' type='file' class='form-control px-2 py-2 rounded' />
                         @error("event_photo") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
              </div>
