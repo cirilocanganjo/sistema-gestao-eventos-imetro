@@ -75,7 +75,7 @@
 
 @push('categories')
      <script>       
-        let category = document.getElementById('category');
+        let category = document.getElementById('modal');
         buttonAdd = document.getElementById('button-add');
         buttonEdit = document.getElementById('button-edit');
 
@@ -88,13 +88,13 @@
         });
 
         function openModal() {
-            const modal = document.getElementById('category-modal');
+            const modal = document.getElementById('modal');
             modal.style.display = 'flex';
             modal.classList.add('fade-in');
         }
         
         function closeModal() {
-            const modal = document.getElementById('category-modal');
+            const modal = document.getElementById('modal');
             category.value = '';
             modal.style.display = 'none';
             modal.classList.remove('fade-in');           
@@ -106,8 +106,5 @@
             }
         });
 
-        //document.addEventListener("DOMContentLoaded",  ); // Se a página for carregada direto (sem navegação Livewire), já renderiza
-        //document.addEventListener("livewire:navigated", () => {           
-       // });
     </script>
 @endpush

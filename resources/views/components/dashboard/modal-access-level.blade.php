@@ -1,34 +1,31 @@
 @props(['status' => false])
-<div wire:ignore.self class="modal fade" id="access-level-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content bg-white">
+<div wire:ignore.self class="modal" id="modal">
+  <x-dashboard.modal-styles />  
+      <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5 text-uppercase"> {{ $status ? 'Editar nivel de acesso' : 'Adicionar nivel de acesso'}} </h1>
-          <button wire:click='close'  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button wire:click='close' class="modal-close" onclick="closeModal()">&times;</button>
         </div>
         <div class="modal-body">
 
             <div class="gap-1">
                       <div  class='form-group'>
                         <label class='form-label'>Nível de acesso:</label>
-                        <input id='access-level' wire:model='access_level' type='text' class='form-control rounded' />
+                        <input id='access-level' wire:model='access_level' type='text' class='form-control px-2 py-2 rounded' />
                         @error("access_level") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
              </div>
 
         </div>
-        <div class="modal-footer border-0">
-          <button wire:click='{{$status ? 'update' : 'store'}}'  class="d-flex btn {{$status ? 'btn-success' : ' btn-primary'}}">
-          <i class='ri-check-line'></i>
+        <div class="d-flex gap-1 p-2 align-items-center justify-content-end">
+          <button wire:click='{{$status ? 'update' : 'store'}}'  class="d-flex btn {{$status ? 'btn-success' : ' btn-primary'}}">         
             {{ $status ? 'Atualizar' : 'Salvar' }}
         </button>
-        <button type="button" class="d-flex btn  btn-danger" data-bs-dismiss="modal">
-          <i class='ri-close-fill'></i>
+        <button type="button" class="d-flex btn  btn-danger" data-bs-dismiss="modal">         
           Fechar
         </button>
         </div>
-
-      </div>
+    
     </div>
   </div>
 

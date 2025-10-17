@@ -68,5 +68,6 @@
 @stack('user-prifile-scripts')
 @stack('events')
 @stack('categories')
+@stack('access-levels')
 </body>
 </html>

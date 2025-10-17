@@ -1,6 +1,6 @@
 @props(['status' => false])
-<div wire:ignore.self  id="category-modal" class="modal">
-       <x-dashboard.modal-styles />
+<div wire:ignore.self  id="modal" class="modal">
+        <x-dashboard.modal-styles />
         <div class="modal-content">
             <div class="modal-header">
                 <h2>{{ $status ? 'Editar Categoria' : 'Adicionar Categoria'}}</h2>
