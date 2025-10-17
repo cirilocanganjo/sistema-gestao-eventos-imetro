@@ -10,14 +10,14 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ Route::current()->getname() == 'dashboard.users' ? 'bg-dark rounded text-light ' : '' }} " href="{{ route('dashboard.users') }}">
+            <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.users' ? 'bg-dark rounded text-light ' : '' }} " href="{{ route('dashboard.users') }}">
                   <i class="ri ri-user-6-line"></i>
                   <span>Utilizadores</span>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ Route::current()->getname() == 'dashboard.access.levels' ? 'bg-dark rounded text-light ' : '' }} " href="{{ route('dashboard.access.levels') }}">
+            <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.access.levels' ? 'bg-dark rounded text-light ' : '' }} " href="{{ route('dashboard.access.levels') }}">
                   <i class="ri-lock-unlock-line"></i>
                   <span>Níveis de acesso</span>
             </a>
@@ -31,7 +31,7 @@
           </li>
 
            <li class="nav-item">
-              <a  class="nav-link {{ Route::current()->getname() == 'dashboard.events' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.events') }}">
+              <a wire:navigate  class="nav-link {{ Route::current()->getname() == 'dashboard.events' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.events') }}">
                     <i class="ri ri-calendar-2-line"></i>
                     <span>Eventos</span>
               </a>
@@ -39,21 +39,21 @@
 
 
            <li class="nav-item">
-              <a class="nav-link {{ Route::current()->getname() == 'dashboard.invitations' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.invitations') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.invitations' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.invitations') }}">
                     <i class="ri ri-notification-2-line"></i>
                     <span>Convites</span>
               </a>
            </li>
 
            <li class="nav-item">
-              <a  class="nav-link {{ Route::current()->getname() == 'dashboard.teachers' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.teachers') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.teachers' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.teachers') }}">
                     <i class="ri ri-contacts-line"></i>
                     <span>Docentes</span>
               </a>
            </li>
 
            <li class="nav-item">
-              <a  class="nav-link {{ Route::current()->getname() == 'dashboard.visitors' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.visitors') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.visitors' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.visitors') }}">
                     <i class="ri ri-group-line"></i>
                     <span>Visitantes</span>
               </a>
