@@ -67,5 +67,6 @@
 @stack('side-bar-scripts')
 @stack('user-prifile-scripts')
 @stack('events')
+@stack('categories')
 </body>
 </html>

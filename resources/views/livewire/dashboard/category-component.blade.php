@@ -4,8 +4,8 @@
  <x-dashboard.top-bar />
   <x-dashboard.side-bar />
 
-         <main id="main" class="main">
-            <x-dashboard.modal-event-category :status="$status ?? false " />
+         <main id="main" class="main">    
+          <x-dashboard.modal-event-category :status="$status ?? false " />        
                   <div class='card'>
                       <div class='card-header'>
                         <h5>categoryos</h5>
@@ -38,10 +38,10 @@
                                   <tr>
                                        <td>{{ $category->created_at }}</td>
                                        <td>{{ $category->category }}</td>
-                                       <td>{{ $category->user->user_name }}</td>
+                                       <td>{{ $category->user->user_name ?? '' }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button wire:key='{{ $key }}'  wire:click="edit('{{ $category->uuid }}')" data-bs-target='#form-event-category' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
+                                            <button id='button-edit' wire:key='{{ $key }}'  wire:click="edit('{{ $category->uuid }}')" data-bs-target='#form-event-category' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>
@@ -73,4 +73,41 @@
 
 </div>
 
+@push('categories')
+     <script>       
+        let category = document.getElementById('category');
+        buttonAdd = document.getElementById('button-add');
+        buttonEdit = document.getElementById('button-edit');
 
+        buttonAdd.addEventListener('click', () => {
+            openModal();
+        });
+
+        buttonEdit.addEventListener('click', () => {
+            openModal();
+        });
+
+        function openModal() {
+            const modal = document.getElementById('category-modal');
+            modal.style.display = 'flex';
+            modal.classList.add('fade-in');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('category-modal');
+            category.value = '';
+            modal.style.display = 'none';
+            modal.classList.remove('fade-in');           
+        }
+
+        document.addEventListener('keydown', function(event) { // Avoid closing with the Esc key
+            if (event.key === 'Escape') {
+                event.preventDefault();
+            }
+        });
+
+        //document.addEventListener("DOMContentLoaded",  ); // Se a página for carregada direto (sem navegação Livewire), já renderiza
+        //document.addEventListener("livewire:navigated", () => {           
+       // });
+    </script>
+@endpush

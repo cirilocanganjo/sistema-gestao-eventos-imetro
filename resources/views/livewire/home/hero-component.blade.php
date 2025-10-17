@@ -1,6 +1,6 @@
-@props(['highlighted_event' => null])
 
-    <section style="background-image: url({{ asset('storage/imgs/' . ($highlighted_event->event_cover_photo ?? null)) }}" id="hero" class="hero section dark-background">
+<div  style="{{ !$highlighted_event ? "margin-bottom: 5rem;" : ''}}" >
+     <section style="background-image: url({{ asset('storage/imgs/' . ($highlighted_event->event_cover_photo ?? null)) }}" id="hero" class="{{ $highlighted_event ? 'd-block' : 'd-none' }} hero section dark-background">
 
       <div class="background-overlay"></div>
 
@@ -88,3 +88,4 @@
       </div>
 
     </section>
+</div>

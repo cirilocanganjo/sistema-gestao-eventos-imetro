@@ -48,7 +48,7 @@
 
                         <div  class='form-group'>
                         <label class='form-label'>Foto:</label>
-                        <input id='event_photo' wire:model='event_photo' type='file' class='form-control rounded' />
+                        <input accept="image/*" id='event_photo' wire:model='event_photo' type='file' class='form-control rounded' />
                         @error("event_photo") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
              </div>

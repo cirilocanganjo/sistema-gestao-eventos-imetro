@@ -24,7 +24,7 @@
           </li>
 
            <li class="nav-item">
-              <a  class="nav-link {{ Route::current()->getname() == 'dashboard.categories' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.categories') }}">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.categories' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.categories') }}">
                     <i class="ri-edit-box-line"></i>
                     <span>Categorias</span>
               </a>

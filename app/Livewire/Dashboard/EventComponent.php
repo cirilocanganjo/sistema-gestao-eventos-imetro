@@ -16,12 +16,16 @@ use Livewire\WithFileUploads;
 class EventComponent extends Component
 {
     use WithFileUploads;
-    public $uuid,$event,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
+    public $uuid,$alreadyExistsHighlightedEvent,$event,$event_status,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
     protected $listeners = ['highlightEvent' => 'confirmHighlightEvent', 'confirmEventDeletion' => 'confirmEventDeletion'];
 
     public function mount () {
         $this->status = false;
     }
+
+    public function boot () {
+        $this->alreadyExistsHighlightedEvent = Event::query()->where('event_highlighted',true)->value('event_highlighted');
+    }        
 
     #[Layout('layouts.dashboard.app')]
     public function render()
@@ -34,22 +38,20 @@ class EventComponent extends Component
 
     public function store () {
         $this->validate([
-            'event_name' => 'required|string|max:255',
-            'event_category' => 'required|exists:event_categories,uuid',
+            'event_name' => 'required|string',
+            'event_category' => 'required',
             'event_date' => 'required|date',
             'event_time' => 'required',
-            'event_description' => 'required|string|max:1000',
+            'event_description' => 'required|string',
             'event_photo' => 'required',
         ],[
             'event_name.required' => 'O nome do evento é obrigatório.',
             'event_category.required' => 'A categoria do evento é obrigatória.',
-            'event_category.exists' => 'A categoria selecionada é inválida.',
             'event_date.required' => 'A data do evento é obrigatória.',
             'event_date.date' => 'A data do evento deve ser uma data válida.',
             'event_time.required' => 'A hora do evento é obrigatória.',
             'event_description.required' => 'A descrição do evento é obrigatória.',
             'event_description.string' => 'A descrição do evento deve ser um texto válido.',
-            'event_description.max' => 'A descrição do evento não pode exceder 1000 caracteres.',
             'event_photo.required' => 'A foto do evento é obrigatória.',
         ]);
         try {
@@ -135,6 +137,23 @@ class EventComponent extends Component
     }
 
     public function update () {
+        $this->validate([
+            'event_name' => 'required|string|max:255',
+            'event_category' => 'required',
+            'event_date' => 'required|date',
+            'event_time' => 'required',
+            'event_description' => 'required|string|max:1000',
+            'event_photo' => 'max:20480'
+        ],[
+            'event_name.required' => 'O nome do evento é obrigatório.',
+            'event_category.required' => 'A categoria do evento é obrigatória.',
+            'event_date.required' => 'A data do evento é obrigatória.',
+            'event_date.date' => 'A data do evento deve ser uma data válida.',
+            'event_time.required' => 'A hora do evento é obrigatória.',
+            'event_description.required' => 'A descrição do evento é obrigatória.',
+            'event_description.string' => 'A descrição do evento deve ser um texto válido.',
+        ]);
+
         try {
             DB::beginTransaction();       
             $old_event_cover_photo = Event::query()->where('uuid', $this->uuid)->value('event_cover_photo');
@@ -153,14 +172,13 @@ class EventComponent extends Component
                 'event_category_uuid' => $this->event_category,
                 'event_date' => $this->event_date,
                 'event_time' => $this->event_time,
-                'event_cover_photo' => $this->fileName ?? $old_event_cover_photo,
+                'event_cover_photo' => isset($this->fileName) ? $this->fileName : $old_event_cover_photo,
                 'event_description' => $this->event_description,
                 'user_id' => auth()->user()->id,
             ]);
             DB::commit();
 
-            if ($event >= 1) {
-                $this->status = false;
+            if ($event >= 1) {               
                 LivewireAlert::title('Sucesso')
                 ->text('Evento atualizado com sucesso!')
                 ->success()
@@ -168,6 +186,8 @@ class EventComponent extends Component
                 ->timer(0)
                 ->confirmButtonText('Fechar')
                 ->show();
+                $this->dispatch('event-updated');
+                $this->reset(['fileName']);
 
             }
         } catch (\Throwable $th) {
@@ -282,7 +302,7 @@ class EventComponent extends Component
                  Carbon::parse($this->startdate)->startOfDay(),
                  Carbon::parse($this->enddate)->endOfDay()
                 ])
-            )->orderBy('created_at', 'DESC')
+            )->orderBy('event_highlighted', 'DESC')            
             ->get();
 
         } catch (Exception $e) {
@@ -327,7 +347,7 @@ class EventComponent extends Component
         }
     }
 
-    public function highlightEvent ($uuid) {
+    public function highlightEvent (string $uuid) {
         try {
             $this->uuid = $uuid;
             $is_highlighted = Event::where('uuid', $this->uuid)
@@ -358,28 +378,18 @@ class EventComponent extends Component
     }
 
     public function confirmHighlightEvent () {
-        try {
-           $alreadyExistsHighlightedEvent = Event::query()->where('event_highlighted',true)->first();
-          /* if ($alreadyExistsHighlightedEvent) {
-                LivewireAlert::title('Atenção')
-                 ->text('
-                        Já nao pode destacar este evento, apenas 1 evento de cada vez é permitido!
-                        '
-                 )
-                 ->warning()
-                 ->withConfirmButton()
-                 ->timer(0)
-                 ->confirmButtonText('Fechar')
-                 ->show();
-                }else {*/
+        try {      
 
-                $event = Event::query()->where('uuid', $this->uuid)->update([
-                    'event_highlighted' => DB::raw('NOT event_highlighted')  //Toggle boolean value if true set to false and vice versa
+           DB::beginTransaction();       
+           Event::query()->where('uuid', $this->uuid)->update([
+                  'event_highlighted' => $this->alreadyExistsHighlightedEvent ? false : true 
                     ]);
-
-            //    }
+             
+                DB::commit();
+                $this->dispatch('event_highlighted');
 
         } catch (\Throwable $th) {
+            DB::rollback();
           LivewireAlert::title('Erro')
              ->text('erro: ' .$th->getmessage())
              ->error()

@@ -88,7 +88,7 @@
 
                                         <div class="form-group ">
                                          <label>Foto:</label>                                            
-                                         <input :key='uniqid()' id='photo' wire:model='photo'  type="file" class='form-control px-2 py-2'>
+                                         <input accept="image/*"  wire:key='uniqid()' id='photo' wire:model='photo'  type="file" class='form-control px-2 py-2'>
                                         </div>
 
 

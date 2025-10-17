@@ -30,8 +30,8 @@
                               <tr>
                                   <th>Foto</th>
                                   <th>Nome do evento</th>
-                                  <th  class='text-center'>Data</th>
-                                  <th  class='text-center'>Hora</th>
+                                  <th  class='text-center'>Data evento</th>
+                                  <th  class='text-center'>Hora evento</th>
                                   <th>Descrição</th>
                                   <th class='text-center'>Categoria</th>
                                   <th>Utilizador</th>
@@ -49,7 +49,7 @@
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_date }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_time }}</td>
                                       <td style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
-                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->eventCategory->category }}</td>
+                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->eventCategory->category ?? '' }}</td>
                                        <td>{{ $event->user->user_name }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
@@ -93,10 +93,17 @@
 @push('events')
 <script>
     document.addEventListener('livewire:initialized', () => {
+      
     Livewire.on('event-created', () => {
       const eventPhoto = document.getElementById('event_photo');
       if (eventPhoto) eventPhoto.value = '';
     });
+
+    Livewire.on('event-updated', () => {
+      const eventPhoto = document.getElementById('event_photo');
+      if (eventPhoto) eventPhoto.value = '';
+    });
+
 });
 </script>
 @endpush
