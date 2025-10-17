@@ -51,7 +51,7 @@ class UserComponent extends Component
     public function edit ($id) {
         try { 
             $this->id = $id;                  
-            $this->user = User::query()->with(['userType', 'userPersonalData', 'visitor'])->find($id);        
+            $this->user = User::query()->with(['userType', 'userPersonalData', 'visitorForVisitorType'])->find($id);        
             $this->dispatch('edit-user', user: $this->user);
         } catch (Exception $e) {
         LivewireAlert::title('Erro')
@@ -88,5 +88,18 @@ class UserComponent extends Component
              ->confirmButtonText('Fechar')
              ->show();
            }   
+    }
+
+    public function close (){
+        try {
+            
+        } catch (Exception $e) {
+          LivewireAlert::title('Erro')
+             ->text('erro: ' .$e->getmessage())
+             ->error()
+             ->withConfirmButton()
+             ->confirmButtonText('Fechar')
+             ->show();
+        }
     }
 }

@@ -1,13 +1,11 @@
 @props(['categories' => [], 'status' => false])
-<div wire:ignore.self class="modal fade" id="form-event" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content bg-white">
+<div wire:ignore.self class="modal" id="modal" >
+      <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5 text-uppercase"> {{ $status ? 'Editar Evento' : 'Adicionar Evento'}} </h1>
-          <button id='close-modal' wire:click='close'  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button wire:click='close' class="modal-close" onclick="closeModal()">&times;</button>
         </div>
         <div class="modal-body">
-
             <div class="gap-1">
                       <div  class='form-group'>
                         <label class='form-label'>Nome do evento:</label>
@@ -54,7 +52,7 @@
              </div>
 
         </div>
-        <div class="modal-footer border-0">
+        <div class="d-flex gap-1 p-2 align-items-center justify-content-end">
           <button wire:click='{{$status ? 'update' : 'store'}}'  class="d-flex btn {{$status ? 'btn-success' : ' btn-primary'}}">
             {{ $status ? 'Atualizar' : 'Salvar' }}
         </button>
@@ -63,7 +61,6 @@
         </button>
         </div>
 
-      </div>
     </div>
   </div>
 

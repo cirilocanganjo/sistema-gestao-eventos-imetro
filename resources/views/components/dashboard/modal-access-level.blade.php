@@ -1,6 +1,5 @@
 @props(['status' => false])
 <div wire:ignore.self class="modal" id="modal">
-  <x-dashboard.modal-styles />  
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5 text-uppercase"> {{ $status ? 'Editar nivel de acesso' : 'Adicionar nivel de acesso'}} </h1>

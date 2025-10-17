@@ -1,10 +1,9 @@
 @props(['visitor_types' => [], 'access_levels' => [] ])
-<div wire:ignore.self class="modal fade" id="user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+<div wire:ignore.self class="modal" id="modal">
       <div class="modal-content bg-white">
         <div class="modal-header">
           <h1 class="modal-title fs-5 text-uppercase">Adicionar utilizador</h1>
-          <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button wire:click='close' class="modal-close" onclick="closeModal()">&times;</button>
         </div>
         <div class="modal-body">
          
@@ -61,18 +60,15 @@
                
             </div>
         </div>
-        <div class="modal-footer border-0">
+        <div class="d-flex gap-1 p-2 align-items-center justify-content-end">
           <button  class="d-flex btn btn-primary">
-          <i class='ri-check-line'></i>
             Salvar
         </button>
         <button type="button" class="d-flex btn btn-danger" data-bs-dismiss="modal">
-          <i class='ri-close-fill'></i>
           Fechar
         </button>
         </div>
         
-      </div>
     </div>
   </div>
 

@@ -8,7 +8,7 @@
           <x-dashboard.modal-event-category :status="$status ?? false " />        
                   <div class='card'>
                       <div class='card-header'>
-                        <h5>categoryos</h5>
+                        <h5>Categorias</h5>
                       </div>
 
                       <div class='card-body'>
@@ -123,7 +123,11 @@
         const modal = document.getElementById('modal');
         if (modal) {
             modal.style.display = 'flex';
-            modal.classList.add('fade-in');            
+            modal.classList.add('fade-in');
+            if (uuid) {
+                console.log('Editando com UUID:', uuid);
+                // Lógica para carregar dados com o UUID, se necessário
+            }
         }
     }
 
