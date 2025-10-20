@@ -22,7 +22,11 @@ class FormUserComponent extends Component
 
     public function mount () {
         try {
-            $this->user_type_uuid = UserType::query()->where(fn ($q) => $q->where('type', 'visitante'))->orWhere('type', 'Visitante')->first()->uuid ?? '';
+            $this->dispatch('refreshSelect2');
+            $this->user_type_uuid = UserType::query()->where(fn ($q) => 
+            $q->where('type', 'visitante'))
+            ->orWhere('type', 'Visitante')
+            ->first()->uuid ?? '';
 
         }catch( Exception $e) {
             LivewireAlert::title('ERRO')
@@ -64,8 +68,7 @@ class FormUserComponent extends Component
         ];
     }
 
-    public function storeNewAccount (User $user) {
-
+    public function storeNewAccount (User $user) {        
         try {
            $this->aleready_stored_email = $user->query()->where('email',$this->email)->value('email') ?? null;
            $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);
@@ -161,5 +164,7 @@ class FormUserComponent extends Component
                   ->show();
         }
     }
+
+
 
 }

@@ -8,6 +8,11 @@
  <link href="{{ asset('home/assets/css/styles.css') }}" rel="stylesheet" />
 <link href="{{ asset('home/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" /> 
 <link href="{{asset('home/assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet" />
+
+ <link rel="stylesheet" href="{{ asset('dashboard/assets/select2/css/select2-bootstrap-4.min.css') }}" />
+ <link rel="stylesheet" href="{{ asset('dashboard/assets/css/select2/select2.css') }}" />
+ <link rel="stylesheet" href="{{ asset('dashboard/assets/css/select2/select2.min.css') }}" />
+
 @vite(['resources/css/app.css', 'resources/js/app.js'])  
 <title>@yield('title')</title>
 @livewireStyles()
@@ -21,6 +26,11 @@
 <script src="{{ asset('dashboard/assets/dist/assets/libs/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/jquery-mask.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/sweet-alert.js') }}"></script>
+
+<script src="{{ asset('dashboard/assets/js/select2/select2.js') }}"></script>
+<script src="{{ asset('dashboard/assets/js/select2/select2-portuguese.js') }}"></script>
+
+
 @livewireScripts()
 @stack('scripts')
 

@@ -2,6 +2,15 @@
 
 <div>
      <x-home.header />                   
+     <style>
+         .select2-container .select2-selection--single {
+            padding: 0.8rem; /* equivalente a py-2 px-2 */
+            height: auto !important; /* ajusta altura */
+            display: flex;
+            align-items: center;
+        }
+     </style>
+
 
         <main class='d-flex flex-wrap col-md-12 gap-1  justify-content-center align-items-start'>
 
@@ -26,7 +35,7 @@
 
                   <div class='form-group mb-3' wire:ignore>
                     <label>Tipo de utilizador:</label>
-                    <select id='visitor_type' wire:model='visitor_type' class="py-3 px-4 block form-select" >
+                    <select id='visitor_type' wire:model='visitor_type' class="py-3 px-4 block form-select visitor_type" >
                         <option value="">Selecionar</option>
                          @if (isset($visitor_types) and $visitor_types->isNotEmpty()) 
                          @foreach ($visitor_types as $key => $type)
@@ -39,7 +48,7 @@
 
                  <div class='form-group mb-3' wire:ignore>
                     <label>Foto:</label>
-                    <input key="{{ now() }}" accept="image/*" wire:model='photo' type="file" id="photo" type="file" class=' px-3 py-3 form-control'  />
+                    <input  accept="image/*" wire:model='photo' type="file" id="photo" type="file" class=' px-3 py-3 form-control'  />
                 </div>
 
             </div> 
@@ -275,7 +284,54 @@
                 document.getElementById('photo').value = null;                 
                 });
             });
-               
+
+           
+            function initSelect2() {             
+
+                    $(".visitor_type").select2({
+                      width: 'resolve',
+                      theme: "default",
+                      language: "pt",
+                      placeholder: "Selecionar tipo de utilizador",
+                      allowClear: true,
+                      //dropdownParent: $("#form-company"),
+                      }).on('change', function (e) {
+                      @this.set('visitor_type', $(this).val());                       
+                      });
+                      }                      
+                          
+                  initSelect2(); 
+    
+                document.addEventListener("livewire:init", () => {                
+                Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initSelect2 após o processamento de mensagens Livewire
+                    initSelect2();
+                });
+
+                // Escuta eventos personalizados emitidos do backend Livewire
+                Livewire.on('refreshSelect2', () => {
+                    $('.visitor_type').select2('destroy'); 
+                    initSelect2();
+
+                    let visitorType = $wire.get('visitor_type');
+                    $('.visitor_type').val(visitorType).trigger('change'); 
+                 
+                });
+
+                // Listener manual do window
+                window.addEventListener('initSelect2', () => {
+                    initSelect2();
+                });
+            });
+
+                  
+                document.addEventListener("resetFileInput", () => { 
+                document.getElementById("file").value = null;                    
+                });            
+
+               document.addEventListener("DOMContentLoaded",  initSelect2);
+               document.addEventListener("livewire:navigated", () => {
+                    initSelect2();
+                });
 
     </script>
   
