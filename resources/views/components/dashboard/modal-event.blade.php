@@ -38,6 +38,12 @@
                         @error("event_time") <span class='text-danger'>{{ $message }}</span> @enderror
                       </div>
 
+                       <div  class='form-group'>
+                        <label class='form-label'>Local:</label>
+                        <input wire:model='event_location' placeholder="Digite o nome do evento" type='text' class='px-2 py-2 form-control rounded' />
+                        @error("event_location") <span class='text-danger'>{{ $message }}</span> @enderror
+                      </div>
+
                       <div  class='form-group'>
                         <label class='form-label'>Descrição:</label>
                         <textarea wire:model='event_description' class="form-control" cols="30" rows="10"></textarea>

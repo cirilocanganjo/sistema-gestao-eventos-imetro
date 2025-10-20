@@ -5,8 +5,16 @@
   <x-dashboard.side-bar />
 
          <main id="main" class="main">
-            <x-dashboard.modal-event :status="$status ?? false" :categories="$categories ?? [] " />
-            <x-dashboard.modal-event-photo :eventName="$eventName" :eventCoverPhoto="$eventCoverPhoto" />
+
+          <x-dashboard.modal-event 
+            :status="$status ?? false" 
+            :categories="$categories ?? [] " 
+            />
+
+            <x-dashboard.modal-event-photo
+             :eventName="$eventName" 
+             :eventCoverPhoto="$eventCoverPhoto" 
+             />
 
                   <div class='card'>
                       <div class='card-header'>
@@ -29,26 +37,33 @@
                             <thead>
                               <tr>
                                   <th>Foto</th>
-                                  <th>Nome do evento</th>
-                                  <th  class='text-center'>Data evento</th>
-                                  <th  class='text-center'>Hora evento</th>
-                                  <th>Descrição</th>
+                                  <th>Evento</th>
+                                  <th class='text-center'>Data</th>
+                                  <th class='text-center'>Hora</th>
+                                  <th class='text-center'>Local</th>
+                                  <th class='text-center'>Descrição</th>
                                   <th class='text-center'>Categoria</th>
                                   <th>Utilizador</th>
-                                  <th>Opções</th>
+                                  <th class='text-center'>Opções</th>
                               </tr>
                             </thead>
                             <tbody class="text-center">
                               @if (isset($data) and $data->count() > 0)
                                 @foreach ($data as $key => $event)
                                   <tr>
-                                      <td>
-                                        <img wire:click="showEventCoverPhoto('{{ $event->uuid }}')"  data-bs-target='#event-photo-detail' data-bs-toggle='modal' style="height:50px; width: 60px;" class=' rounded' src="{{ asset('storage/imgs/' . $event->event_cover_photo) }}" />
+                                        
+                                      <td data-uuid="{{ $event->uuid }}" class='tdImgEventDetails' style='cursor: pointer;'>
+                                      <img 
+                                        wire:click="showEventCoverPhoto('{{ $event->uuid }}')"  
+                                        class='eventDetailImg rounded' src="{{ asset('storage/imgs/' . $event->event_cover_photo) }}"                                      
+                                        style="height:50px; width: 60px;" 
+                                      />
                                       </td>
                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_name }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_date }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_time }}</td>
-                                      <td style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
+                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->location  }}</td>
+                                      <td class='text-center' style="text-align: center; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
                                        <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->eventCategory->category ?? '' }}</td>
                                        <td>{{ $event->user->user_name }}</td>
                                       <td>
@@ -96,48 +111,52 @@
 @push('events')
 
 <script>
-
-   // Função para inicializar os event listeners
+    // Função para inicializar os event listeners
     function initializeEventListeners() {
-        // Selecionar o botão de adicionar
         const buttonAdd = document.getElementById('button-add');
-        
-        // Selecionar todos os botões de edição
         const buttonsEdit = document.querySelectorAll('.button-edit');
+        const tdImageDetails = document.querySelectorAll('.tdImgEventDetails');
 
-        // Remover event listeners antigos para evitar duplicatas
+        // Botão "Adicionar"
         if (buttonAdd) {
-            const newButtonAdd = buttonAdd.cloneNode(true); // Clonar para remover listeners
-            buttonAdd.parentNode.replaceChild(newButtonAdd, buttonAdd);
-            
-            // Adicionar evento ao botão de adicionar
-            newButtonAdd.addEventListener('click', () => {
-                openModal();
-            });
+            const newButtonAdd = buttonAdd.cloneNode(true);
+            buttonAdd.replaceWith(newButtonAdd);
+
+            newButtonAdd.addEventListener('click', () => openModal());
         }
 
-        // Adicionar evento a cada botão de edição
+        // Botões "Editar"
         buttonsEdit.forEach(button => {
-            const newButton = button.cloneNode(true); // Clonar para remover listeners
-            button.parentNode.replaceChild(newButton, button);
+            const newButton = button.cloneNode(true);
+            button.replaceWith(newButton);
+
             newButton.addEventListener('click', () => {
-                const uuid = newButton.getAttribute('data-uuid'); // Obter o UUID do botão clicado
-                openModal(uuid); // Passar o UUID para a função openModal
+                const uuid = newButton.getAttribute('data-uuid');
+                openModal(uuid);
             });
         });
 
-        // Evitar fechar com a tecla Esc
-        const handleEscape = function(event) {
-            if (event.key === 'Escape') {
-                event.preventDefault();
-            }
+        // Imagem de detalhes
+        tdImageDetails.forEach(td => {
+            const newTd = td.cloneNode(true);
+            td.replaceWith(newTd);
+
+            newTd.addEventListener('click', () => {
+                const uuid = newTd.getAttribute('data-uuid');
+                openEventImageDetailModal(uuid);
+            });
+        });
+
+        // Evitar fechar com ESC
+        const handleEscape = event => {
+            if (event.key === 'Escape') event.preventDefault();
         };
-        // Remover listener antigo do keydown
+
         document.removeEventListener('keydown', handleEscape);
         document.addEventListener('keydown', handleEscape);
     }
 
-    // Função para abrir o modal
+    // Função para abrir o modal principal
     function openModal(uuid = null) {
         const modal = document.getElementById('modal');
         if (modal) {
@@ -145,12 +164,12 @@
             modal.classList.add('fade-in');
             if (uuid) {
                 console.log('Editando com UUID:', uuid);
-                // Lógica para carregar dados com o UUID, se necessário
+                // Lógica de carregamento do evento aqui
             }
         }
     }
 
-    // Função para fechar o modal
+    // Função para fechar o modal principal
     function closeModal() {
         const modal = document.getElementById('modal');
         if (modal) {
@@ -159,25 +178,44 @@
         }
     }
 
-    // Inicializar os eventos no carregamento inicial
+
+
+    // Função para abrir modal de detalhes da imagem
+    function openEventImageDetailModal(uuid = null) {
+        const eventImageDetailModal = document.getElementById('event-image-detail-modal');
+        if (eventImageDetailModal) {
+            eventImageDetailModal.style.display = 'flex';
+            eventImageDetailModal.classList.add('fade-in');
+            //console.log('Abrindo detalhe da imagem com UUID:', uuid);
+        }
+    }
+
+     function closeModalImageDetailsModal() {
+        const modal = document.getElementById('event-image-detail-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('fade-in');
+        }
+    }
+
+    // Inicialização
     document.addEventListener('DOMContentLoaded', initializeEventListeners);
-
-    // Reinicializar os eventos após navegação com wire:navigate
     document.addEventListener('livewire:navigated', initializeEventListeners);
-      
+
+    // Eventos Livewire
     document.addEventListener('livewire:initialized', () => {
-    Livewire.on('event-created', () => {
-      const eventPhoto = document.getElementById('event_photo');
-      if (eventPhoto) eventPhoto.value = '';
-    });
+        Livewire.on('event-created', () => {
+            const eventPhoto = document.getElementById('event_photo');
+            if (eventPhoto) eventPhoto.value = '';
+        });
 
-    Livewire.on('event-updated', () => {
-      const eventPhoto = document.getElementById('event_photo');
-      if (eventPhoto) eventPhoto.value = '';
+        Livewire.on('event-updated', () => {
+            const eventPhoto = document.getElementById('event_photo');
+            if (eventPhoto) eventPhoto.value = '';
+        });
     });
-
-});
 </script>
+
 @endpush
 
 

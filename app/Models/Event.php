@@ -15,6 +15,7 @@ class Event extends Model
         'event_name',
         'event_date',
         'event_time',
+        'location',
         'event_description',
         'event_highlighted',
         'event_category_uuid',

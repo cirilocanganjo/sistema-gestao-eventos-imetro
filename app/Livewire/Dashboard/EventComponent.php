@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 class EventComponent extends Component
 {
     use WithFileUploads;
-    public $uuid,$alreadyExistsHighlightedEvent,$event,$event_status,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
+    public $uuid,$alreadyExistsHighlightedEvent,$event,$event_location,$event_status,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
     protected $listeners = ['highlightEvent' => 'confirmHighlightEvent', 'confirmEventDeletion' => 'confirmEventDeletion'];
 
     public function mount () {
@@ -42,11 +42,13 @@ class EventComponent extends Component
             'event_category' => 'required',
             'event_date' => 'required|date',
             'event_time' => 'required',
+            'event_location' => 'required',
             'event_description' => 'required|string',
             'event_photo' => 'required',
         ],[
             'event_name.required' => 'O nome do evento é obrigatório.',
             'event_category.required' => 'A categoria do evento é obrigatória.',
+            'event_location.required' => 'A localização do evento é obrigatória.',
             'event_date.required' => 'A data do evento é obrigatória.',
             'event_date.date' => 'A data do evento deve ser uma data válida.',
             'event_time.required' => 'A hora do evento é obrigatória.',
@@ -80,7 +82,8 @@ class EventComponent extends Component
                 $this->event = Event::create([
                     'event_name' => $this->event_name,
                     'event_category_uuid' => $this->event_category,
-                    'event_date' => $this->event_date,
+                    'event_date' => $this->event_date, 
+                    'location' =>$this->event_location,                   
                     'event_time' => $this->event_time,
                     'event_description' => $this->event_description,
                     'event_cover_photo' => $this->fileName ?? null,
@@ -97,7 +100,7 @@ class EventComponent extends Component
                 ->timer(0)
                 ->confirmButtonText('Fechar')
                 ->show();
-                $this->reset(['event_category','event_date','event_time','event_description','event_photo','fileName','event_name']);
+                $this->reset(['event_category','event_date','event_location','event_time','event_description','event_photo','fileName','event_name']);
                 $this->dispatch('event-created');
             }
         } catch (\Throwable $th) {
@@ -117,13 +120,14 @@ class EventComponent extends Component
 
     public function edit ($uuid) {
         try {    
-            $this->uuid = $uuid;      
-            $this->status = true;
+           $this->uuid = $uuid;      
+           $this->status = true;
            $event = Event::query()->where('uuid', $uuid)->first();
            $this->event_name = $event->event_name;
            $this->event_category = $event->event_category_uuid;
            $this->event_date = $event->event_date;
            $this->event_time = $event->event_time;
+           $this->event_location = $event->location;           
            $this->event_description = $event->event_description;
         } catch (\Throwable $th) {
         LivewireAlert::title('Erro')
@@ -142,11 +146,13 @@ class EventComponent extends Component
             'event_category' => 'required',
             'event_date' => 'required|date',
             'event_time' => 'required',
+            'event_location' => 'required',
             'event_description' => 'required|string|max:1000',
             'event_photo' => 'max:20480'
         ],[
             'event_name.required' => 'O nome do evento é obrigatório.',
             'event_category.required' => 'A categoria do evento é obrigatória.',
+            'event_location.required' => 'A localização do evento é obrigatória.',
             'event_date.required' => 'A data do evento é obrigatória.',
             'event_date.date' => 'A data do evento deve ser uma data válida.',
             'event_time.required' => 'A hora do evento é obrigatória.',
@@ -172,6 +178,7 @@ class EventComponent extends Component
                 'event_category_uuid' => $this->event_category,
                 'event_date' => $this->event_date,
                 'event_time' => $this->event_time,
+                'location' =>$this->event_location,
                 'event_cover_photo' => isset($this->fileName) ? $this->fileName : $old_event_cover_photo,
                 'event_description' => $this->event_description,
                 'user_id' => auth()->user()->id,
@@ -320,6 +327,7 @@ class EventComponent extends Component
         try {
         $this->status = false;
         $this->reset(['event_category','event_date','event_time','event_description','event_photo','fileName','event_name']);
+        $this->resetValidation();
         } catch (\Throwable $th) {
             LivewireAlert::title('Erro')
              ->text('erro: ' .$th->getmessage())
