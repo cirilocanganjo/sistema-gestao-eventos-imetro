@@ -12,21 +12,21 @@ use Livewire\Component;
 
 class HeroComponent extends Component
 {
-  public Event $highlighted_event, $searcher;
+  public $searcher;
 
    
     public function render()
     {
         return view('livewire.home.hero-component',[
-            'is_highlighted' => $this->getHighlightedEvent()
+            'highlighted_event' => $this->getHighlightedEvent()
         ]);
     }
     
     public function getHighlightedEvent () {
         try {
-            $this->highlighted_event = Event::query()->where("event_highlighted",true)
+            return Event::query()->where("event_highlighted",true)
             ->orderBy('event_highlighted', 'DESC')
-            ->first();
+            ->first() ?? '';
 
         } catch (Exception $e) {
           LivewireAlert::title('Erro')

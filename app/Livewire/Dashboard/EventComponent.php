@@ -22,13 +22,13 @@ class EventComponent extends Component
     public function mount () {
         $this->status = false;
         $this->dispatch("refreshSelect2");
+        $this->alreadyExistsHighlightedEvent = Event::query()->value('event_highlighted');     
     }    
 
 
     public function boot () {
         //$this->dispatch("refreshSelect2");
-        $this->alreadyExistsHighlightedEvent = Event::query()        
-        ->value('event_highlighted');
+       
     }        
 
     #[Layout('layouts.dashboard.app')]
@@ -395,7 +395,7 @@ class EventComponent extends Component
 
            DB::beginTransaction();       
            Event::query()->where('uuid', $this->uuid)->update([
-                  'event_highlighted' => $this->alreadyExistsHighlightedEvent ? false : true 
+                  'event_highlighted' => DB::raw("NOT event_highlighted")
                     ]);
              
                 DB::commit();
