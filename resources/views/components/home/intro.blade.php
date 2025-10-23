@@ -1,10 +1,10 @@
 
     <section id="intro" class="intro section">
 
-
+   
       <div class="container-fluid">
 
-        <h2 class='text-center'>Todos Eventos</h2>
+        <h2 class='text-center'>Eventos</h2>
 
       <div class="container input-group flex-nowrap mb-3 my-3">
           <input wire:model.live='searcher' type="text" class="form-control px-2 py-2" placeholder="Pesquisar evento ..." aria-label="Username" aria-describedby="addon-wrapping">
@@ -21,7 +21,7 @@
           <div data-uuid='{{ $event->uuid }}' class='card'>
 
             <div class="card-body">
-              <img class='card-img-top img-fluid' 
+              <img class='card-img-top img-fluid img-hover-effect' 
                 style='border-radius: 9px; height:30vh;' 
                 src='{{ asset('storage/imgs/' . $event->event_cover_photo) }}' 
               />

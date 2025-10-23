@@ -32,24 +32,24 @@
 
                 <div class="countdown-section">
 
-                  <h3 class="countdown-label">Event Starts In</h3>
+                  <h2 style='font-size: 25px;' class="fw-bold text-color-default countdown-label">Dias restantes</h2>
 
-                  <div class="countdown d-flex justify-content-center" data-count="2026/03/15">
+                  <div class="countdown d-flex justify-content-center" data-count="{{ $highlighted_event->event_date ?? '' }}">
                     <div>
-                      <h3 class="count-days">239</h3>
-                      <h4>Days</h4>
+                      <h3 class="count-days">1</h3>
+                      <h4>Dias</h4>
                     </div>
                     <div>
                       <h3 class="count-hours">8</h3>
-                      <h4>Hours</h4>
+                      <h4>Horas</h4>
                     </div>
                     <div>
                       <h3 class="count-minutes">53</h3>
-                      <h4>Minutes</h4>
+                      <h4>Minutoss</h4>
                     </div>
                     <div>
                       <h3 class="count-seconds">23</h3>
-                      <h4>Seconds</h4>
+                      <h4>Segundos</h4>
                     </div>
                   </div>
 

@@ -34,10 +34,10 @@
 
                   <h3 class="countdown-label">Event Starts In</h3>
 
-                  <div class="countdown d-flex justify-content-center" data-count="2026/03/15">
+                  <div class="countdown d-flex justify-content-center" data-count="{{ $highlighted_event->event_date}}">
                     <div>
-                      <h3 class="count-days">239</h3>
-                      <h4>Days</h4>
+                      <h3 class="count-days">{{ $this->event_remaining_time->diff->days ?? 00 }}</h3>
+                      <h4>Dias</h4>
                     </div>
                     <div>
                       <h3 class="count-hours">8</h3>
