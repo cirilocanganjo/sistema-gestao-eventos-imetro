@@ -11,8 +11,12 @@ use Livewire\Component;
 
 class UserComponent extends Component
 {
-    public $id,$user,$searcher,$startdate,$enddate;
+    public $id,$user,$searcher,$startdate,$enddate,$visitor_type;
     
+    public function mount () {
+        $this->dispatch('refreshSelect2');
+    }
+
     #[Layout('layouts.dashboard.app')]
     public function render()
     {
@@ -53,6 +57,8 @@ class UserComponent extends Component
             $this->id = $id;                  
             $this->user = User::query()->with(['userType', 'userPersonalData', 'visitorForVisitorType'])->find($id);        
             $this->dispatch('edit-user', user: $this->user);
+           // $this->dispatch("refreshSelect2");
+
         } catch (Exception $e) {
         LivewireAlert::title('Erro')
           ->text('erro: ' .$e->getMessage())
@@ -92,7 +98,7 @@ class UserComponent extends Component
 
     public function close (){
         try {
-            
+          //  $this->dispatch("refreshSelect2");
         } catch (Exception $e) {
           LivewireAlert::title('Erro')
              ->text('erro: ' .$e->getmessage())

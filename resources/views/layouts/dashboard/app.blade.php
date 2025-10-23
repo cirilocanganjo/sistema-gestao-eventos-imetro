@@ -33,6 +33,7 @@
 <body style='background-color: white;'>
 
  {{ $slot }}
+ @livewireScripts()
 
   <footer id="footer" class="footer">
     <div class="copyright">
@@ -61,10 +62,10 @@
 <script src="{{ asset('dashboard/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
 <script src="{{ asset('dashboard/assets/vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('dashboard/assets/js/main.js') }}"></script>
-@livewireScripts()
+
 
 @stack('scripts')
-@stack('user-component-scripts')
+@stack('users')
 @stack('access-level-script')
 @stack('side-bar-scripts')
 @stack('user-prifile-scripts')

@@ -1,4 +1,4 @@
-@section('title', 'Sistema de Gestão de Eventos Imetro | Cadastrar nova conta')
+@section('title', 'Cadastrar nova conta')
 
 <div>
      <x-home.header />                   
@@ -6,8 +6,8 @@
          .select2-container .select2-selection--single {
             padding: 0.8rem; /* equivalente a py-2 px-2 */
             height: auto !important; /* ajusta altura */
-            display: flex;
-            align-items: center;
+            display: flex !important;
+            align-items: center !important;
         }
      </style>
 
@@ -62,7 +62,7 @@
 
                  <div class='form-group mb-3' wire:ignore>
                     <label>Gênero:</label>
-                    <select id='gender' wire:model='gender' required class='py-3 px-4 block form-select'>
+                    <select id='gender' wire:model='gender' required class='py-3 px-4 block form-select gender'>
                         <option value=''>Selecionar</option>
                         <option value='male'>Masculino</option>
                         <option value='female'>Feminino</option>
@@ -298,7 +298,17 @@
                       }).on('change', function (e) {
                       @this.set('visitor_type', $(this).val());                       
                       });
-                      }                      
+
+                     $(".gender").select2({
+                      width: 'resolve',
+                      theme: "default",
+                      language: "pt",
+                      placeholder: "Selecionar gênero",
+                      allowClear: true,
+                      }).on('change', function (e) {
+                      @this.set('gender', $(this).val());                       
+                      });
+             }                      
                           
                   initSelect2(); 
     
@@ -310,10 +320,14 @@
                 // Escuta eventos personalizados emitidos do backend Livewire
                 Livewire.on('refreshSelect2', () => {
                     $('.visitor_type').select2('destroy'); 
+                    $('.gender').select2('destroy'); 
                     initSelect2();
 
                     let visitorType = $wire.get('visitor_type');
                     $('.visitor_type').val(visitorType).trigger('change'); 
+
+                    let gender = $wire.get('gender');
+                    $('.gender').val(gender).trigger('change'); 
                  
                 });
 
@@ -322,16 +336,16 @@
                     initSelect2();
                 });
             });
+              
+            document.addEventListener("DOMContentLoaded",  initSelect2);
+            document.addEventListener("livewire:navigated", () => {
+                initSelect2();
+            });
 
-                  
-                document.addEventListener("resetFileInput", () => { 
+
+               document.addEventListener("resetFileInput", () => { 
                 document.getElementById("file").value = null;                    
-                });            
-
-               document.addEventListener("DOMContentLoaded",  initSelect2);
-               document.addEventListener("livewire:navigated", () => {
-                    initSelect2();
-                });
+                });  
 
     </script>
   

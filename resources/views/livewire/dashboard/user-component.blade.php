@@ -5,10 +5,7 @@
   <x-dashboard.side-bar />
 
          <main id="main" class="main">
-         <x-dashboard.modal-user
-         :visitor_types="$visitor_types ?? []" 
-         :access_levels="$access_levels ?? []" 
-         />
+         <x-dashboard.modal-user :visitor_types="$visitor_types ?? []" :access_levels="$access_levels ?? []" />
 
                   <div class='card'>
                       <div class='card-header'>
@@ -70,7 +67,7 @@
                                             <button 
                                             wire:click='edit({{ $user->id }})' 
                                             wire:key='{{ $key }}' 
-                                            data-uuid="{{ $user->id }}"
+                                            data-uuid="{{ $user->uuid }}"
                                             class='d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
@@ -104,8 +101,9 @@
 </div>
 
 
-@push('user-component-scripts')
-<script>
+@push('users')
+<script> 
+  
     // Função para inicializar os event listeners
     function initializeEventListeners() {
         // Selecionar o botão de adicionar
@@ -144,6 +142,7 @@
         // Remover listener antigo do keydown
         document.removeEventListener('keydown', handleEscape);
         document.addEventListener('keydown', handleEscape);
+        
     }
 
     // Função para abrir o modal
@@ -168,10 +167,18 @@
         }
     }
 
-    // Inicializar os eventos no carregamento inicial
-    document.addEventListener('DOMContentLoaded', initializeEventListeners);
+    
+    document.addEventListener('DOMContentLoaded', initializeEventListeners);    
+    document.addEventListener('livewire:navigated', () => {
+        initializeEventListeners(); 
+    });
 
-    // Reinicializar os eventos após navegação com wire:navigate
-    document.addEventListener('livewire:navigated', initializeEventListeners);
+     
+     
+    
+
+
+ 
+
 </script>
 @endpush

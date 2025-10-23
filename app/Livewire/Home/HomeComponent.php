@@ -6,6 +6,7 @@ use \Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use \App\Models\{Event};
 use Livewire\Attributes\Layout;
 use Exception;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -70,6 +71,20 @@ class HomeComponent extends Component
         } catch (Exception $ex) {
        LivewireAlert::title('Erro')
           ->text('erro: ' .$ex->getMessage())
+          ->error()
+          ->withConfirmButton()
+          ->confirmButtonText('Fechar')
+          ->show();
+        }
+    }
+
+    #[Computed]
+    public function events () {
+        try {
+            return Event::get();
+        } catch (Exception $e) {
+            LivewireAlert::title('Erro')
+          ->text('erro: ' .$e->getmessage())
           ->error()
           ->withConfirmButton()
           ->confirmButtonText('Fechar')

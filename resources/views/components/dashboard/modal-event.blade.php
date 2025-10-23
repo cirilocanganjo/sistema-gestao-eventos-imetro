@@ -15,7 +15,7 @@
 
                       <div  class='form-group'>
                         <label class='form-label'>Categoria:</label>
-                        <select wire:model='event_category' class='px-2 py-2 form-select'>
+                        <select wire:model='event_category' class=' event_category px-2 py-2 form-select'>
                             <option value="">Selecionar</option>
                             @if (isset($categories))
                             @foreach ($categories as $key => $category )
@@ -62,7 +62,7 @@
           <button wire:click='{{$status ? 'update' : 'store'}}'  class="d-flex btn {{$status ? 'btn-success' : ' btn-primary'}}">
             {{ $status ? 'Atualizar' : 'Salvar' }}
         </button>
-        <button type="button" class="d-flex btn  btn-danger" data-bs-dismiss="modal">
+        <button wire:click='close' onclick="closeModal()" type="button" class="d-flex btn  btn-danger">
           Fechar
         </button>
         </div>

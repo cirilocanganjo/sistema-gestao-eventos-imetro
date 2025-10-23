@@ -27,13 +27,13 @@
                         @error("telephone") <span class='text-danger'>{{ $message }}</span> @enderror                                                                  
                       </div>
 
-                      <div class='form-group mb-3' wire:ignore>
+                      <div class='form-group mb-3'>
                        <label>Tipo de utilizador:</label>
-                        <select id='visitor_type' wire:model='visitor_type' class="form-select" >
-                            <option value="">Selecionar</option>
+                        <select id='visitor_type' wire:model='visitor_type' class="form-select visitor_types" >
+                             <option value="">Selecionar</option> 
                              @if (isset($visitor_types) ) 
                              @foreach ($visitor_types as $key => $type)
-                             <option wire:key='{{ $key }}' value='{{ $type->uuid }}'>{{ $type->type }}</option>
+                             <option selected wire:key='user-type-{{ $key }}' value='{{ $type->uuid }}'>{{ $type->type }}</option>
                              @endforeach
                              @endif                                                
                         </select>
@@ -64,7 +64,7 @@
           <button  class="d-flex btn btn-primary">
             Salvar
         </button>
-        <button type="button" class="d-flex btn btn-danger" data-bs-dismiss="modal">
+        <button wire:click='close' onclick="closeModal()" type="button" class="d-flex btn btn-danger">
           Fechar
         </button>
         </div>

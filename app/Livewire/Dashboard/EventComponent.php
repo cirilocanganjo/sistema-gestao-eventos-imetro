@@ -21,10 +21,14 @@ class EventComponent extends Component
 
     public function mount () {
         $this->status = false;
-    }
+        $this->dispatch("refreshSelect2");
+    }    
+
 
     public function boot () {
-        $this->alreadyExistsHighlightedEvent = Event::query()->where('event_highlighted',true)->value('event_highlighted');
+        //$this->dispatch("refreshSelect2");
+        $this->alreadyExistsHighlightedEvent = Event::query()        
+        ->value('event_highlighted');
     }        
 
     #[Layout('layouts.dashboard.app')]
@@ -122,6 +126,7 @@ class EventComponent extends Component
         try {    
            $this->uuid = $uuid;      
            $this->status = true;
+           $this->dispatch("refreshSelect2");
            $event = Event::query()->where('uuid', $uuid)->first();
            $this->event_name = $event->event_name;
            $this->event_category = $event->event_category_uuid;
@@ -407,4 +412,48 @@ class EventComponent extends Component
              ->show();
         }
     }
+
+    /*
+    
+    use Carbon\Carbon;
+
+public function calcularTempoRestante($id)
+{
+    // Suponhamos que o modelo seja Event
+    $event = Event::findOrFail($id);
+
+    // Combinar a data e a hora num único Carbon
+    $dataHoraEvento = Carbon::parse("{$event->date_field} {$event->time_field}");
+
+    // Data e hora atuais
+    $agora = Carbon::now();
+
+    // Se o evento já passou
+    if ($dataHoraEvento->isPast()) {
+        return response()->json([
+            'mensagem' => 'O evento já ocorreu.',
+            'dias_restantes' => 0,
+            'horas_restantes' => 0,
+        ]);
+    }
+
+    // Diferença total em horas
+    $diferencaHoras = $agora->diffInHours($dataHoraEvento);
+
+    // Converter para dias e horas restantes
+    $dias = floor($diferencaHoras / 24);
+    $horas = $diferencaHoras % 24;
+
+    return response()->json([
+        'data_evento' => $dataHoraEvento->toDateTimeString(),
+        'agora' => $agora->toDateTimeString(),
+        'dias_restantes' => $dias,
+        'horas_restantes' => $horas,
+    ]);
+}
+
+
+
+
+    */
 }

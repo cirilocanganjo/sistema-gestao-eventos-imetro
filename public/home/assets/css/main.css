@@ -5492,3 +5492,17 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+
+  .text-color-default{
+      color: #F87500;
+    }
+
+    .card {
+      height:65vh;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+   .border-default {
+      border: .1rem solid #F87500 !important;
+    }

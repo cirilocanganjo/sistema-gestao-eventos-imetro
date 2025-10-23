@@ -38,7 +38,7 @@
 <script src="{{ asset('home/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('home/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
 <script src="{{ asset('home/assets/js/main.js') }}"></script>
-
+@stack('intro')
     <!-- Script que reativa os efeitos -->
     <script>
         function reativarScripts() {

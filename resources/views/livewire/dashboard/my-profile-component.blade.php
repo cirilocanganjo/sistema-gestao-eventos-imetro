@@ -38,7 +38,7 @@
                                         @if (auth()->user()->userType->type === 'admin' || auth()->user()->userType->type === 'Admin')
                                                  <div class='form-group mb-2'>
                                                      <label>Nível de acesso:</label>
-                                                    <select x-bind:disabled="true" wire:model='access_level' class="form-select px-2 py-2 " >
+                                                    <select x-bind:disabled="true" wire:model='access_level' class="form-select px-2 py-2 text-capitalize" >
                                                         <option value="">Selecionar</option>
                                                         @if (isset($data_of_access_levels) and $data_of_access_levels->isNotEmpty())
                                                         @foreach ($data_of_access_levels as $key => $level)

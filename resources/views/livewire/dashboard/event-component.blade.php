@@ -212,8 +212,52 @@
         Livewire.on('event-updated', () => {
             const eventPhoto = document.getElementById('event_photo');
             if (eventPhoto) eventPhoto.value = '';
+            });
         });
-    });
+
+          /* function initSelect2() {             
+
+                    $(".event_category").select2({
+                      width: '100%',
+                      theme: "default",
+                      language: "pt",
+                      placeholder: "Selecionar categoria",
+                      allowClear: true,
+                      dropdownParent: $("#modal"),
+                      }).on('change', function (e) {
+                      @this.set('event_category', $(this).val());                       
+                      });
+             }                      
+                          
+                  initSelect2(); 
+    
+                document.addEventListener("livewire:init", () => {                
+                Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initSelect2 após o processamento de mensagens Livewire
+                    initSelect2();
+                });
+
+                // Escuta eventos personalizados emitidos do backend Livewire
+                Livewire.on('refreshSelect2', () => {
+                    $('.event_category').select2('destroy'); 
+                    initSelect2();
+
+                    let eventCategory = $wire.get('event_category');
+                    $('.event_category').val(eventCategory).trigger('change'); 
+                 
+                });
+
+                // Listener manual do window
+                window.addEventListener('initSelect2', () => {
+                    initSelect2();
+                    });
+                });
+
+              document.addEventListener("DOMContentLoaded",  initSelect2);
+                  document.addEventListener("livewire:navigated", () => {
+                    initSelect2();
+                });
+
+                */
 </script>
 
 @endpush

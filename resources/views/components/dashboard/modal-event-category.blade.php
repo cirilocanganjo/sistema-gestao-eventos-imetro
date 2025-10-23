@@ -16,7 +16,7 @@
             <button wire:click="{{ $status ? 'update' : 'store' }}" class="btn {{ $status ? 'btn-success' : 'btn-primary' }}">
                 {{ $status ? 'Atualizar' : 'Salvar' }}
             </button>
-            <button wire:click="close" class="btn btn-danger" onclick="closeModal()">Fechar</button>
+            <button wire:click="close" onclick="closeModal()" class="btn btn-danger" onclick="closeModal()">Fechar</button>
         </div>
     </div>
 </div>
