@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class HeroComponent extends Component
 {
-  public Event|null $highlighted_event = null;
+  public Event $highlighted_event, $searcher;
 
    
     public function render()

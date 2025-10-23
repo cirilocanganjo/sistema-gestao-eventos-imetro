@@ -13,7 +13,9 @@ use Livewire\Component;
 
 class HomeComponent extends Component
 {
-    public Event|null $highlighted_event = null;
+   public Event|null $highlighted_event = null;
+   public $searcher;
+
     protected $listeners = ['confirm' => 'confirmLogout'];
 
     #[Layout('layouts.home.app')]	
@@ -81,7 +83,15 @@ class HomeComponent extends Component
     #[Computed]
     public function events () {
         try {
-            return Event::get();
+            return Event::query()->when($this->searcher, function ($q) {    
+            $q->where(function ($query) {
+                $query->where('event_name', 'like', "%{$this->searcher}%")
+                ->orWhere('event_description', 'like', "%{$this->searcher}%");
+            });
+    })
+    ->get();
+
+            
         } catch (Exception $e) {
             LivewireAlert::title('Erro')
           ->text('erro: ' .$e->getmessage())
