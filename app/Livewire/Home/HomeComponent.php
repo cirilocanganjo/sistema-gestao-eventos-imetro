@@ -88,12 +88,12 @@ class HomeComponent extends Component
                 $query->where('event_name', 'like', "%{$this->searcher}%")
                 ->orWhere('event_description', 'like', "%{$this->searcher}%");
             });
-    })
-    ->get();
+    })->get();
+   
 
             
         } catch (Exception $e) {
-            LivewireAlert::title('Erro')
+          LivewireAlert::title('Erro')
           ->text('erro: ' .$e->getmessage())
           ->error()
           ->withConfirmButton()

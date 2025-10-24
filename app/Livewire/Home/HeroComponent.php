@@ -46,7 +46,6 @@ class HeroComponent extends Component
             if (!$eventDateTime->isPast()) {
               return $now->diff($eventDateTime);               
             }
-
             
         } catch (Exception $e) {
             LivewireAlert::title('Erro')

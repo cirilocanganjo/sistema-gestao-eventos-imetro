@@ -20,10 +20,17 @@
                         <p class="hero-subtitle">{{ $highlighted_event->event_description ?? ''}}</p>
 
                         <div class="event-details">
-                          <div class="detail-item">
-                            <i class="bi bi-calendar-event"></i>
-                            <span>{{ \Carbon\Carbon::parse($highlighted_event->event_date)->format('d/m/Y') ?? ''}}</span>
+                          @if ($highlighted_event->event_date < now()->toDateString())
+                          <div class="alert alert-warning ">
+                            <h4 class="text-dark">Evento já decorrido!</h4>
                           </div>
+                            
+                          @else
+                                <div class="detail-item">
+                                  <i class="bi bi-calendar-event"></i>
+                                  <span>{{ \Carbon\Carbon::parse($highlighted_event->event_date)->format('d/m/Y') ?? ''}}</span>
+                                </div>
+                         
                           <div class="detail-item">
                             <i class="bi bi-geo-alt"></i>
                             <span>{{ $highlighted_event->location ?? ''}}</span>
@@ -56,6 +63,7 @@
                                   </div>
                                 </div>
                               </div>
+                      @endif
                       @endif
 
                       
