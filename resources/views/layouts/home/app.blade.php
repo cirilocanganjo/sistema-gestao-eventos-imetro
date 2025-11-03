@@ -41,7 +41,7 @@
 @stack('intro')
     <!-- Script que reativa os efeitos -->
     <script>
-        function reativarScripts() {
+        function reativateScripts() {
             if (typeof GLightbox !== 'undefined') {
                 GLightbox({ selector: '.glightbox' });
             }
@@ -65,11 +65,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            reativarScripts();
+            reativateScripts();
         });
 
         document.addEventListener('livewire:navigated', () => {
-            reativarScripts();
+            reativateScripts();
         });
     </script>
 

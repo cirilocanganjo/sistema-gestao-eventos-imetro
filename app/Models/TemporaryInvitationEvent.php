@@ -11,7 +11,11 @@ class TemporaryInvitationEvent extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $keyType = 'string';  
-    protected $fillable = ['expiration_event_date','event_uuid'];
+    protected $fillable = [
+            'expiration_event_date',
+            'event_uuid',
+            'user_id'
+];
 
     public function event () {
         return $this->belongsTo(Event::class);

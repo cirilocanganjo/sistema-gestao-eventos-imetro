@@ -4,7 +4,7 @@
 
                    <!-- Eenets Card -->
                    <div class="col-xxl-4 col-md-6">
-                     <div class="card info-card sales-card">
+                     <div class="card cursor-pointer info-card sales-card">
 
                        <div class="filter">
                          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>                      
@@ -29,7 +29,7 @@
 
                    <!-- Invitations Card -->
                    <div class="col-xxl-4 col-md-6">
-                     <div class="card info-card revenue-card">
+                     <div class="card cursor-pointer info-card revenue-card">
 
                        <div class="filter">
                          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -56,7 +56,7 @@
                    <!-- Users Card -->
                    <div class="col-xxl-4 col-xl-12">
 
-                     <div class="card info-card customers-card">
+                     <div class="card cursor-pointer info-card customers-card">
 
                        <div class="filter">
                          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>

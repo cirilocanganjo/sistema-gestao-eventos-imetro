@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard;
 use \App\Models\{Event, EventCategory};
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
@@ -16,7 +17,7 @@ use Livewire\WithFileUploads;
 class EventComponent extends Component
 {
     use WithFileUploads;
-    public $uuid,$alreadyExistsHighlightedEvent,$event,$event_location,$event_status,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
+    public $uuid,$alreadyExistsHighlightedEvent,$event,$event_to_highlight,$event_location,$event_status,$event_category,$event_date,$event_time,$event_description,$event_photo,$fileName,$event_name,$status,$searcher,$startdate,$enddate,$eventName,$eventCoverPhoto;
     protected $listeners = ['highlightEvent' => 'confirmHighlightEvent', 'confirmEventDeletion' => 'confirmEventDeletion'];
 
     public function mount () {
@@ -32,7 +33,7 @@ class EventComponent extends Component
     }        
 
     #[Layout('layouts.dashboard.app')]
-    public function render()
+    public function render(): View
     {
         return view('livewire.dashboard.event-component',[
             'data' =>$this->getEvents(),
@@ -247,7 +248,6 @@ class EventComponent extends Component
 {
     try {
         DB::beginTransaction();
-
         $this->event = Event::find($this->uuid);
 
         if ($this->event && Storage::disk('public')->exists('imgs/' . $this->event->event_cover_photo)) {
@@ -266,8 +266,7 @@ class EventComponent extends Component
                 ->timer(0)
                 ->confirmButtonText('Fechar')
                 ->show();
-
-            $this->dispatch('event-deleted');
+                $this->dispatch('event-deleted');
         }
        
         $this->reset(['uuid', 'event']);
@@ -315,6 +314,7 @@ class EventComponent extends Component
                  Carbon::parse($this->enddate)->endOfDay()
                 ])
             )->orderBy('event_highlighted', 'DESC')            
+            ->where('user_id', auth()->user()->id)
             ->get();
 
         } catch (Exception $e) {
@@ -393,13 +393,38 @@ class EventComponent extends Component
     public function confirmHighlightEvent () {
         try {      
 
-           DB::beginTransaction();       
+           DB::beginTransaction();  
+           $isHighlightedEvent = Event::query()->where('event_highlighted',true)->get() ;   
+           $this->event_to_highlight = Event::query()->find($this->uuid);
+
+           if ($isHighlightedEvent->count() > 0) {  
+                   Event::query()->where('uuid', $this->uuid)->update([
+                  'event_highlighted' => false
+                    ]);
+            if ($isHighlightedEvent->isNotEmpty() && !$this->event_to_highlight->event_highlighted) {
+            LivewireAlert::title('Atenção!')
+             ->text('Já existe um evento afixado, apenas é permitido afixar 1 evento!')
+             ->warning()
+             ->withConfirmButton()
+             ->timer(0)
+             ->confirmButtonText('Fechar')
+              ->withOptions(['allowOutsideClick' => false])
+             ->show();
+            }
+                        
+
+     
+           }else{
+                
            Event::query()->where('uuid', $this->uuid)->update([
-                  'event_highlighted' => DB::raw("NOT event_highlighted")
+                  'event_highlighted' => true
                     ]);
              
-                DB::commit();
                 $this->dispatch('event_highlighted');
+
+           }
+
+        DB::commit();
 
         } catch (\Throwable $th) {
             DB::rollback();

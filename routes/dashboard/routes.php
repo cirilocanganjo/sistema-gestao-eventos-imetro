@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::prefix("/dashboard")->middleware([admin::class])->group(function () {
+Route::prefix("dashboard")->middleware([admin::class])->group(function () {
 Route::get('/home', DashboardComponent::class)->name('dashboard.home');
 Route::get('/utilizadores', UserComponent::class)->name('dashboard.users');
 Route::get('/perfil', MyProfileComponent::class)->name('dashboard.profile');
@@ -25,3 +25,4 @@ Route::get('/convites',InvitationComponent::class)->name('dashboard.invitations'
 Route::get('/docentes',TeacherComponent::class)->name('dashboard.teachers');
 Route::get('/visitantes',VisitorComponent::class)->name('dashboard.visitors');
 });
+

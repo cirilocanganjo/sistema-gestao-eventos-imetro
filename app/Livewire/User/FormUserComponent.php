@@ -105,7 +105,7 @@ class FormUserComponent extends Component
             $user = User::create([
               'user_name' =>$personal_data->full_name,
               'email' =>$this->pull('email'),
-              'password' =>\Hash::make($this->password),
+              'password' => \Hash::make($this->password),
               'visitor_uuid' =>$visitor->uuid,
               'user_type_uuid' =>$this->pull('user_type_uuid') ?? '',
             ]);

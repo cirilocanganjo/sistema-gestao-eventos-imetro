@@ -3,9 +3,8 @@
 
  <x-dashboard.top-bar />
   <x-dashboard.side-bar />
-
+  <x-dashboard.modal-send-event-invitation /> 
          <main id="main" class="main">
-         <x-dashboard.modal-user :visitor_types="$visitor_types ?? []" :access_levels="$access_levels ?? []" />
 
                   <div class='card'>
                       <div class='card-header'>
@@ -13,81 +12,16 @@
                       </div>
 
                       <div class='card-body'>
-                      <div class='d-flex align-items-center gap-1 mt-3 mb-3'>
-                          <button id='button-add' data-bs-target='#user' data-bs-toggle='modal' class='btn btn-dark d-flex px-2 py-2'>
-                            <i class='ri-add-line'></i>
-                            <span>Adicionar</span>
-                          </button>
-                          <input wire:model.live='searcher' type='text' placeholder="Pesquisar utilizador" class='form-control px-2 py-2' />
-                          <input wire:model.live='startdate' type='date'  class='form-control px-2 py-2' />
-                          <input wire:model.live='enddate' type='date' class='form-control px-2 py-2' />
-                      </div>
+                      
 
-                        <div class='table-responsive'>
-                          <table class='table table-hover'>
-                            <thead class='text-center'>
-                              <tr>
-                                  <th>Foto</th>
-                                  <th>Data</th>
-                                  <th>Nome</th>
-                                  <th>Email</th>
-                                  <th>Acesso</th>
-                                  <th>Tipo visitante</th>
-                                  <th>Status</th>
-                                  <th>Opções</th>
-                              </tr>
-                            </thead>
-                            <tbody class="text-center">
-                              @if (isset($data) and $data->count() > 0)
-                                @foreach ($data as $key => $user)
-                                  <tr>
-                                      <td>
-                                    
-                                       @if (!isset($user->userPersonalData->photo))
-                                             @if($user->userPersonalData->gender === 'male')
-                                              <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('dashboard/assets/img/9bce03b6e54cdf0b7b5cf85c5d9d87bc.png') }}" />
-                                              @elseif ($user->userPersonalData->gender === 'female')
-                                              <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('dashboard/assets/img/592727514f8b799775df3834b591ee22.png') }}" />
-                                              @endif
+                      <x-dashboard.invitation-event-inputs-filter  />
+                      <x-dashboard.invitation-event-filter-buttons :allInvitationEventButton="$allInvitationEventButton ?? true"                      
+                      :sentInvitationEventButton="$sentInvitationEventButton ?? false"
+                      :receivedInvitationEventButton="$receivedInvitationEventButton ?? false"
+                      :rejectedInvitationEventButton="$rejectedInvitationEventButton ?? false"
+                       />
+                      <x-dashboard.invitation-event-table />
 
-                                        @else
-                                        <img style="width: 45px;" class='img-fluid rounded' src="{{ asset('storage/imgs/' . $user->userPersonalData->photo) }}" />
-                                        @endif 
-
-                                       
-                                      </td>
-                                      <td>{{ $user->created_at ?? '' }}</td>
-                                      <td>{{ $user->user_name ?? '' }}</td>
-                                      <td>{{ $user->email ?? '' }}</td>
-                                      <td class='text-center'>{{ $user->userType->type ?? '' }}</td>
-                                      <td  style="text-align: justify; width: 350px;word-break: break-word; overflow-wrap: break-word; white-space: normal;" class='text-center'>{{ $user->visitorForVisitorType->visitorType->type ?? '' }}</td>
-                                      <td>{{ $user->status === 'active' ? 'ativo' : 'inativo' }}</td>
-                                      <td>
-                                        <div class='d-flex align-items-center gap-1'>
-                                            <button wire:click='edit({{ $user->id }})' wire:key='{{ $key }}' data-bs-target='#user' data-bs-toggle='modal' class='d-flex gap-1 btn btn-sm btn-primary'>
-                                            <i class='ri-edit-box-line'></i>
-                                            <span>Editar</span>
-                                            </button>
-
-                                            <button wire:key='{{ $key }}' class='d-flex gap-1 btn btn-sm btn-danger'>
-                                              <i class='ri-delete-bin-4-line'></i>
-                                              <span>Eliminar</span>
-                                            </button>
-
-                                        </div>
-                                      </td>
-                                  </tr>
-                                  @endforeach
-                              @else
-                                <tr>
-                                  <td class="text-center" colspan="12">
-                                  <div class='alert alert-warning text-center'>Nenhum resultado encontrado!</div>
-                                </td>
-                                </tr>
-                              @endif
-                            </tbody>
-                          </table>
-                        </div>
                       </div>
 
                   </div>
@@ -97,24 +31,147 @@
 </div>
 
 
-@push('user-component-scripts')
-<script>
-document.addEventListener('livewire:initialized', () => {
-    const fullName = document.getElementById('name');
-    const email = document.getElementById('email'); // supondo que exista este campo
-    const buttonAdd = document.getElementById('button-add');
+@push('invitations')
 
-    if (buttonAdd) {
-        buttonAdd.addEventListener('click', () => {  //Clean inputs when button add is clicked
-            fullName.value = '';
-            email.value = '';
-        });
-    }
+        <script>
+            // Função para inicializar os event listeners
+            function initializeEventListeners() {
+                const buttonAdd = document.getElementById('button-add');
+                const buttonsEdit = document.querySelectorAll('.button-edit');
+                const tdImageDetails = document.querySelectorAll('.tdImgEventDetails');
 
-    Livewire.on('edit-user', ({ user }) => {  //Receive Livewire data and fill the form
-        fullName ? fullName.value = user.user_name : '';
-        email ? email.value = user.email : '';
-    });
-});
-</script>
+                // Botão "Adicionar"
+                if (buttonAdd) {
+                    const newButtonAdd = buttonAdd.cloneNode(true);
+                    buttonAdd.replaceWith(newButtonAdd);
+
+                    newButtonAdd.addEventListener('click', () => openModal());
+                }
+
+                // Botões "Editar"
+                buttonsEdit.forEach(button => {
+                    const newButton = button.cloneNode(true);
+                    button.replaceWith(newButton);
+
+                    newButton.addEventListener('click', () => {
+                        const uuid = newButton.getAttribute('data-uuid');
+                        openModal(uuid);
+                    });
+                });
+
+                // Imagem de detalhes
+                tdImageDetails.forEach(td => {
+                    const newTd = td.cloneNode(true);
+                    td.replaceWith(newTd);
+
+                    newTd.addEventListener('click', () => {
+                        const uuid = newTd.getAttribute('data-uuid');
+                        openEventImageDetailModal(uuid);
+                    });
+                });
+
+                // Evitar fechar com ESC
+                const handleEscape = event => {
+                    if (event.key === 'Escape') event.preventDefault();
+                };
+
+                document.removeEventListener('keydown', handleEscape);
+                document.addEventListener('keydown', handleEscape);
+            }
+
+            // Função para abrir o modal principal
+            function openModal(uuid = null) {
+                const modal = document.getElementById('modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.classList.add('fade-in');
+                    if (uuid) {
+                        //console.log('Editando com UUID:', uuid);
+                        // Lógica de carregamento do evento aqui
+                    }
+                }
+            }
+
+            // Função para fechar o modal principal
+            function closeModal() {
+                const modal = document.getElementById('modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('fade-in');
+                }
+            }
+
+
+
+            // Função para abrir modal de detalhes da imagem
+            function openEventImageDetailModal(uuid = null) {
+                const eventImageDetailModal = document.getElementById('event-image-detail-modal');
+                if (eventImageDetailModal) {
+                    eventImageDetailModal.style.display = 'flex';
+                    eventImageDetailModal.classList.add('fade-in');
+                    //console.log('Abrindo detalhe da imagem com UUID:', uuid);
+                }
+            }
+
+             function closeModalImageDetailsModal() {
+                const modal = document.getElementById('event-image-detail-modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('fade-in');
+                }
+            }
+
+            // Inicialização
+            document.addEventListener('DOMContentLoaded', initializeEventListeners);
+            document.addEventListener('livewire:navigated', initializeEventListeners);
+
+           
+
+                   function initSelect2() {             
+
+                            $(".invitation_sender").select2({
+                              width: '100%',
+                              theme: "default",
+                              language: "pt",
+                              placeholder: "Selecionar convidados",
+                              allowClear: true,
+                              dropdownParent: $("#modal"),
+                              }).on('change', function (e) {
+                              @this.set('invitation_sender', $(this).val());                       
+                              });
+                     }                      
+                                  
+                          initSelect2(); 
+            
+                        document.addEventListener("livewire:init", () => {                
+                        Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initSelect2 após o processamento de mensagens Livewire
+                            initSelect2();
+                        });
+
+                        // Escuta eventos personalizados emitidos do backend Livewire
+                        Livewire.on('refreshSelect2', () => {
+                            $('.invitation_sender').select2('destroy'); 
+                            initSelect2();
+
+                            let invitation_sender = $wire.get('invitation_sender');
+                            $('.invitation_sender').val(invitation_sender).trigger('change'); 
+                           });
+
+                        // Listener manual do window
+                        window.addEventListener('initSelect2', () => {
+                            initSelect2();
+                            });
+                        });
+
+                      document.addEventListener("DOMContentLoaded",  initSelect2);
+                          document.addEventListener("livewire:navigated", () => {
+                            initSelect2();
+                        });
+
+                        
+        </script>
+
+
+
+
 @endpush

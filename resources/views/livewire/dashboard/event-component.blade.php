@@ -6,20 +6,13 @@
 
          <main id="main" class="main">
 
-          <x-dashboard.modal-event 
-            :status="$status ?? false" 
-            :categories="$categories ?? [] " 
-            />
-
-            <x-dashboard.modal-event-photo
-             :eventName="$eventName" 
-             :eventCoverPhoto="$eventCoverPhoto" 
-             />
-
-                  <div class='card'>
-                      <div class='card-header'>
-                        <h5>Eventos</h5>
-                      </div>
+          <x-dashboard.modal-event :status="$status ?? false" :categories="$categories ?? [] "  />          
+          <x-dashboard.modal-event-photo  :eventName="$eventName"  :eventCoverPhoto="$eventCoverPhoto"  />
+           
+          <div class='card'>
+                <div class='card-header'>
+                    <h5>Eventos</h5>
+                </div>
 
                       <div class='card-body'>
                       <div class='d-flex align-items-center gap-1 mt-3 mb-3'>
@@ -59,7 +52,7 @@
                                         style="height:50px; width: 60px;" 
                                       />
                                       </td>
-                                     <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_name }}</td>
+                                      <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_name }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_date }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_time }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->location  }}</td>
@@ -110,155 +103,155 @@
 
 @push('events')
 
-<script>
-    // Função para inicializar os event listeners
-    function initializeEventListeners() {
-        const buttonAdd = document.getElementById('button-add');
-        const buttonsEdit = document.querySelectorAll('.button-edit');
-        const tdImageDetails = document.querySelectorAll('.tdImgEventDetails');
+        <script>
+            // Função para inicializar os event listeners
+            function initializeEventListeners() {
+                const buttonAdd = document.getElementById('button-add');
+                const buttonsEdit = document.querySelectorAll('.button-edit');
+                const tdImageDetails = document.querySelectorAll('.tdImgEventDetails');
 
-        // Botão "Adicionar"
-        if (buttonAdd) {
-            const newButtonAdd = buttonAdd.cloneNode(true);
-            buttonAdd.replaceWith(newButtonAdd);
+                // Botão "Adicionar"
+                if (buttonAdd) {
+                    const newButtonAdd = buttonAdd.cloneNode(true);
+                    buttonAdd.replaceWith(newButtonAdd);
 
-            newButtonAdd.addEventListener('click', () => openModal());
-        }
+                    newButtonAdd.addEventListener('click', () => openModal());
+                }
 
-        // Botões "Editar"
-        buttonsEdit.forEach(button => {
-            const newButton = button.cloneNode(true);
-            button.replaceWith(newButton);
+                // Botões "Editar"
+                buttonsEdit.forEach(button => {
+                    const newButton = button.cloneNode(true);
+                    button.replaceWith(newButton);
 
-            newButton.addEventListener('click', () => {
-                const uuid = newButton.getAttribute('data-uuid');
-                openModal(uuid);
-            });
-        });
-
-        // Imagem de detalhes
-        tdImageDetails.forEach(td => {
-            const newTd = td.cloneNode(true);
-            td.replaceWith(newTd);
-
-            newTd.addEventListener('click', () => {
-                const uuid = newTd.getAttribute('data-uuid');
-                openEventImageDetailModal(uuid);
-            });
-        });
-
-        // Evitar fechar com ESC
-        const handleEscape = event => {
-            if (event.key === 'Escape') event.preventDefault();
-        };
-
-        document.removeEventListener('keydown', handleEscape);
-        document.addEventListener('keydown', handleEscape);
-    }
-
-    // Função para abrir o modal principal
-    function openModal(uuid = null) {
-        const modal = document.getElementById('modal');
-        if (modal) {
-            modal.style.display = 'flex';
-            modal.classList.add('fade-in');
-            if (uuid) {
-                console.log('Editando com UUID:', uuid);
-                // Lógica de carregamento do evento aqui
-            }
-        }
-    }
-
-    // Função para fechar o modal principal
-    function closeModal() {
-        const modal = document.getElementById('modal');
-        if (modal) {
-            modal.style.display = 'none';
-            modal.classList.remove('fade-in');
-        }
-    }
-
-
-
-    // Função para abrir modal de detalhes da imagem
-    function openEventImageDetailModal(uuid = null) {
-        const eventImageDetailModal = document.getElementById('event-image-detail-modal');
-        if (eventImageDetailModal) {
-            eventImageDetailModal.style.display = 'flex';
-            eventImageDetailModal.classList.add('fade-in');
-            //console.log('Abrindo detalhe da imagem com UUID:', uuid);
-        }
-    }
-
-     function closeModalImageDetailsModal() {
-        const modal = document.getElementById('event-image-detail-modal');
-        if (modal) {
-            modal.style.display = 'none';
-            modal.classList.remove('fade-in');
-        }
-    }
-
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', initializeEventListeners);
-    document.addEventListener('livewire:navigated', initializeEventListeners);
-
-    // Eventos Livewire
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.on('event-created', () => {
-            const eventPhoto = document.getElementById('event_photo');
-            if (eventPhoto) eventPhoto.value = '';
-        });
-
-        Livewire.on('event-updated', () => {
-            const eventPhoto = document.getElementById('event_photo');
-            if (eventPhoto) eventPhoto.value = '';
-            });
-        });
-
-          /* function initSelect2() {             
-
-                    $(".event_category").select2({
-                      width: '100%',
-                      theme: "default",
-                      language: "pt",
-                      placeholder: "Selecionar categoria",
-                      allowClear: true,
-                      dropdownParent: $("#modal"),
-                      }).on('change', function (e) {
-                      @this.set('event_category', $(this).val());                       
-                      });
-             }                      
-                          
-                  initSelect2(); 
-    
-                document.addEventListener("livewire:init", () => {                
-                Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initSelect2 após o processamento de mensagens Livewire
-                    initSelect2();
-                });
-
-                // Escuta eventos personalizados emitidos do backend Livewire
-                Livewire.on('refreshSelect2', () => {
-                    $('.event_category').select2('destroy'); 
-                    initSelect2();
-
-                    let eventCategory = $wire.get('event_category');
-                    $('.event_category').val(eventCategory).trigger('change'); 
-                 
-                });
-
-                // Listener manual do window
-                window.addEventListener('initSelect2', () => {
-                    initSelect2();
+                    newButton.addEventListener('click', () => {
+                        const uuid = newButton.getAttribute('data-uuid');
+                        openModal(uuid);
                     });
                 });
 
-              document.addEventListener("DOMContentLoaded",  initSelect2);
-                  document.addEventListener("livewire:navigated", () => {
-                    initSelect2();
+                // Imagem de detalhes
+                tdImageDetails.forEach(td => {
+                    const newTd = td.cloneNode(true);
+                    td.replaceWith(newTd);
+
+                    newTd.addEventListener('click', () => {
+                        const uuid = newTd.getAttribute('data-uuid');
+                        openEventImageDetailModal(uuid);
+                    });
                 });
 
-                */
-</script>
+                // Evitar fechar com ESC
+                const handleEscape = event => {
+                    if (event.key === 'Escape') event.preventDefault();
+                };
+
+                document.removeEventListener('keydown', handleEscape);
+                document.addEventListener('keydown', handleEscape);
+            }
+
+            // Função para abrir o modal principal
+            function openModal(uuid = null) {
+                const modal = document.getElementById('modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.classList.add('fade-in');
+                    if (uuid) {
+                        console.log('Editando com UUID:', uuid);
+                        // Lógica de carregamento do evento aqui
+                    }
+                }
+            }
+
+            // Função para fechar o modal principal
+            function closeModal() {
+                const modal = document.getElementById('modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('fade-in');
+                }
+            }
+
+
+
+            // Função para abrir modal de detalhes da imagem
+            function openEventImageDetailModal(uuid = null) {
+                const eventImageDetailModal = document.getElementById('event-image-detail-modal');
+                if (eventImageDetailModal) {
+                    eventImageDetailModal.style.display = 'flex';
+                    eventImageDetailModal.classList.add('fade-in');
+                    //console.log('Abrindo detalhe da imagem com UUID:', uuid);
+                }
+            }
+
+             function closeModalImageDetailsModal() {
+                const modal = document.getElementById('event-image-detail-modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('fade-in');
+                }
+            }
+
+            // Inicialização
+            document.addEventListener('DOMContentLoaded', initializeEventListeners);
+            document.addEventListener('livewire:navigated', initializeEventListeners);
+
+            // Eventos Livewire
+            document.addEventListener('livewire:initialized', () => {
+                Livewire.on('event-created', () => {
+                    const eventPhoto = document.getElementById('event_photo');
+                    if (eventPhoto) eventPhoto.value = '';
+                });
+
+                Livewire.on('event-updated', () => {
+                    const eventPhoto = document.getElementById('event_photo');
+                    if (eventPhoto) eventPhoto.value = '';
+                    });
+                });
+
+                  /* function initSelect2() {             
+
+                            $(".event_category").select2({
+                              width: '100%',
+                              theme: "default",
+                              language: "pt",
+                              placeholder: "Selecionar categoria",
+                              allowClear: true,
+                              dropdownParent: $("#modal"),
+                              }).on('change', function (e) {
+                              @this.set('event_category', $(this).val());                       
+                              });
+                     }                      
+                                  
+                          initSelect2(); 
+            
+                        document.addEventListener("livewire:init", () => {                
+                        Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initSelect2 após o processamento de mensagens Livewire
+                            initSelect2();
+                        });
+
+                        // Escuta eventos personalizados emitidos do backend Livewire
+                        Livewire.on('refreshSelect2', () => {
+                            $('.event_category').select2('destroy'); 
+                            initSelect2();
+
+                            let eventCategory = $wire.get('event_category');
+                            $('.event_category').val(eventCategory).trigger('change'); 
+                         
+                        });
+
+                        // Listener manual do window
+                        window.addEventListener('initSelect2', () => {
+                            initSelect2();
+                            });
+                        });
+
+                      document.addEventListener("DOMContentLoaded",  initSelect2);
+                          document.addEventListener("livewire:navigated", () => {
+                            initSelect2();
+                        });
+
+                        */
+        </script>
 
 @endpush
 

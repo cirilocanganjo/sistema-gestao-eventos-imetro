@@ -72,5 +72,6 @@
 @stack('events')
 @stack('categories')
 @stack('access-levels')
+@stack("invitations")
 </body>
 </html>
