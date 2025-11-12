@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class InvitationComponent extends Component
 {
-   public $invitation_sender = [],$allInvitationEventButton,$sentInvitationEventButton,$receivedInvitationEventButton,$rejectedInvitationEventButton;
+   public $invitation_sender = [],$allInvitationEventButton,$sentInvitationEventButton,$receivedInvitationEventButton,$rejectedInvitationEventButton, $expiredInvitationEventButton;
 
    public function mount () {
       $this->allInvitationEventButton = true;
@@ -28,6 +28,7 @@ class InvitationComponent extends Component
            $this->sentInvitationEventButton = false;
            $this->receivedInvitationEventButton = false;
            $this->rejectedInvitationEventButton = false;
+           $this->expiredInvitationEventButton = false;
        }
 
     public function sentEventButtonClicked ()
@@ -36,6 +37,7 @@ class InvitationComponent extends Component
            $this->allInvitationEventButton = false;
            $this->receivedInvitationEventButton = false;
            $this->rejectedInvitationEventButton = false;
+           $this->expiredInvitationEventButton = false;
        }
 
     public function receivedEventButtonClicked ()
@@ -44,6 +46,7 @@ class InvitationComponent extends Component
            $this->sentInvitationEventButton = false;
            $this->allInvitationEventButton = false;
            $this->rejectedInvitationEventButton = false; 
+           $this->expiredInvitationEventButton = false;
        }  
 
      public function rejectedEventButtonClicked ()
@@ -51,12 +54,17 @@ class InvitationComponent extends Component
            $this->rejectedInvitationEventButton = true;
            $this->receivedInvitationEventButton = false;
            $this->sentInvitationEventButton = false;
-           $this->allInvitationEventButton = false;
-                
+           $this->allInvitationEventButton = false;         
+           $this->expiredInvitationEventButton = false;       
        }
 
-
-
+       public function expiredEventButtonClicked () {
+           $this->expiredInvitationEventButton = true;   
+           $this->rejectedInvitationEventButton = false;
+           $this->receivedInvitationEventButton = false;
+           $this->sentInvitationEventButton = false;
+           $this->allInvitationEventButton = false;         
+       }
 
     public function close () {
       try {

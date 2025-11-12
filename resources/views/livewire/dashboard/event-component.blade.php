@@ -56,7 +56,7 @@
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_date }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_time }}</td>
                                       <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->location  }}</td>
-                                      <td class='text-center' style="text-align: center; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
+                                      <td class='text-start' style="font-size: 14px; text-align: center; width: 750px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->event_description }}</td>
                                        <td class='text-center' style="text-align: justify; width: 350px; word-break: break-word; overflow-wrap: break-word; white-space: normal;">{{ $event->eventCategory->category ?? '' }}</td>
                                        <td>{{ $event->user->user_name }}</td>
                                       <td>
@@ -190,6 +190,12 @@
                     modal.classList.remove('fade-in');
                 }
             }
+
+            document.addEventListener("livewire:init", () => {                
+            Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initializeEventListeners após o processamento de mensagens Livewire
+                initializeEventListeners();
+            });
+            });
 
             // Inicialização
             document.addEventListener('DOMContentLoaded', initializeEventListeners);

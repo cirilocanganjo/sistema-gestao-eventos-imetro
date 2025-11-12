@@ -19,6 +19,7 @@
                       :sentInvitationEventButton="$sentInvitationEventButton ?? false"
                       :receivedInvitationEventButton="$receivedInvitationEventButton ?? false"
                       :rejectedInvitationEventButton="$rejectedInvitationEventButton ?? false"
+                      :expiredInvitationEventButton="$expiredInvitationEventButton ?? false"
                        />
                       <x-dashboard.invitation-event-table />
 
@@ -121,11 +122,15 @@
                 }
             }
 
+            document.addEventListener("livewire:init", () => {                
+            Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initializeEventListeners após o processamento de mensagens Livewire
+                initializeEventListeners();
+            });
+            });
+
             // Inicialização
             document.addEventListener('DOMContentLoaded', initializeEventListeners);
             document.addEventListener('livewire:navigated', initializeEventListeners);
-
-           
 
                    function initSelect2() {             
 

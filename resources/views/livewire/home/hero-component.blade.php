@@ -24,11 +24,17 @@
                           <div class="alert alert-warning ">
                             <h4 class="text-dark">Evento já decorrido!</h4>
                           </div>
-                            
+
+                          
                           @else
                                 <div class="detail-item">
                                   <i class="bi bi-calendar-event"></i>
                                   <span>{{ \Carbon\Carbon::parse($highlighted_event->event_date)->format('d/m/Y') ?? ''}}</span>
+                                </div>
+
+                                <div class="detail-item">
+                                  <i class="bi bi-clock"></i>
+                                  <span>{{ $highlighted_event->event_time ?? ''}}</span>
                                 </div>
                          
                           <div class="detail-item">
@@ -40,15 +46,15 @@
                       </div>
 
                       @if (isset($highlighted_event))
-                              <div class="countdown-section {{  \Carbon\Carbon::parse($highlighted_event->event_date)->year >= now()->year ? 'd-block' : 'd-none'  }}">
+                              <div class="countdown-section {{  \Carbon\Carbon::parse($highlighted_event->event_date)->year > now()->year ? 'd-block' : 'd-none'  }}">
 
-                                <h2 style='font-size: 25px;' class="fw-bold text-color-default countdown-label">Dias restantes</h2>
-
-                                <div class="countdown  d-flex justify-content-center" data-count="{{ $highlighted_event->event_date }}">
+                              <h2 style='font-size: 25px;' class="fw-bold text-color-default countdown-label">Dias restantes</h2>
+                              <div class="countdown  d-flex justify-content-center" data-count="{{ $highlighted_event->event_date }}">
                                   <div>
                                     <h3 class="count-days">1</h3>
                                     <h4>Dias</h4>
                                   </div>
+
                                   <div>
                                     <h3 class="count-hours">8</h3>
                                     <h4>Horas</h4>

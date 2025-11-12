@@ -13,7 +13,9 @@
  <link rel="stylesheet" href="{{ asset('dashboard/assets/css/select2/select2.css') }}" />
  <link rel="stylesheet" href="{{ asset('dashboard/assets/css/select2/select2.min.css') }}" />
 
-@vite(['resources/css/app.css', 'resources/js/app.js'])  
+ @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+ @vite(['resources/css/app.css', 'resources/js/app.js'])
+ @endif  
 <title>@yield('title')</title>
 @livewireStyles()
 </head>

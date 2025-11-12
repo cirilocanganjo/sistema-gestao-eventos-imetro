@@ -14,6 +14,7 @@ class TemporaryInvitationEvent extends Model
     protected $fillable = [
             'expiration_event_date',
             'event_uuid',
+            'status',
             'user_id'
 ];
 

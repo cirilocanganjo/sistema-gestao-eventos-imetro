@@ -1,5 +1,5 @@
 
-    <section id="intro" class="intro section">
+    <section  id="intro" class="intro section" style="background: white !important;">
 
    
       <div class="container-fluid">

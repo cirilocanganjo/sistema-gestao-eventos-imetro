@@ -23,7 +23,9 @@
   <!-- Main CSS File -->
   <link href="{{ asset('home/assets/css/main.css') }}" rel="stylesheet" />
   <link href="{{ asset('home/assets/css/bootstrap-icons.css') }}" rel="stylesheet" />
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+   @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+   @endif
   @livewireStyles()
 </head>
 

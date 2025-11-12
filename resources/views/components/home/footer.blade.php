@@ -2,8 +2,8 @@
   <div class="container footer-top">
     <div class="row gy-4">
       <div class="col-lg-4 col-md-6 footer-about">
-        <a href="index.html" class="logo d-flex align-items-center">
-          <span class="sitename">Evently</span>
+        <a href="/" class="logo d-flex align-items-center">
+          <span style="font-size: 18px;" class="sitename">{{$this->get_app_name ?? "Sistema de Gestão de Eventos"}}</span>
         </a>
         <div class="footer-contact pt-3">        
           <p class="mt-3"><strong>Telefone:</strong> <span>+244 923 456 213</span></p>

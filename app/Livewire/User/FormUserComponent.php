@@ -8,6 +8,7 @@ use App\Models\UserType;
 use App\Models\Visitor;
 use App\Models\VisitorType;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,10 @@ use Livewire\WithFileUploads;
 class FormUserComponent extends Component
 {
     use WithFileUploads;
-    public $photo,$user_type_uuid,$fileName,$aleready_stored_email, $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$confirm_password,$gender;
+    public $photo,$user_type_uuid,$fileName,$already_stored_email, $data = [],$fullname,$phone,$identity_card_number,$email,$password,$visitor_type,$confirm_password,$gender;
+
+  protected $listeners = ['confirm' => 'confirmLogout'];   
+
 
     public function mount () {
         try {
@@ -70,15 +74,15 @@ class FormUserComponent extends Component
 
     public function storeNewAccount (User $user) {        
         try {
-           $this->aleready_stored_email = $user->query()->where('email',$this->email)->value('email') ?? null;
-           $this->dispatch('validate-inputs', aleready_stored_email: $this->aleready_stored_email);
+           $this->already_stored_email = $user->query()->where('email',$this->email)->value('email') ?? null;
+           $this->dispatch('validate-inputs', already_stored_email: $this->already_stored_email);
 
-            while (!$this->aleready_stored_email and $this->fullname and $this->phone
+            while (!$this->already_stored_email and $this->fullname and $this->phone
                 and $this->identity_card_number
                 and $this->email
                 and $this->password
                 and $this->visitor_type
-                and $this->photo
+                and $this->photo || !$this->photo
                 and $this->confirm_password
                 and $this->gender
             ) {
@@ -154,7 +158,7 @@ class FormUserComponent extends Component
 
     public function getVisitorTypes () {
         try {
-            return VisitorType::query()->get();
+            return VisitorType::query()->whereNotIn('type', ['admin', 'Admin'])->get();
         } catch (Exception $e) {
               LivewireAlert::title('Erro')
                   ->text('erro: ' .$e->getmessage())
@@ -165,6 +169,44 @@ class FormUserComponent extends Component
         }
     }
 
+ public function logout () {        
+        try{  
+            LivewireAlert::title('Atenção')
+            ->text('Deseja realmente, terminar sessão?')
+            ->warning()
+            ->withDenyButton()
+            ->withConfirmButton()
+            ->confirmButtonText('Sim, confirmar')
+            ->denyButtonText('Não, cancelar')
+            ->withOptions(['allowOutsideClick' => false])
+            ->timer(0)
+            ->onConfirm('confirmLogout')
+            ->show();
 
+        }catch(Exception $ex){
+           LivewireAlert::title('Erro')
+          ->text('erro: ' .$ex->getMessage())
+          ->error()
+          ->withConfirmButton()
+          ->confirmButtonText('Fechar')
+          ->show();
+        }
+    }
+
+    
+
+    public function confirmLogout () {
+        try {
+            Auth::logout();
+            return redirect()->to('/');
+        } catch (Exception $ex) {
+       LivewireAlert::title('Erro')
+          ->text('erro: ' .$ex->getMessage())
+          ->error()
+          ->withConfirmButton()
+          ->confirmButtonText('Fechar')
+          ->show();
+        }
+    }
 
 }

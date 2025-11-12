@@ -7,6 +7,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use \App\Models\{EventCategory};
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
 class CategoryComponent extends Component
@@ -18,8 +19,8 @@ class CategoryComponent extends Component
     }
 
     #[Layout('layouts.dashboard.app')]
-    public function render()
-    {
+    public function render(): View
+    {              
         return view('livewire.dashboard.category-component',[
             'data' =>$this->getEventCategories()
         ]);

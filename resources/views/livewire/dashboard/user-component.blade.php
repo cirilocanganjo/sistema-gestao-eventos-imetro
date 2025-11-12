@@ -167,6 +167,11 @@
         }
     }
 
+     document.addEventListener("livewire:init", () => {                
+            Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initializeEventListeners após o processamento de mensagens Livewire
+                initializeEventListeners();
+            });
+            });
     
     document.addEventListener('DOMContentLoaded', initializeEventListeners);    
     document.addEventListener('livewire:navigated', () => {

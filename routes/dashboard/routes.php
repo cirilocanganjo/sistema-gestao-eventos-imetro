@@ -6,6 +6,7 @@ use App\Livewire\Dashboard\EventComponent;
 use App\Livewire\Dashboard\InvitationComponent;
 use App\Livewire\Dashboard\UserComponent;
 use App\Livewire\Dashboard\MyProfileComponent;
+use App\Livewire\Dashboard\PlatformDetailComponent;
 use App\Livewire\Dashboard\TeacherComponent;
 use App\Livewire\Dashboard\VisitorComponent;
 use \App\Http\Middleware\Admin\Middleware as admin;
@@ -24,5 +25,6 @@ Route::get('/categorias',CategoryComponent::class)->name('dashboard.categories')
 Route::get('/convites',InvitationComponent::class)->name('dashboard.invitations');
 Route::get('/docentes',TeacherComponent::class)->name('dashboard.teachers');
 Route::get('/visitantes',VisitorComponent::class)->name('dashboard.visitors');
+Route::get('detalhes-plataforma', PlatformDetailComponent::class)->name('dashboard.platform.details');
 });
 

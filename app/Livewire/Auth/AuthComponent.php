@@ -21,10 +21,10 @@ class AuthComponent extends Component
     public function login () {
         $this->validate();
         try {
-            if (auth()->attempt(["email" =>$this->email ,"password" =>$this->password])) {
+            if (auth()->attempt(["email" =>$this->email ,"password" => $this->password])) {
                 if (auth()->user()->userType->type === 'admin') {
                     $this->redirect(route('dashboard.home'), navigate: false);
-                }else if (auth()->user()->userType->type === 'visitante' and  auth()->user()->visitor->visitorType->type === 'visitante e publicador de eventos') {
+                }else if (auth()->user()->userType->type === 'visitante' &&  auth()->user()->visitor->visitorType->type === 'visitante e publicador de eventos') {
                     $this->redirect(route('dashboard.home') , navigate: false);
                 }else if (auth()->user()->userType->type === 'visitante') {
                     return redirect()->route('evently.app.home');

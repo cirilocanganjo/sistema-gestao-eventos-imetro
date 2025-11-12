@@ -189,7 +189,7 @@
                 });
 
               document.addEventListener('livewire:initialized', () => {
-                Livewire.on('validate-inputs', ({aleready_stored_email}) => {
+                Livewire.on('validate-inputs', ({already_stored_email}) => {
                     let fullname = document.getElementById('fullname').value;
                     let fullname_span = document.getElementById('fullname_error');
                     let phone = document.getElementById('phone').value;
@@ -223,7 +223,7 @@
                     }   
                   
                  
-                     if (aleready_stored_email) {
+                     if (already_stored_email) {
                         email_span.classList.remove('d-none');
                         email_span.textContent = 'O email já foi cadastrado e não pode ser duplicado, tente novamente';                        
                     } else {

@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Livewire\Dashboard;
-use \App\Models\{Event, TemporaryInvitationEvent, User};
+use \App\Models\{Event, TemporaryInvitationEvent, User, UserType};
 use \Carbon\Carbon;
 use Livewire\Attributes\Layout;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 
@@ -15,11 +17,11 @@ class DashboardComponent extends Component
 
     public function mount()
     {
-      
+      $this->verifyIfAlreadyHasVisitorAndVisitorAndEventPublisherProfiles();
     }
 
     #[Layout('layouts.dashboard.app')]
-    public function render()
+    public function render() : View
     {
         return view('livewire.dashboard.dashboard-component', [
             'chartData' =>$this->getEventsForRenderInChart(),
@@ -119,5 +121,32 @@ class DashboardComponent extends Component
           ->confirmButtonText('Fechar')
           ->show();
       }
+  }
+
+  public function verifyIfAlreadyHasVisitorAndVisitorAndEventPublisherProfiles() {
+    try {
+      $user_types = UserType::query()->where(fn ($q) => $q->whereIn('type', ["visitante", "visitante e publicador de eventos"]))->get();        
+      
+      DB::beginTransaction();
+      if ($user_types->isEmpty()) {
+        UserType::query()->create([
+          'type' => 'visitante',
+        ]); 
+
+        UserType::query()->create([
+          'type' => 'visitante e publicador de eventos',
+        ]);
+      }
+      DB::commit();
+    } catch (Exception $e) {
+        DB::rollBack();
+         LivewireAlert::title('Erro')
+          ->text('erro: ' .$e->getMessage())
+          ->error()
+          ->timer(0)
+          ->withConfirmButton()
+          ->confirmButtonText('Fechar')
+          ->show();
+    }
   }
 }

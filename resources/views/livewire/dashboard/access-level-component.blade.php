@@ -39,15 +39,31 @@
                                       <td class='text-capitalize'>{{ $access_level->type ?? '' }}</td>
                                       <td>
                                         <div class='d-flex align-items-center gap-1'>
-                                            <button  wire:click="edit('{{ $access_level->uuid }}')" 
+                                            <button  
+                                              wire:click="edit('{{ $access_level->uuid }}')" 
                                               wire:key='access_level-{{ $key }}' 
                                               data-uuid="{{ $access_level->uuid }}" 
-                                              class='button-edit  d-flex gap-1 btn btn-sm btn-primary'>
+                                              class='
+                                              button-edit  
+                                              d-flex  gap-1                                             
+                                              btn btn-sm btn-primary
+                                              @if ($access_level->type === 'admin' || $access_level->type === 'visitante' || $access_level->type === 'visitante e publicador de eventos')
+                                              disabled
+                                              @endif
+                                              '>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
                                             </button>
 
-                                            <button wire:click="delete('{{  $access_level->uuid }}')" wire:key='access_level-{{ $key }}' class='d-flex gap-1 btn btn-sm btn-danger'>
+                                            <button 
+                                            wire:click="delete('{{  $access_level->uuid }}')"
+                                             wire:key='access_level-{{ $key }}' 
+                                             class='d-flex gap-1
+                                             btn btn-sm btn-danger
+                                             @if ($access_level->type === 'admin' || $access_level->type === 'visitante' || $access_level->type === 'visitante e publicador de eventos')
+                                              disabled
+                                              @endif
+                                               '>
                                               <i class='ri-delete-bin-4-line'></i>
                                               <span>Eliminar</span>
                                             </button>
@@ -134,10 +150,14 @@
         }
     }
 
-    // Inicializar os eventos no carregamento inicial
-    document.addEventListener('DOMContentLoaded', initializeEventListeners);
+     document.addEventListener("livewire:init", () => {                
+        Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initializeEventListeners após o processamento de mensagens Livewire
+            initializeEventListeners();
+        });
+      });
 
-    // Reinicializar os eventos após navegação com wire:navigate
+    // Inicializar os eventos no carregamento inicial
+    document.addEventListener('DOMContentLoaded', initializeEventListeners);   
     document.addEventListener('livewire:navigated', initializeEventListeners);
 </script>
 

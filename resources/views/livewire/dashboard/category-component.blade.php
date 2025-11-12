@@ -43,7 +43,7 @@
                                         <div class='d-flex align-items-center gap-1'>
                                             <button  wire:key='{{ $key }}'  
                                             wire:click="edit('{{ $category->uuid }}')"   
-                                            data-uuid="{{ $category->uuid }}"                                          
+                                            data-uuid="{{ $category->uuid }}"                                       
                                             class='button-edit d-flex gap-1 btn btn-sm btn-primary'>
                                             <i class='ri-edit-box-line'></i>
                                             <span>Editar</span>
@@ -140,9 +140,14 @@
         }
     }
 
+    document.addEventListener("livewire:init", () => {                
+        Livewire.hook('morph.updated', ({ component, el, skip }) => {   // Reexecuta o initializeEventListeners após o processamento de mensagens Livewire
+            initializeEventListeners();
+        });
+      });
+
     // Inicializar os eventos no carregamento inicial
     document.addEventListener('DOMContentLoaded', initializeEventListeners);
-
     // Reinicializar os eventos após navegação com wire:navigate
     document.addEventListener('livewire:navigated', initializeEventListeners);
 </script>

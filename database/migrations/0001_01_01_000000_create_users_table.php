@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('user_name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status',['active', 'inactive'])->default('active');
             $table->foreignIdFor(UserType::class,'user_type_uuid')->onDelete('cascade')->nullable();
@@ -25,6 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(Teacher::class,'teacher_uuid')->constraint()->onDelete('cascade')->nullable();
             $table->rememberToken();
             $table->integer('password_verified_code')->nullable();            
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
 

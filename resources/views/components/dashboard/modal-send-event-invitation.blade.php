@@ -13,6 +13,7 @@
                     <th>Foto</th>
                     <th>Nome</th>
                     <th>E-mail</th>
+                    <th>Perfil</th>
                   </tr>
                 </thead>
 

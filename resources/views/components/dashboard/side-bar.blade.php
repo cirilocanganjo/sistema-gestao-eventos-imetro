@@ -61,9 +61,16 @@
 
 
            <li class="nav-item">
+              <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.platform.details' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.platform.details') }}">
+                    <i class="ri ri-edit-box-line"></i>
+                    <span>Detalhes da Plataforma</span>
+              </a>
+          </li>   
+
+           <li class="nav-item">
               <a wire:navigate class="nav-link {{ Route::current()->getname() == 'dashboard.profile' ? 'bg-dark rounded text-light ' : '' }}" href="{{ route('dashboard.profile') }}">
                     <i class="ri ri-lock-line"></i>
-                    <span>Meu perfil</span>
+                    <span>Meu Perfil</span>
               </a>
           </li>
 
